@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View, TouchableOpacity,Image, ImageBackground, SafeAreaView } from 'react-native';
+import { ScrollView, StyleSheet, Text, View, TouchableOpacity,Image, ImageBackground, SafeAreaView, TextInput } from 'react-native';
 import { BlurView } from 'expo-blur';
 import {LinearGradient} from 'expo-linear-gradient';
 
@@ -67,6 +67,12 @@ export default function UiKitScreen() {
 
 
       <Text style={styles.title}>FORM</Text>
+
+      <TextInput
+        style={styles.input}
+        placeholder="Lastname"
+      />
+
       </ScrollView>
       </ImageBackground>
     </SafeAreaView>
@@ -76,7 +82,7 @@ export default function UiKitScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: 'orange',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -92,6 +98,14 @@ const styles = StyleSheet.create({
   },
   image: {
     resizeMode: 'contain',
+    width: '100%',
+  },
+  cardContainer: {
+    width: 350,
+    height: 200,
+  },
+  card: {
+    height: '100%',
     width: '100%',
   },
   buttonLong: {
@@ -207,12 +221,17 @@ const styles = StyleSheet.create({
     resizeMode: 'contain',
     width: '100%',
   },
-  cardContainer: {
-    width: 350,
-    height: 200,
-  },
-  card: {
-    height: '100%',
-    width: '100%',
+  input: {
+    width: 273,
+    height: 34,
+    display:'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    borderWidth:1,
+    borderColor:'#8B9EAB',
+    paddingLeft:10,
+    margin:5
   },
 });
