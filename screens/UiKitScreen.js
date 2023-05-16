@@ -73,6 +73,13 @@ export default function UiKitScreen() {
         placeholder="Lastname"
       />
 
+      <Text style={styles.h1}>H1 Head</Text>
+      <Text style={styles.h2}>H2 Headline</Text>
+      <Text style={styles.h3}>H3 Headline</Text>
+      <Text style={styles.h4}>H4 Headline</Text>
+      <Text style={styles.p}>Body 1</Text>
+      <Text style={styles.pGrey}>Body grey</Text>
+
       </ScrollView>
       </ImageBackground>
     </SafeAreaView>
@@ -234,4 +241,27 @@ const styles = StyleSheet.create({
     paddingLeft:10,
     margin:5
   },
+  h1: {
+    fontSize: 32,
+    fontWeight: 'bold',
+  }, 
+  h2: {
+    fontSize: 26,
+    fontWeight: 'bold',
+  },
+  h3: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  h4: {
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  p: {
+    fontSize: 16,
+  },
+  pGrey: {
+    fontSize: 16,
+    color: '#A8A4A4'
+  }
 });
