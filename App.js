@@ -8,6 +8,7 @@ import MeteoScreen from './screens/MeteoScreen';
 import NewsScreen from './screens/NewsScreen';
 import UserScreen from './screens/UserScreen';
 import HikeScreen from './screens/HikeScreen';
+import UiKitScreen from './screens/UiKitScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // persist store
@@ -51,6 +52,8 @@ const TabNavigator = () => {
             iconName = 'location-arrow';
           } else if (route.name === 'Home') {
             iconName = 'location-arrow';
+          }else if (route.name === 'UiKit') {
+            iconName = 'location-arrow';
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
@@ -65,6 +68,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Hike" component={HikeScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
+      <Tab.Screen name="UiKit" component={UiKitScreen} />
     </Tab.Navigator>
   );
 };
