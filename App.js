@@ -10,6 +10,27 @@ import UserScreen from './screens/UserScreen';
 import HikeScreen from './screens/HikeScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
+// persist store
+// AsyncStorage.clear()
+import { Provider } from "react-redux";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { persistStore, persistReducer } from "redux-persist";
+import { PersistGate } from "redux-persist/integration/react";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import articles from './reducers/articles'
+// import reducers
+
+const reducers = combineReducers({ articles });
+const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
+
+const store = configureStore({
+  reducer: persistReducer(persistConfig, reducers),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({ serializableCheck: false }),
+});
+
+const persistor = persistStore(store);
+
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -50,12 +71,16 @@ const TabNavigator = () => {
 
 export default function App() {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Home" component={HomeScreen} />
-        <Stack.Screen name="TabNavigator" component={TabNavigator} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <PersistGate persistor={persistor}>
+        <NavigationContainer>
+          <Stack.Navigator screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Home" component={HomeScreen} />
+            <Stack.Screen name="TabNavigator" component={TabNavigator} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PersistGate>
+    </Provider>
   );
 }
 
