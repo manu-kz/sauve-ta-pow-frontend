@@ -9,6 +9,7 @@ import NewsScreen from './screens/NewsScreen';
 import UserScreen from './screens/UserScreen';
 import HikeScreen from './screens/HikeScreen';
 import UiKitScreen from './screens/UiKitScreen';
+import LoginScreen from './screens/LoginScreen'
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 // persist store
@@ -19,9 +20,10 @@ import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
+import user from './reducers/user';
 // import reducers
 
-const reducers = combineReducers({ articles });
+const reducers = combineReducers({ articles, user });
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
 
 const store = configureStore({
@@ -52,6 +54,8 @@ const TabNavigator = () => {
             iconName = 'location-arrow';
           } else if (route.name === 'Home') {
             iconName = 'location-arrow';
+          } else if (route.name === 'Login') {
+            iconName = 'location-arrow';
           }else if (route.name === 'UiKit') {
             iconName = 'location-arrow';
           }
@@ -64,6 +68,7 @@ const TabNavigator = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Login" component={LoginScreen} />
       <Tab.Screen name="News" component={NewsScreen} />
       <Tab.Screen name="Hike" component={HikeScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
@@ -79,7 +84,6 @@ export default function App() {
       <PersistGate persistor={persistor}>
         <NavigationContainer>
           <Stack.Navigator screenOptions={{ headerShown: false }}>
-            <Stack.Screen name="Home" component={HomeScreen} />
             <Stack.Screen name="TabNavigator" component={TabNavigator} />
           </Stack.Navigator>
         </NavigationContainer>
