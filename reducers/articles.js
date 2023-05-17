@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: { number: 0, articles: [] },
+  value: { articles: [] },
 };
 
 export const articlesSlice = createSlice({
@@ -34,9 +34,6 @@ export const articlesSlice = createSlice({
         //     }
         // }
     },
-    importNumber: (state, action) => {
-        state.value.number = action.payload
-    }
     // updateEmail: (state, action: PayloadAction<string>) => {
     //   state.value.email = action.payload;
     // },
@@ -50,5 +47,5 @@ export const articlesSlice = createSlice({
   },
 });
 
-export const { importArticles, importNumber } = articlesSlice.actions;
+export const { importArticles } = articlesSlice.actions;
 export default articlesSlice.reducer;
