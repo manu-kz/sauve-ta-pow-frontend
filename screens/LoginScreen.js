@@ -14,9 +14,7 @@ import { useRef } from "react";
 import Login from '../components/Login'
 
 export default function HomeScreen({ navigation }) {
-  //SIGN UP
-  const usernameRef = useRef(null);
-  const passwordRef = useRef(null);
+  
   return (
     <SafeAreaView style={styles.container}>
       <Login/>
