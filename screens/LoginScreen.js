@@ -35,11 +35,12 @@ export default function LoginScreen({ navigation }) {
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}>
+
           <Text style={styles.h1}>Créer un itinéraire</Text>
-
-          {loginModal && <LoginModal />}
+          
+          {loginModal && <LoginModal style={styles.modal}/>}
           {signUpModal && <SignUpModal />}
-
+          
         {!loginModal && !signUpModal && (
           <Pressable
           style={styles.buttonShortWhite}
@@ -66,14 +67,17 @@ const styles = StyleSheet.create({
     width:"100%",
     alignItems: "center",
    justifyContent: "space-between",
-    paddingVertical: "10%",
+
+
   },
   h1: {
-    backgroundColor:"blue",
+   
     fontSize: 32,
     fontWeight: "bold",
     color: "white",
-    
+    alignSelf:"flex-start",
+    marginTop:"10%",
+    marginLeft: "5%"
   },
 
   buttonShortWhite: {
@@ -82,13 +86,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderWidth: 1,
+    
     borderRadius: 100,
-    margin: 5,
+    marginBottom:"10%"
+    
   },
   textButtonGrey: {
     color: "#8B9EAB",
     fontWeight: "700",
     fontSize: 16,
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
 });
