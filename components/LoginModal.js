@@ -14,17 +14,21 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { keepUsername, keepToken } from "../reducers/user";
+import { setLoginModal, setSignUpModal } from "../reducers/modals";
 
-export default function HomeScreen({ navigation }) {
-  //STATE SIGN IN
+export default function LoginModal({ navigation }) {
+  
+  //MODALS
   const dispatch = useDispatch();
+  const loginModal = useSelector((state) => state.modals.loginModal)
+  const signUpModal = useSelector((state) => state.modals.signUpModal)
+
+  //STATE SIGN IN
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
-
-  const [modalVisible, setModalVisible] = useState(false);
 
   //SIGN IN FORM
   async function login() {
@@ -51,18 +55,12 @@ export default function HomeScreen({ navigation }) {
 
   return (
 
-    
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+
+        <>
         <Modal
           animationType="slide"
           transparent={true}
-          visible={modalVisible}
-          onRequestClose={() => {
-            Alert.alert("Modal has been closed.");
-            setModalVisible(!modalVisible);
-          }}
+          visible={loginModal}
         >
           <View style={styles.modalView}>
             <FontAwesome
@@ -70,7 +68,7 @@ export default function HomeScreen({ navigation }) {
               size={25}
               color="black"
               style={styles.cross}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => dispatch(setLoginModal(false))}
             />
             <Text style={styles.h2}>Se connecter</Text>
             <TextInput
@@ -95,18 +93,11 @@ export default function HomeScreen({ navigation }) {
               <Text style={styles.textStyle}>Log In</Text>
             </Pressable>
             {error && <Text>Missing or wrong identification</Text>}
+            <Text onPress={()=> {dispatch(setLoginModal(false)), dispatch(setSignUpModal(true))}}>ou créer un compte</Text>
           </View>
         </Modal>
 
-        <Pressable
-          style={styles.buttonShortWhite}
-          activeOpacity={0.8}
-          onPress={() => setModalVisible(true)}
-        >
-          <Text style={styles.textButtonGrey}>Log In</Text>
-        </Pressable>
-      </KeyboardAvoidingView>
-    
+        </>
   );
 }
 
@@ -116,7 +107,7 @@ const styles = StyleSheet.create({
     width:"100%",
     height:"100%",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "flex-end",
     
   },
   h2: {

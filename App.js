@@ -21,10 +21,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
 import user from './reducers/user';
+import modals from './reducers/modals';
 // import reducers
 
-const reducers = combineReducers({ articles, user });
-const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
+const reducers = combineReducers({ articles, user, modals});
+const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals'], };
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
