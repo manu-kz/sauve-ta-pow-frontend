@@ -17,7 +17,9 @@ export default function HomeScreen({ navigation }) {
   
   return (
     <SafeAreaView style={styles.container}>
+      <View>
       <Login/>
+      </View>
     </SafeAreaView>
     
   );
@@ -28,6 +30,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "",
     alignItems: "center",
+    justifyContent:"center",
     padding: "5%",
   },
   image: {
