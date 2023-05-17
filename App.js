@@ -7,7 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import MeteoScreen from './screens/MeteoScreen';
 import NewsScreen from './screens/NewsScreen';
 import UserScreen from './screens/UserScreen';
-import HikeScreen from './screens/HikeScreen';
+import ItinerariesScreen from './screens/ItinerariesScreen';
 import UiKitScreen from './screens/UiKitScreen';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
@@ -65,7 +65,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="News" component={NewsScreen} />
-      <Tab.Screen name="Hike" component={HikeScreen} />
+      <Tab.Screen name="Hike" component={ItinerariesScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
       <Tab.Screen name="UiKit" component={UiKitScreen} />
