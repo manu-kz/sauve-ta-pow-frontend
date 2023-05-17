@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -12,8 +12,54 @@ import {
 } from "react-native";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
+import Svg, { Path } from "react-native-svg";
 
 export default function UiKitScreen() {
+  const [rescueBasicName, setRescueBasicName] = useState("");
+  const [isDeployed, SetisDeployed] = useState(false);
+
+  const handleUndeployCard = () => {
+    SetisDeployed(false);
+    setRescueBasicName("");
+  };
+
+  const handleDeployCard = () => {
+    setRescueBasicName(
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
+    );
+    SetisDeployed(true);
+  };
+  let rescueBasicsCardHeader = {
+    top: "60%",
+    height: "40%",
+    backgroundColor: "#FFFFFF",
+    width: "100%",
+    position: "absolute",
+    borderTopLeftRadius: 60,
+    borderBottomLeftRadius: 20,
+    borderBottomRightRadius: 20,
+  };
+  let linkRescueBasics = {
+    color: "#8B9EAB",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+  };
+  if (isDeployed) {
+    rescueBasicsCardHeader = {
+      top: "40%",
+      height: "60%",
+      backgroundColor: "#FFFFFF",
+      width: "100%",
+      position: "absolute",
+      borderTopLeftRadius: 60,
+      borderBottomLeftRadius: 20,
+      borderBottomRightRadius: 20,
+    };
+    linkRescueBasics = {
+      display: "none",
+    };
+  }
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -119,17 +165,55 @@ export default function UiKitScreen() {
 
           <Text style={styles.title}>CARD</Text>
           <View style={styles.containerContentPreview}>
-          <Image
-              source={require("../assets/card-exemple-img.png")}
-            />
+            <Image source={require("../assets/card-exemple-img.png")} />
             <View style={styles.containertextContentPreview}>
-            <Text style={styles.h2}>Title</Text>
-            <Text style={styles.p}>Lorem ipsum dolor sit amet, consectetur adipiscing elit aute irure dolor in reprehenderit...</Text>
-            <Text style={styles.link}>En savoir plus</Text>
+              <Text style={styles.h2}>Title</Text>
+              <Text style={styles.p}>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit aute
+                irure dolor in reprehenderit...
+              </Text>
+              <Text style={styles.linkRescueBasics}>En savoir plus</Text>
             </View>
-
           </View>
 
+          <Text style={styles.title}>CARD RESCUE BASICS</Text>
+          <View
+            style={styles.cardsContainerRescueBasics}
+          >
+            <TouchableOpacity style={styles.cardSectionRescueBasics} onPress={() => handleUndeployCard()} activeOpacity={1}>
+              <Image
+                style={styles.cardImageRescueBasics}
+                source={require("../assets/card-overlay-exemple.png")}
+              />
+              <View style={rescueBasicsCardHeader}>
+                <View style={styles.cardHeaderRescueBasics}>
+                  <View style={styles.cardArc}>
+                    <Svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="80"
+                      height="80"
+                      viewBox="0 0 80 80"
+                    >
+                      <Path
+                        style={styles.cardArcPath}
+                        d="M40 80 c 22 0 40 -22 40 -40 v 40 Z"
+                      />
+                    </Svg>
+                  </View>
+                  <View style={styles.textHeaderContainerRescueBasics}>
+                    <Text style={styles.h4}>Lorem ipsum dol</Text>
+                    <Text
+                      style={linkRescueBasics}
+                      onPress={() => handleDeployCard()}
+                    >
+                      Détail
+                    </Text>
+                    <Text style={styles.p}>{rescueBasicName}</Text>
+                  </View>
+                </View>
+              </View>
+            </TouchableOpacity>
+          </View>
         </ScrollView>
       </ImageBackground>
     </SafeAreaView>
@@ -139,7 +223,6 @@ export default function UiKitScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "orange",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -315,19 +398,47 @@ const styles = StyleSheet.create({
     color: "#A8A4A4",
   },
   link: {
-    color: '#8B9EAB',
+    color: "#8B9EAB",
     fontSize: 16,
     fontWeight: "bold",
   },
   containerContentPreview: {
     justifyContent: "space-between",
     alignItems: "center",
-    flexDirection: 'row',
-    padding: '5%',
-    width: '80%'
+    flexDirection: "row",
+    padding: "5%",
+    width: "80%",
   },
   containertextContentPreview: {
-    marginLeft: '5%',
-    width: '80%',
-  }
+    marginLeft: "5%",
+    width: "80%",
+  },
+  cardsContainerRescueBasics: {
+    flexDirection: "row",
+  },
+  cardSectionRescueBasics: {
+    width: 220,
+    height: 263,
+    marginLeft: 15,
+  },
+  cardImageRescueBasics: {
+    width: 220,
+    height: 263,
+    borderRadius: 20,
+  },
+  cardHeaderRescueBasics: {},
+  cardArc: {
+    position: "absolute",
+    bottom: "100%",
+    right: 0,
+    width: 80,
+    height: 80,
+    zIndex: 1,
+  },
+  cardArcPath: {
+    fill: "#FFFFFF",
+  },
+  textHeaderContainerRescueBasics: {
+    padding: 30,
+  },
 });
