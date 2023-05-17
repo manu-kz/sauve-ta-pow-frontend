@@ -26,9 +26,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export default function NewsScreen({ navigation }) {
 
   const dispatch = useDispatch()
+
   // fetch des articles alpinismes
   useEffect(() => {
-    fetch('http://10.0.1.87:3000/articles/').then((response) => response.json()).then(data => {
+    fetch('https://sauve-ta-pow-backend.vercel.app/articles/').then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
       dispatch(importArticles(data.articles))
     })
@@ -39,6 +40,7 @@ export default function NewsScreen({ navigation }) {
 
   const numberOfArticles = articles.length
 
+  // map sur le fetch de get all articles alpinisme
   const allArticles = articles.map((data, i) => {
     return (
       <View key={i} style={styles.article}>
@@ -53,14 +55,19 @@ export default function NewsScreen({ navigation }) {
       </View>
     )
   })
+
+
   // OnChangeText pour la recherche d'articles 
-  // Faire route avec un body qui vient modif l'url de la recherche
-  // const [search, setSearch] = useState(null)
+  const [search, setSearch] = useState('')
 
-    // fetch get avec params de search
-  
-
-  // map sur le fetch de get all articles alpinisme
+  // handle la recherche d'articles
+  const handleSearch = () => {
+    fetch(`https://sauve-ta-pow-backend.vercel.app/articles/${search}`).then((response) => response.json()).then(data => {
+      // dispatch articles dans le store 
+      dispatch(importArticles(data.articles))
+      setSearch('')
+    })
+  }
 
  return (
   <SafeAreaView style={styles.container}>
@@ -74,9 +81,11 @@ export default function NewsScreen({ navigation }) {
               <FontAwesome name='search' size={20} color='#D5D8DC' style={styles.searchIcon} />
               <TextInput
               placeholder="Recherche..."
-              // onChangeText={() => setSearch(search)}
-              // value={search}
+              onChangeText={(value) => setSearch(value)}
+              value={search}
               style={styles.inputSearch}
+              inputMode='search'
+              onSubmitEditing={() => handleSearch()}
               />
             </View>
             <View style={styles.bottomTop}>
