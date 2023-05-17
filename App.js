@@ -21,9 +21,11 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
 import user from './reducers/user';
+import meteo from './reducers/meteo';
+
 // import reducers
 
-const reducers = combineReducers({ articles, user });
+const reducers = combineReducers({ articles, user, meteo });
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
 
 const store = configureStore({
