@@ -9,27 +9,39 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
-import { useRef } from "react";
+import { useRef, useState } from "react";
+import { useDispatch } from "react-redux";
+import { keepUsername, keepToken } from "../reducers/user";
 
 export default function HomeScreen({ navigation }) {
   //SIGN UP
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(false);
+  console.log(username);
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  async function login() {
+    console.log("fetch");
+    const rawRes = await fetch("http://10.0.1.43:3000/users/signin", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ username: username, password: password }),
+    });
+    const jsonRes = await rawRes.json();
 
-  console.log(username)
+    const { token, result } = jsonRes;
 
-
-//   async function login() {
-//     const rawRes = await fetch("http://localhost:3000/users/signin",{
-// 		method: 'POST',
-// 		headers: { 'Content-Type': 'application/json' },
-// 	    body: JSON.stringify({ username: usernameRef, password: passwordRef })
-//     });
-//     const jsonRes = await rawRes.json();
-//     console.log('json', jsonRes)
-
-// }
+    if (result) {
+        setError(false)
+      dispatch(keepUsername(username));
+      dispatch(keepToken(token));
+      
+    } else {
+      //Message d'erreur
+      setError(true)
+    }
+  }
 
   return (
     <KeyboardAvoidingView
@@ -39,18 +51,22 @@ export default function HomeScreen({ navigation }) {
       <Text style={styles.title}>Sauve ta Pow</Text>
       <TextInput
         style={styles.input}
+        autoCapitalize="none"
         placeholder="Username"
-        ref={usernameRef}
-        onChangeText={(e) => (usernameRef.current.value = e)}
+        onChangeText={(value) =>{ setUsername(value), setError(false)}}
+        value={username}
       />
       <TextInput
         style={styles.input}
+        secureTextEntry={true}
         placeholder="Password"
-        onChangeText={(e) => (passwordRef.current.value = e)}
+        onChangeText={(value) => {setPassword(value), setError(false)}}
+        value={password}
       />
-      <TouchableOpacity style={styles.button} >
+      <TouchableOpacity style={styles.button} onPress={() => login()}>
         <Text style={styles.txt}>Log In</Text>
       </TouchableOpacity>
+      {error && <Text>Missing or wrong identification</Text>}
     </KeyboardAvoidingView>
   );
 }
