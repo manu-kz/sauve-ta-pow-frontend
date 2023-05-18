@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  value: { articles: [] },
+  value: { articles: [], entireArticle: null },
 };
 
 export const articlesSlice = createSlice({
@@ -13,39 +13,19 @@ export const articlesSlice = createSlice({
         for(let article of action.payload) {
             state.value.articles.push(article)
         }
-        // for(let article of action.payload) {
-        //     state.value.articles.push(article)
-        // }
-        // const store = state.value.articles
-        // const fetch = action.payload
-        // if(!store){
-        //     for(let article of fetch) {
-        //         store.push(article)
-        //     }
-        // } else {
-        //     let filtre =  fetch.filter(object1 => {
-        //         return !store.some(object2 => {
-        //         return object1.title === object2.title;
-        //         });
-        //     })
-            
-        //     for(let article of filtre) {
-        //         store.push(article)
-        //     }
-        // }
     },
     // updateEmail: (state, action: PayloadAction<string>) => {
     //   state.value.email = action.payload;
     // },
-    // addPhoto: (state, action: PayloadAction<string>) => {
-    //   state.value.photos.push(action.payload);
-    // },
-    // removePhoto: (state, action: PayloadAction<string>) => {
-    //   state.value.photos = state.value.photos.filter((data) => data !== action.payload);
-    // },
+    openArticle: (state, action) => {
+      state.value.entireArticle = action.payload
+    },
+    closeArticle: (state, action) => {
+      state.value.photos = state.value.photos.filter((data) => data !== action.payload);
+    },
     
   },
 });
 
-export const { importArticles } = articlesSlice.actions;
+export const { importArticles, openArticle, closeArticle } = articlesSlice.actions;
 export default articlesSlice.reducer;

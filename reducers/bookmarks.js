@@ -9,14 +9,22 @@ export const bookmarksSlice = createSlice({
 	initialState,
 	reducers: {
 		addBookmark: (state, action) => {
+			console.log('action paylod ==>', action.payload)
 			state.value.push(action.payload);
 		},
 		removeBookmark: (state, action) => {
+			console.log('action.payload', action.payload)
 			state.value = state.value.filter(bookmark => bookmark.title !== action.payload.title);
 		},
-        // import bookmarks from db par utilisateur
+		importBookmarks: (state, action) => {
+			// state.value = []
+			// for(let favori of action.payload) {
+			// 	state.value.push(favori)
+			// }
+			state.value = action.payload
+		},
 	},
 });
 
-export const { addBookmark, removeBookmark } = bookmarksSlice.actions;
+export const { addBookmark, removeBookmark, importBookmarks } = bookmarksSlice.actions;
 export default bookmarksSlice.reducer;

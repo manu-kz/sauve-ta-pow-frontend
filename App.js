@@ -10,8 +10,11 @@ import UserScreen from './screens/UserScreen';
 import HikeScreen from './screens/HikeScreen';
 import UiKitScreen from './screens/UiKitScreen';
 import LoginScreen from './screens/LoginScreen'
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FavorisScreen from './screens/FavorisScreen';
+import EntireArticleScreen from './screens/EntireArticleScreen';
+import ArticlesScreen from './screens/ArticleScreen';
 
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // persist store
 // AsyncStorage.clear()
 import { Provider } from "react-redux";
@@ -21,10 +24,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
 import user from './reducers/user';
-import FavorisScreen from './screens/FavorisScreen';
+import bookmarks from './reducers/bookmarks';
 // import reducers
 
-const reducers = combineReducers({ articles, user });
+const reducers = combineReducers({ articles, user, bookmarks });
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
 
 const store = configureStore({
@@ -44,8 +47,8 @@ const NewsStack = () => {
   <Stack.Navigator screenOptions={{ headerShown: false }}>
     <Stack.Screen name="News" component={NewsScreen} />
     <Stack.Screen name="Favoris" component={FavorisScreen} />
-    {/* same pour les articles entier  */}
-    {/* <Stack.Screen name="Bookmarks" component={BookmarksScreen} /> */}
+    <Stack.Screen name="Article" component={ArticlesScreen} />
+    <Stack.Screen name="EntireArticle" component={EntireArticleScreen} />
   </Stack.Navigator>
   )
 }
@@ -57,7 +60,7 @@ const TabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = '';
 
-          if (route.name === 'News') {
+          if (route.name === 'Articles') {
             iconName = 'location-arrow';
           } else if (route.name === 'Meteo') {
             iconName = 'location-arrow';
@@ -82,7 +85,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Login" component={LoginScreen} />
-      <Tab.Screen name="News" component={NewsStack} />
+      <Tab.Screen name="Articles" component={NewsStack} />
       <Tab.Screen name="Hike" component={HikeScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
