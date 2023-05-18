@@ -26,10 +26,14 @@ import articles from './reducers/articles'
 import user from './reducers/user';
 import bookmarks from './reducers/bookmarks';
 import modals from './reducers/modals';
+import meteo from './reducers/meteo';
 // import reducers
 
-const reducers = combineReducers({ articles, user });
-const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
+const reducers = combineReducers({ articles, user, modals, meteo});
+const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
+
+
+// import reducers
 
 const store = configureStore({
   reducer: persistReducer(persistConfig, reducers),
