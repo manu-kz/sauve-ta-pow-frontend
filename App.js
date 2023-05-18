@@ -22,11 +22,12 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
 import user from './reducers/user';
 import modals from './reducers/modals';
+import meteo from './reducers/meteo';
 // import reducers
 
 const reducers = combineReducers({ articles, user, modals, meteo});
-const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals'], };
-import meteo from './reducers/meteo';
+const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
+
 
 // import reducers
 
