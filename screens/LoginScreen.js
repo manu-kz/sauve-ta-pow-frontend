@@ -8,55 +8,98 @@ import {
   TouchableOpacity,
   KeyboardAvoidingView,
   Platform,
-  SafeAreaView
+  SafeAreaView,
+  Pressable,
+  ImageBackground,
 } from "react-native";
-import { useRef } from "react";
-import Login from '../components/Login'
+import { useState } from "react";
+import LoginModal from "../components/LoginModal";
+import SignUpModal from "../components/SignUpModal";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoginModal } from "../reducers/modals";
 
-export default function HomeScreen({ navigation }) {
-  
+export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
+  const loginModal = useSelector((state) => state.modals.loginModal);
+  const signUpModal = useSelector((state) => state.modals.signUpModal);
+
+  console.log("loginModals", loginModal, signUpModal);
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Login/>
-    </SafeAreaView>
-    
+    <ImageBackground
+      source={require("../assets/background-login.jpg")}
+      resizeMode="cover"
+      style={styles.background}
+    >
+      <SafeAreaView>
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.container}>
+
+          <Text style={styles.h1}>Créer un itinéraire</Text>
+          
+          {loginModal && <LoginModal style={styles.modal}/>}
+          {signUpModal && <SignUpModal />}
+          
+        {!loginModal && !signUpModal && (
+          <Pressable
+          style={styles.buttonShortWhite}
+          activeOpacity={0.8}
+          onPress={() => dispatch(setLoginModal(true))}
+          >
+            <Text style={styles.textButtonGrey}>Log In</Text>
+          </Pressable>
+        )}
+        </KeyboardAvoidingView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
+  background: {
+    flex:1,
+    height:"100%",
+    width:"100%",
+  },
   container: {
-    flex: 1,
-    backgroundColor: "",
+    height:"100%",
+    width:"100%",
     alignItems: "center",
-    padding: "5%",
+   justifyContent: "space-between",
+
+
   },
-  image: {
-    width: "100%",
-    height: "50%",
-  },
-  title: {
-    fontSize: 50,
+  h1: {
+   
+    fontSize: 32,
     fontWeight: "bold",
+    color: "white",
+    alignSelf:"flex-start",
+    marginTop:"10%",
+    marginLeft: "5%"
   },
-  input: {
-    borderBottomColor: "#EC6E5B",
-    borderBottomWidth: 1,
-    marginBottom: 12,
-    width: "100%",
-  },
-  button: {
+
+  buttonShortWhite: {
     width: 143,
     height: 43,
-    display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#8B9EAB",
+    backgroundColor: "#fff",
+    
     borderRadius: 100,
-    margin: 5,
+    marginBottom:"10%"
+    
   },
-  txt: {
-    textAlign: "center",
-    color: "#ffffff",
-    fontWeight: 800,
+  textButtonGrey: {
+    color: "#8B9EAB",
+    fontWeight: "700",
+    fontSize: 16,
+  },
+  modal: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
   },
 });

@@ -7,7 +7,7 @@ import HomeScreen from './screens/HomeScreen';
 import MeteoScreen from './screens/MeteoScreen';
 import NewsScreen from './screens/NewsScreen';
 import UserScreen from './screens/UserScreen';
-import HikeScreen from './screens/HikeScreen';
+import ItinerariesScreen from './screens/ItinerariesScreen';
 import UiKitScreen from './screens/UiKitScreen';
 import LoginScreen from './screens/LoginScreen'
 import FavorisScreen from './screens/FavorisScreen';
@@ -25,9 +25,10 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
 import user from './reducers/user';
 import bookmarks from './reducers/bookmarks';
+import modals from './reducers/modals';
 // import reducers
 
-const reducers = combineReducers({ articles, user, bookmarks });
+const reducers = combineReducers({ articles, user });
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage };
 
 const store = configureStore({
@@ -85,7 +86,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Login" component={LoginScreen} />
-      <Tab.Screen name="Articles" component={NewsStack} />
+      <Tab.Screen name="News" component={NewsScreen} />
       <Tab.Screen name="Hike" component={HikeScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
