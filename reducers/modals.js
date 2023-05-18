@@ -1,22 +1,26 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { loginModal: false, signUpModal: false  }
-;
-
+const initialState = { loginModal: false, signUpModal: false, healthForm: false };
 export const modalsSlice = createSlice({
-  name: 'modals',
+  name: "modals",
   initialState,
   reducers: {
     setLoginModal: (state, action) => {
-        state.loginModal = action.payload
-        console.log('loginM', state)
-        },
+      state.loginModal = action.payload;
+      console.log("loginM", state);
+    },
     setSignUpModal: (state, action) => {
-            state.signUpModal = action.payload
-            console.log('SignUpModal', action.payload)
-            }
+      state.signUpModal = action.payload;
+      console.log("SignUpModal", action.payload);
+    },
+
+    //SHOW HEALTH FORM
+    showHealthForm: (state, action) => {
+      state.healthForm = action.payload;
+      console.log("showHealthForm", action.payload);
+    },
   },
 });
 
-export const {setLoginModal , setSignUpModal} = modalsSlice.actions;
+export const { setLoginModal, setSignUpModal,showHealthForm } = modalsSlice.actions;
 export default modalsSlice.reducer;
