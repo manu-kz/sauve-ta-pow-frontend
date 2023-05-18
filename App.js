@@ -21,6 +21,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import articles from './reducers/articles'
 import user from './reducers/user';
+import FavorisScreen from './screens/FavorisScreen';
 // import reducers
 
 const reducers = combineReducers({ articles, user });
@@ -36,6 +37,18 @@ const persistor = persistStore(store);
 
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Stack navigation contenant les différentes pages à aficher pour la tab navigation NEWS
+const NewsStack = () => {
+  return (
+  <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Screen name="News" component={NewsScreen} />
+    <Stack.Screen name="Favoris" component={FavorisScreen} />
+    {/* same pour les articles entier  */}
+    {/* <Stack.Screen name="Bookmarks" component={BookmarksScreen} /> */}
+  </Stack.Navigator>
+  )
+}
 
 const TabNavigator = () => {
   return (
@@ -69,7 +82,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Login" component={LoginScreen} />
-      <Tab.Screen name="News" component={NewsScreen} />
+      <Tab.Screen name="News" component={NewsStack} />
       <Tab.Screen name="Hike" component={HikeScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
