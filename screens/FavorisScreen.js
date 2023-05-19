@@ -25,7 +25,7 @@ export default function FavorisScreen({ navigation }) {
 const dispatch = useDispatch()
 
 // exemple token de user emi pour save favoris dans un doc d'un user dans la db
-const token = 'ly7deiJeJff4ErW6MvZFqkpQtkbrzUfe'
+const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
 
 //  useEffect fetch get les favoris d'un user
 useEffect(() => {
@@ -40,7 +40,7 @@ const bookmarks = useSelector((state) => state.bookmarks.value)
 console.log('my bookmark store ==> ', bookmarks)
 
 const handleArticlesNavigation = () => {
-    navigation.navigate('News')
+    navigation.navigate('Articles')
 }
 
 let favoris = <Text>Pas de favoris enregistrés</Text>
