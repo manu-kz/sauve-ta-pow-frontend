@@ -16,9 +16,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { keepUsername, keepToken } from "../reducers/user";
 import { showHealthForm } from "../reducers/modals";
 
-
-
-
 export default function SignUpForm({ navigation }) {
   //MODALS
   const dispatch = useDispatch();
@@ -37,18 +34,18 @@ export default function SignUpForm({ navigation }) {
   const [error, setError] = useState("");
 
   //SIGN UP FORM TO CREATE
-  const fetchObj = {
-    firstname: firstname.inputValue,
-    lastname: lastname.inputValue,
-    username: username.inputValue,
-    email: email.inputValue,
-    password: password.inputValue,
-    phoneNumber: phoneNumber.inputValue,
-    dateOfBirth: dateOfBirth,
-    adresse: adresse.inputValue,
-  };
 
   async function signup() {
+    const fetchObj = {
+      firstname: firstname.inputValue,
+      lastname: lastname.inputValue,
+      username: username.inputValue,
+      email: email.inputValue,
+      password: password.inputValue,
+      phoneNumber: phoneNumber.inputValue,
+      dateOfBirth: dateOfBirth,
+      adresse: adresse.inputValue,
+    };
     const rawRes = await fetch("http://10.0.1.43:3000/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
