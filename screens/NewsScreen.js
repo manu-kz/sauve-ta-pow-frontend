@@ -14,18 +14,18 @@ import {
 import { useEffect, useState } from 'react';
 import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { importArticles } from '../reducers/articles';
+import { importArticles, openArticle } from '../reducers/articles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
-
-// install react native element pour search bar 
-// yarn add react-native-vector-icons
-// yarn add react-native-elements
+// pour naviguer soit vers un article soit vers nos favoris
+import { useNavigation } from '@react-navigation/native';
+import ArticlesScreen from './ArticleScreen';
 
 
 export default function NewsScreen({ navigation }) {
 
   const dispatch = useDispatch()
+
+  //  ---------------------------------------- AFFICHAGE DE LA PAGE DES ARTICLES --------------------------------------------
 
   // fetch des articles alpinismes
   useEffect(() => {
@@ -38,24 +38,20 @@ export default function NewsScreen({ navigation }) {
   // récupération données articles du store 
   const articles = useSelector((state) => state.articles.value.articles)
 
+  // nombre d'articles du useSelector 
   const numberOfArticles = articles.length
+
+  // bookmarks store
+  const bookmarks = useSelector((state) => state.bookmarks.value);  
 
   // map sur le fetch de get all articles alpinisme
   const allArticles = articles.map((data, i) => {
+    // vérifie si article bookmark 
+    const isBookmarked = bookmarks?.some(bookmark => bookmark.title === data.title);
     return (
-      <View key={i} style={styles.article}>
-        {/* image = titre = description = en savoir + */}
-        <Image style={styles.articleImage} source={{
-          uri: data.urlToImage,
-        }}/>
-        <View style={styles.infoContainer}>
-        <Text style={styles.titleArticle}>{data.title}</Text>
-        <Text style={styles.plus} >En savoir plus...</Text>
-        </View>
-      </View>
+       <ArticlesScreen key={i} {...data} isBookmarked={isBookmarked}/>
     )
   })
-
 
   // OnChangeText pour la recherche d'articles 
   const [search, setSearch] = useState('')
@@ -68,6 +64,13 @@ export default function NewsScreen({ navigation }) {
       setSearch('')
     })
   }
+
+  // affichage page
+  const handleFavorisNavigation = () => {
+    // navigation vers le screen favoris
+    navigation.navigate('Favoris')
+  }
+  
 
  return (
   <SafeAreaView style={styles.container}>
@@ -89,7 +92,7 @@ export default function NewsScreen({ navigation }) {
               />
             </View>
             <View style={styles.bottomTop}>
-              <TouchableOpacity style={styles.button} activeOpacity={0.8}>
+              <TouchableOpacity style={styles.button} onPress={() => handleFavorisNavigation()} activeOpacity={0.8}>
                   <Text style={styles.textButton}>Favoris</Text>
               </TouchableOpacity>
               <Text>{numberOfArticles} articles</Text>
@@ -114,15 +117,13 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     pageContainer: {
-      // flex: 1,
       padding: 25,
     },
+
     // top page articles
     topContainer: {
       justifyContent: 'space-around',
-      // alignItems: 'center',
       marginBottom: 10,
-      // height: '20%'
     },
     title: {
       fontSize: 35,
@@ -141,6 +142,9 @@ const styles = StyleSheet.create({
     },
     searchIcon: {
       marginRight: 5,
+    },
+    inputSearch: {
+      width: '100%'
     },
     bottomTop: {
       flexDirection: 'row',
@@ -163,23 +167,6 @@ const styles = StyleSheet.create({
     // article container
     articlesContainer: {
       height: 510
-    },
-    article: {
-      marginBottom: 20
-    },
-    articleImage: {
-      height: 200,
-      borderRadius: 20,
-    },
-    infoContainer: {
-      padding: 10,
-    },
-    titleArticle: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-    plus: {
     },
    });
 

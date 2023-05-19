@@ -39,7 +39,7 @@ export default function LoginModal({ navigation }) {
       body: JSON.stringify({ username: username, password: password }),
     });
     const jsonRes = await rawRes.json();
-
+    console.log('jsonRes', rawRes)
     const { token, result } = jsonRes;
 
     if (result) {
@@ -55,12 +55,11 @@ export default function LoginModal({ navigation }) {
 
   return (
 
-
-        <>
         <Modal
           animationType="slide"
           transparent={true}
           visible={loginModal}
+
         >
           <View style={styles.modalView}>
             <FontAwesome
@@ -96,20 +95,35 @@ export default function LoginModal({ navigation }) {
             <Text onPress={()=> {dispatch(setLoginModal(false)), dispatch(setSignUpModal(true))}}>ou créer un compte</Text>
           </View>
         </Modal>
-
-        </>
+      
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    width:"100%",
-    height:"100%",
-    alignItems: "center",
-    justifyContent: "flex-end",
-    
-  },
+  
+  modalView: {
+    height:"50%",
+      margin: "5%",
+      marginTop:"20%",
+      backgroundColor: "white",
+      borderRadius: 20,
+      padding: 40,
+      justifyContent: "space-evenly",
+      alignItems: "center",
+      shadowColor: "#000",
+      shadowOffset: {
+          width: 0,
+          height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+    },
+
+
+
+  //INSIDE MODAL
+
+
   h2: {
     fontSize: 26,
     fontWeight: "bold",
@@ -127,6 +141,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     margin: 5,
   },
+
   button: {
     width: 143,
     height: 43,
@@ -137,44 +152,13 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     margin: 5,
   },
-  modalView: {
-      margin: 20,
-      backgroundColor: "white",
-      borderRadius: 20,
-      padding: 35,
-      justifyContent: "space-between",
-      alignItems: "center",
-      shadowColor: "#000",
-
-      shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-    },
     cross: {
       alignSelf: "flex-end",
     },
+
     textStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-  },
-  buttonShortWhite: {
-    width: 143,
-    height: 43,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderRadius: 100,
-    margin: 5,
-  },
-  textButtonGrey: {
-    color: "#8B9EAB",
-    fontWeight: "700",
-    fontSize: 16,
   },
 });
