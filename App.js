@@ -5,14 +5,23 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import MeteoScreen from './screens/MeteoScreen';
-import NewsScreen from './screens/NewsScreen';
-import UserScreen from './screens/UserScreen';
 import ItinerariesScreen from './screens/ItinerariesScreen';
 import UiKitScreen from './screens/UiKitScreen';
-import LoginScreen from './screens/LoginScreen'
+import LoginScreen from './screens/LoginScreen';
+// NEWS SCREEN
+import NewsScreen from './screens/NewsScreen';
 import FavorisScreen from './screens/FavorisScreen';
 import EntireArticleScreen from './screens/EntireArticleScreen';
 import ArticlesScreen from './screens/ArticleScreen';
+// USER SCREENS 
+import UserScreen from './screens/UserScreen';
+import PersonalInfosScreen from './screens/PersonalInfoScreen'
+import HealthInfoScreen from './screens/HealthInfoScreen';
+import ItinerariesInfoScreen from './screens/ItinerariesInfoScreen';
+import HelpInfoScreen from './screens/HelpInfoScreen';
+import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
+
+
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // persist store
@@ -58,6 +67,20 @@ const NewsStack = () => {
   )
 }
 
+// Stack user contenant les différentes pages  à aficher pour la tab navigation USER
+const UserStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="UserPage" component={UserScreen} />
+      <Stack.Screen name="PersonnalInfo" component={PersonalInfosScreen} />
+      <Stack.Screen name="HealthInfo" component={HealthInfoScreen} />
+      <Stack.Screen name="ItinerariesInfo" component={ItinerariesInfoScreen} />
+      <Stack.Screen name="HelpInfo" component={HelpInfoScreen} />
+      <Stack.Screen name="ConfidentialityInfo" component={ConfidentialityInfoScreen} />
+    </Stack.Navigator>
+    )
+}
+
 const TabNavigator = () => {
   return (
     <Tab.Navigator
@@ -93,7 +116,7 @@ const TabNavigator = () => {
       <Tab.Screen name="News" component={NewsStack} />
       <Tab.Screen name="Hike" component={ItinerariesScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
-      <Tab.Screen name="User" component={UserScreen} />
+      <Tab.Screen name="User" component={UserStack} />
       <Tab.Screen name="UiKit" component={UiKitScreen} />
     </Tab.Navigator>
   );
