@@ -29,7 +29,7 @@ import modals from './reducers/modals';
 import meteo from './reducers/meteo';
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo});
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks});
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
 
 
