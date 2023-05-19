@@ -30,7 +30,7 @@ import {
   const handleBookmark = (props) => {
     const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
     if(props.isBookmarked) {
-      fetch(`http://10.0.1.87:3000/bookmarks/deleteBookmark/${token}`, {
+      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/deleteBookmark/${token}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(props)
@@ -39,7 +39,7 @@ import {
       })
     } else {
       console.log('else')
-      fetch(`http://10.0.1.87:3000/bookmarks/newBookmark/${token}`, {
+      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/newBookmark/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(props)
@@ -50,16 +50,15 @@ import {
     }
   }
 
+  let heartColor = '#D5D8DC'
+  if(props.isBookmarked) {
+    heartColor = 'red'
+  } 
 
   const handleEntireArticleNavigation = () => {
     dispatch(openArticle(props))
     navigation.navigate('EntireArticle')
   }
-
-  let heartColor = '#D5D8DC'
-  if(props.isBookmarked) {
-    heartColor = 'red'
-  } 
 
    return (
     <SafeAreaView style={styles.container}>

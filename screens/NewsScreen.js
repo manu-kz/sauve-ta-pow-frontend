@@ -42,7 +42,7 @@ export default function NewsScreen() {
   const articles = useSelector((state) => state.articles.value.articles)
 
   // nombre d'articles du useSelector 
-  const numberOfArticles = articles.length
+  // const numberOfArticles = articles.length
 
   // bookmarks store
   const bookmarks = useSelector((state) => state.bookmarks.value);  
@@ -76,6 +76,15 @@ export default function NewsScreen() {
     navigation.navigate('Favoris')
   }
   
+  const numberOfArticles = () => {
+    if(articles.length > 1) {
+        return `${articles.length} articles`
+    } else if(articles.length = 1){
+        return '1 article'
+    } else {
+        return '0 article'
+    }
+}
 
  return (
   <SafeAreaView style={styles.container}>
@@ -100,7 +109,7 @@ export default function NewsScreen() {
               <TouchableOpacity style={styles.button} onPress={() => handleFavorisNavigation()} activeOpacity={0.8}>
                   <Text style={styles.textButton}>Favoris</Text>
               </TouchableOpacity>
-              <Text>{numberOfArticles} articles</Text>
+              <Text>{numberOfArticles()}</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
