@@ -447,7 +447,7 @@ const styles = StyleSheet.create({
   },
   dailyTextDay: {
     color: '#fff',
-    fontWeight: 500,
+    fontWeight: 600,
     marginLeft: '10%',
   },
   dailyTextTempLabel: {
