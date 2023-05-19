@@ -1,20 +1,20 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import HomeScreen from "./screens/HomeScreen";
+import MeteoScreen from "./screens/MeteoScreen";
+import NewsScreen from "./screens/NewsScreen";
+import UserScreen from "./screens/UserScreen";
+import ItinerariesScreen from "./screens/ItinerariesScreen";
+import UiKitScreen from "./screens/UiKitScreen";
+import LoginScreen from "./screens/LoginScreen";
+import FavorisScreen from "./screens/FavorisScreen";
+import EntireArticleScreen from "./screens/EntireArticleScreen";
+import ArticlesScreen from "./screens/ArticleScreen";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './screens/HomeScreen';
-import MeteoScreen from './screens/MeteoScreen';
-import NewsScreen from './screens/NewsScreen';
-import UserScreen from './screens/UserScreen';
-import ItinerariesScreen from './screens/ItinerariesScreen';
-import UiKitScreen from './screens/UiKitScreen';
-import LoginScreen from './screens/LoginScreen'
-import FavorisScreen from './screens/FavorisScreen';
-import EntireArticleScreen from './screens/EntireArticleScreen';
-import ArticlesScreen from './screens/ArticleScreen';
-
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
 // persist store
 // AsyncStorage.clear()
 import { Provider } from "react-redux";
@@ -22,16 +22,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import articles from './reducers/articles'
-import user from './reducers/user';
-import bookmarks from './reducers/bookmarks';
-import modals from './reducers/modals';
-import meteo from './reducers/meteo';
+import articles from "./reducers/articles";
+import user from "./reducers/user";
+import bookmarks from "./reducers/bookmarks";
+import modals from "./reducers/modals";
+import meteo from "./reducers/meteo";
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks});
-const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
-
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks });
+const persistConfig = {
+  key: "Sauve-ta-Pow",
+  storage: AsyncStorage,
+  blacklist: ["modals", "meteo"],
+};
 
 // import reducers
 
@@ -49,49 +52,49 @@ const Tab = createBottomTabNavigator();
 // Stack navigation contenant les différentes pages à aficher pour la tab navigation NEWS
 const NewsStack = () => {
   return (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Articles" component={NewsScreen} />
-    <Stack.Screen name="Favoris" component={FavorisScreen} />
-    <Stack.Screen name="Article" component={ArticlesScreen} />
-    <Stack.Screen name="EntireArticle" component={EntireArticleScreen} />
-  </Stack.Navigator>
-  )
-}
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Articles" component={NewsScreen} />
+      <Stack.Screen name="Favoris" component={FavorisScreen} />
+      <Stack.Screen name="Article" component={ArticlesScreen} />
+      <Stack.Screen name="EntireArticle" component={EntireArticleScreen} />
+    </Stack.Navigator>
+  );
+};
 
 const TabNavigator = () => {
+  const token = useSelector((state) => state.user.token);
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size }) => {
-          let iconName = '';
+          let iconName = "";
 
-          if (route.name === 'News') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Meteo') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Hike') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'User') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Home') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Login') {
-            iconName = 'location-arrow';
-          }else if (route.name === 'UiKit') {
-            iconName = 'location-arrow';
+          if (route.name === "News") {
+            iconName = "location-arrow";
+          } else if (route.name === "Meteo") {
+            iconName = "location-arrow";
+          } else if (route.name === "Hike") {
+            iconName = "location-arrow";
+          } else if (route.name === "User") {
+            iconName = "location-arrow";
+          } else if (route.name === "Home") {
+            iconName = "location-arrow";
+          } else if (route.name === "Login") {
+            iconName = "location-arrow";
+          } else if (route.name === "UiKit") {
+            iconName = "location-arrow";
           }
 
           return <FontAwesome name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#ec6e5b',
-        tabBarInactiveTintColor: '#335561',
+        tabBarActiveTintColor: "#ec6e5b",
+        tabBarInactiveTintColor: "#335561",
         headerShown: false,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Login" component={LoginScreen} />
       <Tab.Screen name="News" component={NewsStack} />
-      <Tab.Screen name="Hike" component={ItinerariesScreen} />
+      {!token? <Tab.Screen name="Login" component={LoginScreen} /> :  <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
       <Tab.Screen name="UiKit" component={UiKitScreen} />
@@ -116,8 +119,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
