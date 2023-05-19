@@ -12,7 +12,8 @@ export default function SignUpModal({ navigation }) {
   const dispatch = useDispatch();
   const signUpModal = useSelector((state) => state.modals.signUpModal);
   const showHealthForm = useSelector((state) => state.modals.healthForm);
-
+  const userToken = useSelector((state) => state.user.token);
+  console.log('userToken', userToken)
   //STATE SIGN UP
 
   return (
