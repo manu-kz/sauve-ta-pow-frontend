@@ -1,25 +1,12 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Platform,
-  Alert,
-  Modal,
-  Pressable,
-  SafeAreaView,
-  Button,
-} from "react-native";
-import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
+import { StyleSheet, Text, TextInput, Pressable } from "react-native";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { keepUsername, keepToken } from "../reducers/user";
 import { showHealthForm } from "../reducers/modals";
 export default function HealthForm({ navigation }) {
-  //MODALS
   const dispatch = useDispatch();
 
-  //STATE SIGN UP
+  //STATE FORM
 
   const socialSecurityNumber = useRef(null);
   const weight = useRef(null);
@@ -35,19 +22,19 @@ export default function HealthForm({ navigation }) {
   const [error, setError] = useState("");
 
   //SIGN UP FORM TO CREATE
-//   const fetchObj = {
-//     firstname: firstname.inputValue,
-//     lastname: lastname.inputValue,
-//     username: username.inputValue,
-//     email: email.inputValue,
-//     password: password.inputValue,
-//     phoneNumber: phoneNumber.inputValue,
-//     dateOfBirth: dateOfBirth,
-//     adresse: adresse.inputValue,
-//   };
+  //   const fetchObj = {
+  //     firstname: firstname.inputValue,
+  //     lastname: lastname.inputValue,
+  //     username: username.inputValue,
+  //     email: email.inputValue,
+  //     password: password.inputValue,
+  //     phoneNumber: phoneNumber.inputValue,
+  //     dateOfBirth: dateOfBirth,
+  //     adresse: adresse.inputValue,
+  //   };
 
   async function signup() {
-    const rawRes = await fetch("http://10.0.1.43:3000/users/signup", {
+    const rawRes = await fetch("http://10.0.1.43:3000/users/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fetchObj),
@@ -74,7 +61,7 @@ export default function HealthForm({ navigation }) {
   // USER PERSONAL INFO
   return (
     <>
-      <Text style={styles.h2}>LA SANTÉ D"ABORD</Text>
+      <Text style={styles.h2}>Vos informations de santé</Text>
       <TextInput
         style={styles.input}
         placeholder="Sécurité Sociale*"
@@ -96,10 +83,8 @@ export default function HealthForm({ navigation }) {
         onChangeText={(value) => (height.inputValue = value)}
       />
 
-
       {/* TO DO   */}
 
-    
       <Pressable style={styles.button} onPress={() => signup()}>
         <Text style={styles.textStyle}> Suivant</Text>
       </Pressable>
