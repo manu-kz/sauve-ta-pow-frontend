@@ -15,7 +15,7 @@
     "@react-navigation/bottom-tabs": "6",
     "@react-navigation/native": "6",
     "@react-navigation/native-stack": "6",
-    "@reduxjs/toolkit": "^1.8.3",
+    "@reduxjs/toolkit": "^1.9.5",
     "expo": "~48.0.15",
     "expo-blur": "~12.2.2",
     "expo-constants": "~14.2.1",
@@ -37,7 +37,7 @@
     "react-native-svg": "13.4.0",
     "react-native-vector-icons": "^9.2.0",
     "react-native-web": "~0.18.10",
-    "react-redux": "^8.0.2",
+    "react-redux": "^8.0.5",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
