@@ -130,7 +130,7 @@ export default function MeteoScreen({ navigation }) {
         <View style={styles.contentContainer}>
           <BlurView intensity={30} style={styles.mainCardContainer}>
             <LinearGradient
-              colors={['rgba(0,250,250,0.1)', 'rgba(0,250,250,0.2)']}
+              colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
               start={{ x: 0, y: 1 }}
               end={{ x: 1, y: 1 }}
               useAngle

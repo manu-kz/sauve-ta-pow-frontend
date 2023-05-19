@@ -29,7 +29,7 @@ import modals from './reducers/modals';
 import meteo from './reducers/meteo';
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo});
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks});
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
 
 
@@ -91,7 +91,7 @@ const TabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Login" component={LoginScreen} />
       <Tab.Screen name="News" component={NewsScreen} />
-      <Tab.Screen name="Hike" component={HikeScreen} />
+      <Tab.Screen name="Hike" component={ItinerariesScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
       <Tab.Screen name="UiKit" component={UiKitScreen} />
