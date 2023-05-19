@@ -21,9 +21,12 @@ import { useNavigation } from '@react-navigation/native';
 import ArticlesScreen from './ArticleScreen';
 
 
-export default function NewsScreen({ navigation }) {
+export default function NewsScreen() {
 
   const dispatch = useDispatch()
+  const testBookmarks  = useSelector((state) => state.bookmarks.value)
+
+  console.log('store bookmarks depuis news page ==> ', testBookmarks)
 
   //  ---------------------------------------- AFFICHAGE DE LA PAGE DES ARTICLES --------------------------------------------
 
@@ -64,6 +67,8 @@ export default function NewsScreen({ navigation }) {
       setSearch('')
     })
   }
+
+  const navigation = useNavigation()
 
   // affichage page
   const handleFavorisNavigation = () => {
@@ -117,13 +122,14 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     pageContainer: {
-      padding: 25,
+      padding: 15,
     },
 
     // top page articles
     topContainer: {
       justifyContent: 'space-around',
       marginBottom: 10,
+      padding: 5,
     },
     title: {
       fontSize: 35,

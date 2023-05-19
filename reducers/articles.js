@@ -9,14 +9,8 @@ export const articlesSlice = createSlice({
   initialState,
   reducers: {
     importArticles: (state, action) => {
-        state.value.articles = []
-        for(let article of action.payload) {
-            state.value.articles.push(article)
-        }
+        state.value.articles = action.payload
     },
-    // updateEmail: (state, action: PayloadAction<string>) => {
-    //   state.value.email = action.payload;
-    // },
     openArticle: (state, action) => {
       state.value.entireArticle = action.payload
     },
