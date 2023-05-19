@@ -25,11 +25,11 @@ export default function FavorisScreen({ navigation }) {
 const dispatch = useDispatch()
 
 // exemple token de user emi pour save favoris dans un doc d'un user dans la db
-const token = 'ly7deiJeJff4ErW6MvZFqkpQtkbrzUfe'
+const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
 
 //  useEffect fetch get les favoris d'un user
 useEffect(() => {
-    fetch(`http://10.0.1.87:3000/bookmarks/bookmarks/${token}`).then((response) => response.json()).then(data => {
+    fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/bookmarks/${token}`).then((response) => response.json()).then(data => {
       // dispatch favoris dans le store 
       dispatch(importBookmarks(data.bookmarks))
     })
@@ -40,7 +40,7 @@ const bookmarks = useSelector((state) => state.bookmarks.value)
 console.log('my bookmark store ==> ', bookmarks)
 
 const handleArticlesNavigation = () => {
-    navigation.navigate('News')
+    navigation.navigate('Articles')
 }
 
 let favoris = <Text>Pas de favoris enregistrés</Text>
@@ -54,6 +54,17 @@ if(bookmarks?.length) {
     })
 }
 
+// gère le texte du nombre de favoris
+const numberOfFavoris = () => {
+    if(bookmarks.length > 1) {
+        return `${bookmarks.length} articles favoris`
+    } else if(bookmarks.length = 1){
+        return '1 article favori'
+    } else {
+        return '0 article favoris'
+    }
+}
+
 return (
     <SafeAreaView style={styles.container}>
     <View style={styles.pageContainer}>
@@ -65,7 +76,7 @@ return (
               <TouchableOpacity style={styles.button} onPress={() => handleArticlesNavigation()} activeOpacity={0.8}>
                   <Text style={styles.textButton}>Articles</Text>
               </TouchableOpacity>
-              <Text>{bookmarks? bookmarks.length : 0} articles favoris</Text>
+              <Text>{numberOfFavoris()}</Text>
             </View>
         </View>
         <View style={styles.articlesContainer}>

@@ -21,9 +21,12 @@ import { useNavigation } from '@react-navigation/native';
 import ArticlesScreen from './ArticleScreen';
 
 
-export default function NewsScreen({ navigation }) {
+export default function NewsScreen() {
 
   const dispatch = useDispatch()
+  const testBookmarks  = useSelector((state) => state.bookmarks.value)
+
+  console.log('store bookmarks depuis news page ==> ', testBookmarks)
 
   //  ---------------------------------------- AFFICHAGE DE LA PAGE DES ARTICLES --------------------------------------------
 
@@ -39,7 +42,7 @@ export default function NewsScreen({ navigation }) {
   const articles = useSelector((state) => state.articles.value.articles)
 
   // nombre d'articles du useSelector 
-  const numberOfArticles = articles.length
+  // const numberOfArticles = articles.length
 
   // bookmarks store
   const bookmarks = useSelector((state) => state.bookmarks.value);  
@@ -65,12 +68,23 @@ export default function NewsScreen({ navigation }) {
     })
   }
 
+  const navigation = useNavigation()
+
   // affichage page
   const handleFavorisNavigation = () => {
     // navigation vers le screen favoris
     navigation.navigate('Favoris')
   }
   
+  const numberOfArticles = () => {
+    if(articles.length > 1) {
+        return `${articles.length} articles`
+    } else if(articles.length = 1){
+        return '1 article'
+    } else {
+        return '0 article'
+    }
+}
 
  return (
   <SafeAreaView style={styles.container}>
@@ -95,7 +109,7 @@ export default function NewsScreen({ navigation }) {
               <TouchableOpacity style={styles.button} onPress={() => handleFavorisNavigation()} activeOpacity={0.8}>
                   <Text style={styles.textButton}>Favoris</Text>
               </TouchableOpacity>
-              <Text>{numberOfArticles} articles</Text>
+              <Text>{numberOfArticles()}</Text>
             </View>
           </View>
         </TouchableWithoutFeedback>
@@ -117,13 +131,14 @@ const styles = StyleSheet.create({
       backgroundColor: 'white',
     },
     pageContainer: {
-      padding: 25,
+      padding: 15,
     },
 
     // top page articles
     topContainer: {
       justifyContent: 'space-around',
       marginBottom: 10,
+      padding: 5,
     },
     title: {
       fontSize: 35,

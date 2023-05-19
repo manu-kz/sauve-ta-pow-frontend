@@ -29,7 +29,7 @@ import modals from './reducers/modals';
 import meteo from './reducers/meteo';
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo});
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks});
 const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
 
 
@@ -50,7 +50,7 @@ const Tab = createBottomTabNavigator();
 const NewsStack = () => {
   return (
   <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="News" component={NewsScreen} />
+    <Stack.Screen name="Articles" component={NewsScreen} />
     <Stack.Screen name="Favoris" component={FavorisScreen} />
     <Stack.Screen name="Article" component={ArticlesScreen} />
     <Stack.Screen name="EntireArticle" component={EntireArticleScreen} />
@@ -65,7 +65,7 @@ const TabNavigator = () => {
         tabBarIcon: ({ color, size }) => {
           let iconName = '';
 
-          if (route.name === 'Articles') {
+          if (route.name === 'News') {
             iconName = 'location-arrow';
           } else if (route.name === 'Meteo') {
             iconName = 'location-arrow';
@@ -90,8 +90,8 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Login" component={LoginScreen} />
-      <Tab.Screen name="News" component={NewsScreen} />
-      <Tab.Screen name="Hike" component={HikeScreen} />
+      <Tab.Screen name="News" component={NewsStack} />
+      <Tab.Screen name="Hike" component={ItinerariesScreen} />
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserScreen} />
       <Tab.Screen name="UiKit" component={UiKitScreen} />
