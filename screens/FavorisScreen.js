@@ -58,7 +58,7 @@ if(bookmarks?.length) {
 const numberOfFavoris = () => {
     if(bookmarks.length > 1) {
         return `${bookmarks.length} articles favoris`
-    } else if(bookmarks.length = 1){
+    } else if(bookmarks.length === 1){
         return '1 article favori'
     } else {
         return '0 article favoris'

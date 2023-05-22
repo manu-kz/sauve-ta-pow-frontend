@@ -17,6 +17,27 @@ import { useDispatch, useSelector } from 'react-redux';
 
 export default function UserScreen({ navigation }) {
 
+  const [firstname, setFirstname] = useState('Prénom')
+  const [lastname, setLastname] = useState('Nom')
+  const [username, setUsername] = useState('Username')
+
+  // token du reducer 
+  const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+
+  // fetch des infos du user en fonction du token 
+  useEffect(() => {
+    fetch(`http://10.0.1.87:3000/users/${token}`).then((response) => response.json()).then(data => {
+      // dispatch articles dans le store 
+      console.log(data)
+      for(let infos of data.user) {
+        // set toutes les infos nécésaires pour les placer sur la page 
+        setFirstname(infos.firstname? infos.firstname : 'Prénom')
+        setLastname(infos.lastname? infos.lastname : 'Nom')
+        setUsername(infos.username? infos.username : 'Username')
+      }
+    })
+  }, []);
+
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [hasPermission, setHasPermission] = useState(false);
@@ -115,8 +136,8 @@ export default function UserScreen({ navigation }) {
         <Image style={styles.profileImage} source={uri} />
          <FontAwesome name='plus-circle' size={20} color='#D5D8DC' style={styles.plus}/>
       </TouchableOpacity>
-      <Text style={styles.title}>Nom Prénom</Text>
-      <Text style={styles.username}>Username</Text>
+      <Text style={styles.title}>{lastname} {firstname}</Text>
+      <Text style={styles.username}>{username}</Text>
     </View>
     {modal}
     <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToPersonnal()}>

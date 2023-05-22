@@ -21,9 +21,8 @@ import {
         navigation.navigate('UserPage')
       }
 
-      // fetch des infos du user en fonction du token 
-      // set toutes les infos nécésaires pour els placer sur la page 
-      //  route pour pouvoir modifier directement dans la db les infos personnelles 
+    const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+
     const [firstname, setFirstname] = useState('Useless Text');
     const [lastname, setLastname] = useState('Useless Text');
     const [username, setUsername] = useState('Useless Text');
@@ -31,6 +30,27 @@ import {
     const [phoneNumber, setPhoneNumber] = useState('Useless Text');
     const [dateOfBirth, setDateOfBirth] = useState('Useless Text');
     const [adresse, setAdresse] = useState('Useless Text');
+
+    // fetch des infos du user en fonction du token 
+    useEffect(() => {
+      fetch(`http://10.0.1.87:3000/users/${token}`).then((response) => response.json()).then(data => {
+        // dispatch articles dans le store 
+        console.log(data)
+        for(let infos of data.user) {
+          // set toutes les infos nécésaires pour les placer sur la page 
+          setFirstname(infos.firstname? infos.firstname : 'vide')
+          setLastname(infos.lastname? infos.lastname : 'vide')
+          setUsername(infos.username? infos.username : 'vide')
+          setEmail(infos.email? infos.email : 'vide')
+           // mis en string pour être accepter dans l'input
+          setPhoneNumber(infos.phoneNumber? infos.phoneNumber.toString() : 'vide')
+          setDateOfBirth(infos.dateOfBirth? infos.dateOfBirth : 'vide')
+          setAdresse(infos.adresse? infos.adresse : 'vide')
+        }
+      })
+    }, []);
+
+      //  route pour pouvoir modifier directement dans la db les infos personnelles 
 
     return (
         <SafeAreaView style={styles.container}>
@@ -44,37 +64,39 @@ import {
                 <View style={styles.personnalInfoContainer}>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setFirstname}
+                    // onChangeText={setFirstname}
                     value={firstname}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setLastname}
+                    // onChangeText={setLastname}
                     value={lastname}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setUsername}
+                    // onChangeText={setUsername}
                     value={username}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setEmail}
+                    // onChangeText={setEmail}
                     value={email}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setPhoneNumber}
+                    // onChangeText={setPhoneNumber}
+                    keyboardType='numeric'
+                    maxLength={10}
                     value={phoneNumber}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setDateOfBirth}
+                    // onChangeText={setDateOfBirth}
                     value={dateOfBirth}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    onChangeText={setAdresse}
+                    // onChangeText={setAdresse}
                     value={adresse}/>
                   </TouchableOpacity>
                 </View>

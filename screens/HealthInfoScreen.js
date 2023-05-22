@@ -15,6 +15,7 @@ import {
   } from 'react-native';
   import FontAwesome from 'react-native-vector-icons/FontAwesome';
   import { useEffect, useState } from 'react';
+  import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
 
   export default function HealthInfoScreen({navigation}) {
 
@@ -22,19 +23,11 @@ import {
         navigation.navigate('UserPage')
       }
 
+    const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+
     // fetch des infos du user en fonction du token 
     // set toutes les infos nécésaires pour els placer sur la page 
     //  route pour pouvoir modifier directement dans la db les infos personnelles 
-    // socialSecurityNumber,
-    // weight,
-    // height,
-    // smoker,
-    // bloodType,
-    // allergies,
-    // treatment,
-    // medicalHistory,
-    // advanceDirectives,
-    // trustedPerson,
     const [socialSecurityNumber, setSocialSecurityNumber] = useState('Useless Text');
     const [weight, setWeight] = useState('Useless Text');
     const [height, setHeight] = useState('Useless Text');
@@ -42,20 +35,83 @@ import {
     const [bloodType, setBloodType] = useState('Useless Text');
     const [allergies, setAllergies] = useState('Useless Text');
     const [treatment, setTreatment] = useState('Useless Text');
-    const [medicalHistory, setMedicalHistory] = useState('Useless Text');
+    const [medicalHistory, setMedicalHistory] = useState({});
     const [advanceDirectives, setAdvanceDirectives] = useState('Useless Text');
-    const [trustedPerson, setTrustedPerson] = useState('Useless Text');
+    const [trustedPerson, setTrustedPerson] = useState({});
 
+
+    // fetch des infos du user en fonction du token 
+    useEffect(() => {
+      fetch(`http://10.0.1.87:3000/users/${token}`).then((response) => response.json()).then(data => {
+        // dispatch articles dans le store 
+        console.log(data)
+        for(let infos of data.user) {
+          // set toutes les infos nécésaires pour les placer sur la page 
+          // mis en string pour être accepter dans l'input
+          setSocialSecurityNumber(infos.socialSecurityNumber? infos.socialSecurityNumber.toString(): 'Numéro de sécurité social')
+          setWeight(infos.weight? infos.weight.toString() : 'Poids')
+          setHeight(infos.height? infos.height.toString() : 'Taille')
+          setSmoker(infos.smoker? infos.smoker : 'Fumeur')
+          setBloodType(infos.bloodType? infos.bloodType : 'Groupe sanguin')
+          setAllergies(infos.allergies? infos.allergies : 'Allergies')
+          setTreatment(infos.treatment? infos.treatment : 'Traitements')
+          setMedicalHistory(infos.medicalHistory)
+          setAdvanceDirectives(infos.advanceDirectives? infos.advanceDirectives : 'Directives avancées')
+          setTrustedPerson(infos.trustedPerson)
+        }
+      })
+    }, []);
+
+    // gestion des menus déroulant des informations sous forme d'objet 
+    const [visible, setVisible] = useState(false);
+    
+    const hideMenu = () => setVisible(false);
+    
+    const showMenu = () => setVisible(true);
+
+    // fonction qui fait le menu déroulant de l'objet des antécédant médicaux
+    const menuMedicalHistory = (objet, title) => {
+      return (
+        <Menu
+        visible={visible}
+        anchor={<Text onPress={showMenu}>{title}</Text>}
+        onRequestClose={hideMenu}
+        >
+          <MenuItem onPress={hideMenu}>{objet.bloodHistory? objet.bloodHistory : 'vide'}</MenuItem>
+          <MenuItem onPress={hideMenu}>{objet.cardiacCase? objet.cardiacCase : 'vide'}</MenuItem>
+          <MenuItem disabled>{objet.info? objet.info : 'vide'}</MenuItem>
+          <MenuItem disabled>{objet.neurologicalCase? objet.neurologicalCase : 'vide'}</MenuItem>
+          <MenuItem disabled>{objet.pulmonaryCase? objet.pulmonaryCase : 'vide'}</MenuItem>
+          <MenuDivider />
+        </Menu>
+      )
+    }
+
+    // fonction qui fait le menu déroulant de l'objet de la personne de confiance
+    const menuTrustedPerson = (objet, title) => {
+      return (
+        <Menu
+        visible={visible}
+        anchor={<Text onPress={showMenu}>{title}</Text>}
+        onRequestClose={hideMenu}
+        >
+          <MenuItem onPress={hideMenu}>{objet.firstname? objet.firstname : 'vide'}</MenuItem>
+          <MenuItem onPress={hideMenu}>{objet.lastname? objet.lastname : 'vide'}</MenuItem>
+          <MenuItem disabled>{objet.phoneNumber? objet.phoneNumber : 'vide'}</MenuItem>
+          <MenuDivider />
+        </Menu>
+      )
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.pageContainer}>
                 <FontAwesome name='angle-left' size={40} color='#D5D8DC' style={styles.backIcon} onPress={() => handleGoBack()}/>
                 <Text style={styles.title} >Informations de santé</Text>
-              <KeyboardAvoidingView
-               behavior={Platform.OS === 'ios' ? 'padding' : 'height'} style={styles.personnalInfoContainer}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                 <ScrollView style={styles.scrollViewContainer}>
+                <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                     <View style={styles.personnalInfoContainer}>
                         <TouchableOpacity style={styles.infos}>
                             <TextInput         
@@ -92,25 +148,21 @@ import {
                             onChangeText={setTreatment}
                             value={treatment}/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.infos}>
-                            <TextInput         
-                            onChangeText={setMedicalHistory}
-                            value={medicalHistory}/>
+                        <TouchableOpacity style={styles.menu}>
+                            {menuMedicalHistory(medicalHistory, 'Antécédants médicaux')}
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.infos}>
                             <TextInput         
                             onChangeText={setAdvanceDirectives}
                             value={advanceDirectives}/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.infos}>
-                            <TextInput         
-                            onChangeText={setTrustedPerson}
-                            value={trustedPerson}/>
+                        <TouchableOpacity style={styles.menu}>
+                            {menuTrustedPerson(trustedPerson, 'Personne de confinace')}
                         </TouchableOpacity>
                     </View>
-                </ScrollView>
               </TouchableWithoutFeedback>
               </KeyboardAvoidingView>
+              </ScrollView>
             </View>
         </SafeAreaView>
     )
@@ -132,22 +184,29 @@ import {
           fontWeight: 'bold',
           marginBottom: 20,
         },
-        scrollViewContainer: {
-            alignItems: 'center'
-        },
         personnalInfoContainer: {
           padding: 5,
           alignItems: 'center',
         },
         infos: {
-          width: 350,
+          width: 340,
           height: 50,
           borderColor: '#D5D8DC',
           borderWidth: 2,
           margin: 10,
           borderRadius: 20,
-          // justifyContent: 'center',
           flexDirection: 'row',
           paddingLeft: 15,
         },
+        menu: {
+          width: 340,
+          height: 50,
+          borderColor: '#D5D8DC',
+          borderWidth: 2,
+          margin: 10,
+          borderRadius: 20,
+          flexDirection: 'row',
+          paddingLeft: 15,
+          alignItems: 'center' 
+        }
   })
