@@ -1,20 +1,32 @@
-import { StyleSheet} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
+import { useSelector } from "react-redux";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import MeteoScreen from './screens/MeteoScreen';
-import NewsScreen from './screens/NewsScreen';
-import UserScreen from './screens/UserScreen';
 import ItinerariesScreen from './screens/ItinerariesScreen';
 import UiKitScreen from './screens/UiKitScreen';
-import LoginScreen from './screens/LoginScreen'
+import LoginScreen from './screens/LoginScreen';
+// NEWS SCREEN
+import NewsScreen from './screens/NewsScreen';
 import FavorisScreen from './screens/FavorisScreen';
 import EntireArticleScreen from './screens/EntireArticleScreen';
 import ArticlesScreen from './screens/ArticleScreen';
+// USER SCREENS 
+import UserScreen from './screens/UserScreen';
+import PersonalInfosScreen from './screens/PersonalInfoScreen'
+import HealthInfoScreen from './screens/HealthInfoScreen';
+import ItinerariesInfoScreen from './screens/ItinerariesInfoScreen';
+import HelpInfoScreen from './screens/HelpInfoScreen';
+import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
+
+
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+
 // persist store
 // AsyncStorage.clear()
 import { Provider } from "react-redux";
@@ -22,16 +34,19 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import articles from './reducers/articles'
-import user from './reducers/user';
-import bookmarks from './reducers/bookmarks';
-import modals from './reducers/modals';
-import meteo from './reducers/meteo';
+import articles from "./reducers/articles";
+import user from "./reducers/user";
+import bookmarks from "./reducers/bookmarks";
+import modals from "./reducers/modals";
+import meteo from "./reducers/meteo";
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks});
-const persistConfig = { key: "Sauve-ta-Pow", storage: AsyncStorage, blacklist: ['modals', 'meteo'], };
-
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks });
+const persistConfig = {
+  key: "Sauve-ta-Pow",
+  storage: AsyncStorage,
+  blacklist: ["modals", "meteo"],
+};
 
 // import reducers
 
@@ -49,52 +64,110 @@ const Tab = createBottomTabNavigator();
 // Stack navigation contenant les différentes pages à aficher pour la tab navigation NEWS
 const NewsStack = () => {
   return (
-  <Stack.Navigator screenOptions={{ headerShown: false }}>
-    <Stack.Screen name="Articles" component={NewsScreen} />
-    <Stack.Screen name="Favoris" component={FavorisScreen} />
-    <Stack.Screen name="Article" component={ArticlesScreen} />
-    <Stack.Screen name="EntireArticle" component={EntireArticleScreen} />
-  </Stack.Navigator>
-  )
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="Articles" component={NewsScreen} />
+      <Stack.Screen name="Favoris" component={FavorisScreen} />
+      <Stack.Screen name="Article" component={ArticlesScreen} />
+      <Stack.Screen name="EntireArticle" component={EntireArticleScreen} />
+    </Stack.Navigator>
+  );
+};
+
+// Stack user contenant les différentes pages  à aficher pour la tab navigation USER
+const UserStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name="UserPage" component={UserScreen} />
+      <Stack.Screen name="PersonnalInfo" component={PersonalInfosScreen} />
+      <Stack.Screen name="HealthInfo" component={HealthInfoScreen} />
+      <Stack.Screen name="ItinerariesInfo" component={ItinerariesInfoScreen} />
+      <Stack.Screen name="HelpInfo" component={HelpInfoScreen} />
+      <Stack.Screen name="ConfidentialityInfo" component={ConfidentialityInfoScreen} />
+    </Stack.Navigator>
+    )
 }
 
 const TabNavigator = () => {
+  const token = useSelector((state) => state.user.token);
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
-          let iconName = '';
-
-          if (route.name === 'News') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Meteo') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Hike') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'User') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Home') {
-            iconName = 'location-arrow';
-          } else if (route.name === 'Login') {
-            iconName = 'location-arrow';
-          }else if (route.name === 'UiKit') {
-            iconName = 'location-arrow';
-          }
-
-          return <FontAwesome name={iconName} size={size} color={color} />;
+    screenOptions={
+      ({ route }) => (
+        {
+        tabBarIcon: ({ color, size, style }) => {
+          let iconName = "";
+          if (route.name === "News") {
+            iconName = "file-text";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
+          } else if (route.name === "Meteo") {
+            iconName = "cloud-drizzle";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
+          } else if (route.name === "Hike") {
+            iconName = "navigation";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
+          } else if (route.name === "User") {
+            iconName = "user";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
+          } else if (route.name === "Home") {
+            iconName = "home";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
+          } else if (route.name === "Login") {
+            return (
+              <View style={{
+                height: 70,
+                width: 70,
+                borderRadius: 35,
+                backgroundColor: '#FFB703',
+                justifyContent: 'center',
+                alignItems: 'center',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 2,
+                  height: 5,
+                },
+                shadowOpacity: 0.80,
+                shadowRadius: 15,
+                elevation: 2,
+                // position: 'absolute'
+              }}>
+                  <Image
+                  source={require('../frontend/assets/picto_randonneur.png')}
+                  style={{
+                    height: 55,
+                    width: 55
+                  }}
+                  />
+              </View>
+            )
+          } 
         },
-        tabBarActiveTintColor: '#ec6e5b',
-        tabBarInactiveTintColor: '#335561',
+        tabBarStyle: {
+          backgroundColor: '#213A5C',
+          borderRadius: 12,
+          paddingTop: 15,
+          height: 85,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 0,
+          },
+          shadowOpacity: 0.40,
+          shadowRadius: 15,
+          elevation: 1,
+        },
+        tabBarActiveTintColor: "#FFB703",
+        tabBarInactiveTintColor: "#fff",
         headerShown: false,
+        tabBarShowLabel: false
       })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Login" component={LoginScreen} />
+      >
+      <Tab.Screen name="Home" component={HomeScreen}/>
       <Tab.Screen name="News" component={NewsStack} />
-      <Tab.Screen name="Hike" component={ItinerariesScreen} />
+      {!token? <Tab.Screen name="Login" component={LoginScreen}/> 
+      : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
-      <Tab.Screen name="User" component={UserScreen} />
-      <Tab.Screen name="UiKit" component={UiKitScreen} />
+      <Tab.Screen name="User" component={UserStack} />
+      {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
   );
 };
@@ -116,8 +189,9 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center",
   },
 });
+

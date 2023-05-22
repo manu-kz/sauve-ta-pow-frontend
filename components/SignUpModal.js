@@ -27,6 +27,7 @@ export default function SignUpModal({ navigation }) {
           onPress={() => dispatch(setSignUpModal(false))}
         />
 
+      
         {!showHealthForm? <SignUpForm/> :<HealthForm/> }
         
       </View>
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     marginTop: "20%",
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 40,
+    padding: 28,
     justifyContent: "space-evenly",
     alignItems: "center",
     shadowColor: "#000",

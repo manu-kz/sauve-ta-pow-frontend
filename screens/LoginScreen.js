@@ -7,6 +7,8 @@ import {
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
+  Keyboard,
   Platform,
   SafeAreaView,
   Pressable,
@@ -23,7 +25,7 @@ export default function LoginScreen({ navigation }) {
   const loginModal = useSelector((state) => state.modals.loginModal);
   const signUpModal = useSelector((state) => state.modals.signUpModal);
 
-  console.log("loginModals", loginModal, signUpModal);
+  console.log("loginModals / signUpModals", loginModal, signUpModal);
 
   return (
     <ImageBackground
@@ -34,22 +36,26 @@ export default function LoginScreen({ navigation }) {
       <SafeAreaView>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          style={styles.container}>
+          style={styles.container}
+        >
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <>
+              <Text style={styles.h1}>Créer un itinéraire</Text>
 
-          <Text style={styles.h1}>Créer un itinéraire</Text>
-          
-          {loginModal && <LoginModal style={styles.modal}/>}
-          {signUpModal && <SignUpModal />}
-          
-        {!loginModal && !signUpModal && (
-          <Pressable
-          style={styles.buttonShortWhite}
-          activeOpacity={0.8}
-          onPress={() => dispatch(setLoginModal(true))}
-          >
-            <Text style={styles.textButtonGrey}>Log In</Text>
-          </Pressable>
-        )}
+              {loginModal && <LoginModal style={styles.modal} />}
+              {signUpModal && <SignUpModal />}
+
+              {!loginModal && !signUpModal && (
+                <Pressable
+                  style={styles.buttonShortWhite}
+                  activeOpacity={0.8}
+                  onPress={() => dispatch(setLoginModal(true))}
+                >
+                  <Text style={styles.textButtonGrey}>Log In</Text>
+                </Pressable>
+              )}
+            </>
+          </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </ImageBackground>
@@ -58,26 +64,23 @@ export default function LoginScreen({ navigation }) {
 
 const styles = StyleSheet.create({
   background: {
-    flex:1,
-    height:"100%",
-    width:"100%",
+    flex: 1,
+    height: "100%",
+    width: "100%",
   },
   container: {
-    height:"100%",
-    width:"100%",
+    height: "100%",
+    width: "100%",
     alignItems: "center",
-   justifyContent: "space-between",
-
-
+    justifyContent: "space-between",
   },
   h1: {
-   
     fontSize: 32,
     fontWeight: "bold",
     color: "white",
-    alignSelf:"flex-start",
-    marginTop:"10%",
-    marginLeft: "5%"
+    alignSelf: "flex-start",
+    marginTop: "10%",
+    marginLeft: "5%",
   },
 
   buttonShortWhite: {
@@ -86,10 +89,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
-    
+
     borderRadius: 100,
-    marginBottom:"10%"
-    
+    marginBottom: "10%",
   },
   textButtonGrey: {
     color: "#8B9EAB",
@@ -98,8 +100,8 @@ const styles = StyleSheet.create({
   },
   modal: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 22,
   },
 });
