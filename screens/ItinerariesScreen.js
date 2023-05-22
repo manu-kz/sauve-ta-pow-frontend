@@ -10,7 +10,6 @@ import SwipeUpDown from "react-native-swipe-up-down";
 import SwipeItemMini from "../components/SwipeItemMini";
 import SwipeItemFull from "../components/SwipeItemFull";
 
-
 export default function App() {
   const [currentPosition, setCurrentPosition] = useState(null);
   const [departure, setDeparture] = useState(null);
@@ -18,8 +17,7 @@ export default function App() {
   const [wayPointName, setWayPointName] = useState([]);
   const [arrival, setArrival] = useState(null);
   const [distance, setDistance] = useState(0);
-  const [duration, setDuration] = useState(null);
-  const [time, setTime] = useState("min");
+  const [duration, setDuration] = useState(0);
 
   //Demande d'autorisation pour accéder à la localisation
   useEffect(() => {
@@ -35,7 +33,7 @@ export default function App() {
     })();
   }, []);
 
-  // a mettre dans le back -- Utilisation de geocode pour convertir la valeur de l'input en coordonnées lat et lng
+  //Utilisation de geocode pour convertir la valeur de l'input en coordonnées lat et lng
   const addDeparture = async (data, details) => {
     try {
       const placeId = details.place_id;
@@ -51,6 +49,7 @@ export default function App() {
           longitude: location.lng,
         };
         console.log("Position:", position);
+        console.log("Place:", placeId);
         setDeparture(position);
       }
     } catch (error) {
@@ -112,9 +111,6 @@ export default function App() {
     }
   };
 
-  if (duration && duration > 60) {
-    setDuration(duration / 60);
-  }
 
   const wayPoints = wayPoint.map((waypoint, index) => (
     <Marker
@@ -154,6 +150,7 @@ export default function App() {
             strokeColor="#F94A56"
             strokeWidth={5}
             onReady={itinerayLineOnReady}
+            onError={(error) => console.log("routing error", error)}
             mode="WALKING"
             waypoints={wayPoint}
           />
@@ -194,7 +191,9 @@ export default function App() {
             <View>
               <Text>Distance: {distance.toFixed(2)} km</Text>
               <Text>
-                Temps: {Math.ceil(duration)} {time}
+                Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
+                {duration >= 60 && duration < 1440 && "h"}
+                {duration < 60 && "min"}
               </Text>
             </View>
           ) : null}
@@ -202,8 +201,8 @@ export default function App() {
       </View>
 
       <SwipeUpDown
-        itemMini={() => <SwipeItemMini/>}
-        itemFull={() => <SwipeItemFull/>}
+        itemMini={() => <SwipeItemMini />}
+        itemFull={() => <SwipeItemFull />}
         animation="spring"
         disableSwipeIcon={true}
         extraMarginTop={150}
@@ -240,7 +239,6 @@ const styles = StyleSheet.create({
     marginTop: Constants.statusBarHeight,
   },
   swipe: {
-    backgroundColor: '#FFFFFF',
-  }, 
-
+    backgroundColor: "#FFFFFF",
+  },
 });

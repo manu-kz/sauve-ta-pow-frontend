@@ -4,16 +4,18 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  KeyboardAvoidingView,
   Image,
-  Platform,
 } from "react-native";
 import React, { useState } from "react";
+import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
+import moment from 'moment';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+
 
 export default function SwipeItemFull() {
   const [itineraryName, setItineraryName] = useState("");
   const [numberParticipants, setNumberParticipants] = useState(0);
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(new Date());
   const [members, setmembers] = useState([]);
   const [supervisor, setSupervisor] = useState([]);
   const [hike, setHike] = useState([]);
@@ -22,19 +24,20 @@ export default function SwipeItemFull() {
   const [ski, setSki] = useState(false);
   const [snowBoard, setSnowBoard] = useState(false);
 
+  const today = moment().format('DD-MM-YYYY');
+
+
   const handleSubmit = () => {
     console.log(itineraryName, numberParticipants, date);
   };
 
   return (
-    <View style={styles.container}>
+    <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.ligneIconContainer}>
         <View style={styles.ligneIcon}></View>
       </View>
       <Text style={styles.h2}>Planifier mon trajet</Text>
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
-      >
+      <View>
         <View style={styles.formContainer}>
           <View style={styles.inputSection}>
             <Image style={styles.itinaryImg} />
@@ -54,11 +57,32 @@ export default function SwipeItemFull() {
                   onChangeText={(value) => setNumberParticipants(value)}
                   value={numberParticipants}
                 />
-                <TextInput
-                  style={styles.inputSmall}
-                  placeholder="Date"
-                  onChangeText={(value) => setDate(value)}
-                  value={date}
+                <DatePicker
+                 date={date}
+                 mode="date"
+                 placeholder="Date"
+                 format="DD-MM-YYYY"
+                 minDate={today}
+                 maxDate="2050-01-01"
+                 confirmBtnText="Confirmer"
+                 cancelBtnText="Annuler"
+                  customStyles={{
+                    dateIcon: {
+                      display: "none",
+                    },
+                    dateInput: {
+                      backgroundColor: "#EDEDED",
+                      borderRadius: 50,
+                      borderWidth: 0,
+                      marginLeft: '10%',
+                    },
+                    dateText: {
+                        color: "#A8A4A4"
+                      },
+                  }}
+                  onDateChange={(date) => {
+                    setDate(date);
+                  }}
                 />
               </View>
             </View>
@@ -106,8 +130,8 @@ export default function SwipeItemFull() {
             <Text style={styles.textButtonWhite}>Enregistrer</Text>
           </TouchableOpacity>
         </View>
-      </KeyboardAvoidingView>
-    </View>
+      </View>
+    </KeyboardAwareScrollView>
   );
 }
 
