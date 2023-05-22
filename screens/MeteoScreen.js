@@ -22,29 +22,40 @@ import { addLocalWeather } from '../reducers/meteo';
 import { BlurView } from 'expo-blur';
 import { LinearGradient } from 'expo-linear-gradient';
 import selectWeatherIcon from '../components/weatherIcons';
+import selectBraIcon from '../components/braIcons';
+
 
 export default function MeteoScreen({ navigation }) {
   const dispatch = useDispatch();
 
   const [hourlyWeatherData, setHourlyWeatherData] = useState([]);
   const [dailyWeatherData, setDailyWeatherData] = useState([]);
+  const [bra, setBra] = useState([]);
+
+  const [height, setHeight] = useState(0);
 
   const user = useSelector((state) => state.user);
   const meteo = useSelector((state) => state.meteo);
 
-  //fonction pour obtenir les icones météo à partir du composant weatherIcons
+  //fonction pour obtenir l'icone météo actuelle à partir du composant weatherIcons
   const currentWeatherIcon = selectWeatherIcon(meteo.weatherIcon);
 
 
-  // 1 obtenir la localisation de l'utilisateur 
+  // définition de la hauteur de ImageBackground pour placer l'input
+  const onLayout = (event) => {
+    const { height } = event.nativeEvent.layout;
+    setHeight(height);
+  };
+
+  // 1 obtenir la localisation de l'utilisateur
 
   // Permission d'utiliser la localisation de l'appareil, puis utilisation de la localisation.
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
 
-// si on a l'autorisation on ajoute ses coordonnées GPS dans le store persistent
-  //interval de 1000m pour la météo
+      // si on a l'autorisation on ajoute ses coordonnées GPS dans le store persistent
+      //interval de 1000m pour la météo
       if (status === 'granted') {
         Location.watchPositionAsync({ distanceInterval: 1000 }, (location) => {
           dispatch(
@@ -71,13 +82,12 @@ export default function MeteoScreen({ navigation }) {
     }
   }, []);
 
-
   // 2 fetch current météo
 
   //ajout de la current météo au store pour réutilisation dans le dashboard
   // on réutilise la locationKey qu'on met en params pour avoir la météo locale
   useEffect(() => {
-    fetch(`http://10.0.2.110:3000/meteo/${user.locationKey}`)
+    fetch(`http://10.0.2.110:3000/meteo/locationKey/${user.locationKey}`)
       .then((response) => response.json())
       .then((data) => {
         // dispatch meteo dans le store
@@ -93,11 +103,7 @@ export default function MeteoScreen({ navigation }) {
     // refresh à chaque changement de locationKey pour avoir toujours la météo locale
   }, [user.locationKey]);
 
-
-
-
   // 3 fetch météo heure par heure
-
 
   //ajout des prévisions météo heure par heure dans un usestate HourlyWeatherData
 
@@ -120,7 +126,7 @@ export default function MeteoScreen({ navigation }) {
     // refresh à chaque changement de locationKey
   }, [user.locationKey]);
 
-   // map sur le usestate pour afficher la météo des 12 prochaines heures
+  // map sur le usestate pour afficher la météo des 12 prochaines heures
 
   const hourlyWeather = hourlyWeatherData.map((data, i) => {
     const hourlyweatherIcon = selectWeatherIcon(data.WeatherIcon);
@@ -139,9 +145,7 @@ export default function MeteoScreen({ navigation }) {
     );
   });
 
-
-
-    // 4 fetch météo 5 prochains jours
+  // 4 fetch météo 5 prochains jours
 
   //ajout des prévisions météo jour par jour dans un usestate dailyWeatherData
 
@@ -152,10 +156,10 @@ export default function MeteoScreen({ navigation }) {
         // push données meteo dans le useState currentMeteo
         if (fetchdata) {
           const newMeteoData = fetchdata.meteo.map((data) => {
-              const dayOfWeek = new Date(data.Date)
+            const dayOfWeek = new Date(data.Date)
               .toLocaleString('fr-fr', { weekday: 'long' })
               .slice(0, -21);
-            
+
             return {
               WeatherIcon: data.Day.Icon,
               weekDay: dayOfWeek,
@@ -169,113 +173,191 @@ export default function MeteoScreen({ navigation }) {
     // refresh à chaque changement de locationKey
   }, [user.locationKey]);
 
-    // map sur le usestate pour afficher la météo des 5 prochains jours
+  // map sur le usestate pour afficher la météo des 5 prochains jours
   const dailylyWeather = dailyWeatherData.map((data, i) => {
     const dailyweatherIcon = selectWeatherIcon(data.WeatherIcon);
     const today = new Date()
-    .toLocaleString('fr-fr', { weekday: 'long' })
-    .slice(0, -21);
-    
+      .toLocaleString('fr-fr', { weekday: 'long' })
+      .slice(0, -21);
+
     return (
       <View key={i} style={styles.dailyContainer}>
         <View style={styles.dailySubContainerLeft}>
-          <Image style={styles.dailyIcon} source={dailyweatherIcon}/>
+          <Image style={styles.dailyIcon} source={dailyweatherIcon} />
           {/* pour le jour qui correspond à aujourd'hui, afficher "aujourd'hui" */}
-          {today === data.weekDay && <Text style={styles.dailyTextDay}>aujourd'hui</Text>}
-          {today !== data.weekDay && <Text style={styles.dailyTextDay}>{data.weekDay}</Text>}
+          {today === data.weekDay && (
+            <Text style={styles.dailyTextDay}>aujourd'hui</Text>
+          )}
+          {today !== data.weekDay && (
+            <Text style={styles.dailyTextDay}>{data.weekDay}</Text>
+          )}
         </View>
         <View style={styles.dailySubContainerRight}>
-          <Text style={styles.dailyTextTemperature}>{data.temperatureMin}°C</Text>
-          <Text style={styles.dailyTextTemperature}>{data.temperatureMax}°C</Text>
+          <Text style={styles.dailyTextTemperature}>
+            {data.temperatureMin}°C
+          </Text>
+          <Text style={styles.dailyTextTemperature}>
+            {data.temperatureMax}°C
+          </Text>
         </View>
       </View>
     );
   });
 
+
+  //ajout de tous les BRA
+
+  useEffect(() => {
+    fetch(`http://10.0.2.110:3000/meteo/bra/`)
+      .then((response) => response.json())
+      .then((fetchdata) => {
+        if (fetchdata) {
+          const newBra = fetchdata.bra.map((data) => {
+            const date = new Date(
+              data.BULLETINS_NEIGE_AVALANCHE.DateValidite[0]
+            );
+            const year = date.getUTCFullYear();
+            const month = date.getUTCMonth() + 1;
+            var day = date.getUTCDate();
+            var hour = date.getUTCHours();
+
+            return {
+              massif: data.BULLETINS_NEIGE_AVALANCHE.$.MASSIF,
+              date: `${day}/${month}/${year}, ${hour}h`,
+              risk: data.BULLETINS_NEIGE_AVALANCHE.CARTOUCHERISQUE[0].RISQUE[0].$.RISQUE1,
+            };
+          });
+          setBra([...newBra]);
+        }
+      });
+  }, []);
+
+
+
+  // map sur le usestate pour afficher tous les BRA
+  const mountainBra = bra.map((data, i) => {
+
+    const currentBraIcon = selectBraIcon(data.risk);
+    //console.log('currentBraIcon', data.risk)
+
+    return (
+      <View key={i} style={styles.massifContainer}>
+      <View style={styles.iconBraContainer}>
+        <Image
+         source={currentBraIcon}
+          style={styles.riskIcon}
+        />
+        </View>
+        <View style={styles.massifNameContainer}>
+        <Text style={styles.massifName}>{data.massif}</Text>
+        <Text style={styles.massifName}>risk {data.risk}</Text>
+        <Text style={styles.majBra}>Date de validité {data.date}</Text>
+        </View>
+      </View>
+    );
+  });
+
+
+
+  
   return (
     <SafeAreaView style={styles.container}>
-      <ImageBackground
-        source={require('../assets/mountain-background.jpeg')}
-        style={styles.imgBackground}
-      >
-        <Text style={styles.h1}>Météo</Text>
-        <View style={styles.contentContainer}>
-          <BlurView intensity={30} style={styles.mainCardContainer}>
-            <LinearGradient
-              colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              useAngle
-              angle={110}
-              style={styles.card}
-            >
-              <View style={styles.weatherCardTop}>
-                <Image style={styles.meteoIcon} source={currentWeatherIcon} />
-              </View>
-              {hourlyWeatherData.length === 0 && (
-                <Text style={styles.weatherInfo}>Pas de connexion</Text>
-              )}
-              {hourlyWeatherData.length > 0 && (
-                <View style={styles.weatherCardBottom}>
-                  <View>
-                    <Text style={styles.cityInfo}>{user.locationName}</Text>
-                    <Text style={styles.weatherInfo}>{meteo.weatherText}</Text>
-                  </View>
-                  <View style={styles.temperatureContainer}>
-                    <Text style={styles.temperature}>
-                      {meteo.temperature}°C
-                    </Text>
-                  </View>
+      <ScrollView>
+        <ImageBackground
+          source={require('../assets/mountain-background.jpeg')}
+          style={styles.imgBackground}
+          resizeMode="cover"
+          onLayout={onLayout}
+        >
+          <Text style={styles.h1}>Météo</Text>
+          <View style={styles.contentContainer}>
+            <BlurView intensity={30} style={styles.mainCardContainer}>
+              <LinearGradient
+                colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                useAngle
+                angle={110}
+                style={styles.card}
+              >
+                <View style={styles.weatherCardTop}>
+                  <Image style={styles.meteoIcon} source={currentWeatherIcon} />
                 </View>
-              )}
-            </LinearGradient>
-          </BlurView>
-          <BlurView intensity={30} style={styles.hourlyCardContainer}>
-            <LinearGradient
-              colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              useAngle
-              angle={110}
-              style={styles.card}
-            >
-              <View style={styles.hourlyCardTop}>
-                <Text style={styles.hourlyTitle}>
-                  Prévisions heure par heure
-                </Text>
-              </View>
-              <ScrollView horizontal={true}>
-                <View style={styles.hourlyCardBottom}>{hourlyWeather}</View>
-              </ScrollView>
-            </LinearGradient>
-          </BlurView>
-          <BlurView intensity={30} style={styles.dailyCardContainer}>
-            <LinearGradient
-              colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              useAngle
-              angle={110}
-              style={styles.card}
-            >
-              <View style={styles.hourlyCardTop}>
-                <Text style={styles.hourlyTitle}>5 prochains jours</Text>
-              </View>
-              <View style={styles.dailyCardBottom}>
-                <View style={styles.minMaxContainer}>
-                  <View style={styles.tempBar}></View>
-                  <View style={styles.tempBar}>
-                    <Text style={styles.dailyTextTempLabel}>min</Text>
-                    <Text style={styles.dailyTextTempLabel}>max</Text>
+                {hourlyWeatherData.length === 0 && (
+                  <Text style={styles.weatherInfo}>Pas de connexion</Text>
+                )}
+                {hourlyWeatherData.length > 0 && (
+                  <View style={styles.weatherCardBottom}>
+                    <View>
+                      <Text style={styles.cityInfo}>{user.locationName}</Text>
+                      <Text style={styles.weatherInfo}>
+                        {meteo.weatherText}
+                      </Text>
+                    </View>
+                    <View style={styles.temperatureContainer}>
+                      <Text style={styles.temperature}>
+                        {meteo.temperature}°C
+                      </Text>
+                    </View>
                   </View>
+                )}
+              </LinearGradient>
+            </BlurView>
+            <BlurView intensity={30} style={styles.hourlyCardContainer}>
+              <LinearGradient
+                colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                useAngle
+                angle={110}
+                style={styles.card}
+              >
+                <View style={styles.hourlyCardTop}>
+                  <Text style={styles.hourlyTitle}>
+                    Prévisions heure par heure
+                  </Text>
                 </View>
-                {dailylyWeather}
-              </View>
-            </LinearGradient>
-          </BlurView>
-
-        </View>
-      </ImageBackground>
+                <ScrollView horizontal={true}>
+                  <View style={styles.hourlyCardBottom}>{hourlyWeather}</View>
+                </ScrollView>
+              </LinearGradient>
+            </BlurView>
+            <BlurView intensity={30} style={styles.dailyCardContainer}>
+              <LinearGradient
+                colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                useAngle
+                angle={110}
+                style={styles.card}
+              >
+                <View style={styles.hourlyCardTop}>
+                  <Text style={styles.hourlyTitle}>5 prochains jours</Text>
+                </View>
+                <View style={styles.dailyCardBottom}>
+                  <View style={styles.minMaxContainer}>
+                    <View style={styles.tempBar}></View>
+                    <View style={styles.tempBar}>
+                      <Text style={styles.dailyTextTempLabel}>min</Text>
+                      <Text style={styles.dailyTextTempLabel}>max</Text>
+                    </View>
+                  </View>
+                  {dailylyWeather}
+                </View>
+              </LinearGradient>
+            </BlurView>
+          </View>
+          <View style={{ ...styles.inputView, top: height }}>
+            <TextInput
+              style={styles.input}
+              placeholder="Rechercher un massif"
+            />
+          </View>
+        </ImageBackground>
+        <ScrollView horizontal={true}>
+          <View style={styles.riskContainer}>{mountainBra}</View>
+        </ScrollView>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -287,8 +369,8 @@ const styles = StyleSheet.create({
   },
   imgBackground: {
     width: '100%',
-    height: '100%',
     paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    paddingBottom: 10,
   },
   h1: {
     fontSize: 32,
@@ -456,5 +538,71 @@ const styles = StyleSheet.create({
   },
   dailyTextTemperature: {
     color: '#fff',
+  },
+  inputView: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  input: {
+    width: 273,
+    height: 34,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: '#8B9EAB',
+    paddingLeft: 10,
+    margin: 5,
+  },
+  riskContainer: {
+    marginTop: 30,
+    marginBottom: 50,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  massifContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems:'center',
+    backgroundColor: '#8B9EAB',
+    marginHorizontal:10,
+    borderRadius:20,
+    width:150
+  },
+  iconBraContainer: {
+    height: 150,
+    width: 150,
+    borderRadius:100,
+    display:'flex',
+    justifyContent:'center',
+    alignItems:'center',
+    padding:10,
+  },
+  riskIcon: {
+    height: '80%',
+    width: '80%',
+    borderRadius:100,
+    borderWidth:2,
+    borderColor:'#fff',
+    resizeMode: 'contain', 
+  },
+  massifNameContainer: {
+    width:'100%',
+    alignItems:'flex-start',
+    paddingLeft:10,
+    marginTop:10
+  },
+  massifName: {
+    color: '#fff',
+    fontWeight:900,
+  },
+  majBra: {
+    color: '#fff',
+    fontWeight:100,
+    fontSize:9
   },
 });
