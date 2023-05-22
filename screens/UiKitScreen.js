@@ -183,7 +183,7 @@ export default function UiKitScreen() {
             <TouchableOpacity style={styles.cardSectionRescueBasics} onPress={() => handleUndeployCard()} activeOpacity={1}>
               <Image
                 style={styles.cardImageRescueBasics}
-                source={require("../assets/card-overlay-exemple.png")}
+                source={require("../assets/rescue1.jpg")}
               />
               <View style={rescueBasicsCardHeader}>
                 <View style={styles.cardHeaderRescueBasics}>
