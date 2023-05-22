@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -25,6 +25,8 @@ import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
 
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
+
 // persist store
 // AsyncStorage.clear()
 import { Provider } from "react-redux";
@@ -89,39 +91,83 @@ const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
   return (
     <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color, size }) => {
+    screenOptions={
+      ({ route }) => (
+        {
+        tabBarIcon: ({ color, size, style }) => {
           let iconName = "";
-
           if (route.name === "News") {
-            iconName = "location-arrow";
+            iconName = "file-text";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Meteo") {
-            iconName = "location-arrow";
+            iconName = "cloud-drizzle";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Hike") {
-            iconName = "location-arrow";
+            iconName = "navigation";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "User") {
-            iconName = "location-arrow";
+            iconName = "user";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Home") {
-            iconName = "location-arrow";
+            iconName = "home";
+            return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Login") {
-            iconName = "location-arrow";
-          } else if (route.name === "UiKit") {
-            iconName = "location-arrow";
-          }
-
-          return <FontAwesome name={iconName} size={size} color={color} />;
+            return (
+              <View style={{
+                height: 70,
+                width: 70,
+                borderRadius: 35,
+                backgroundColor: '#FFB703',
+                justifyContent: 'center',
+                alignItems: 'center',
+                shadowColor: '#000',
+                shadowOffset: {
+                  width: 2,
+                  height: 5,
+                },
+                shadowOpacity: 0.80,
+                shadowRadius: 15,
+                elevation: 2,
+                // position: 'absolute'
+              }}>
+                  <Image
+                  source={require('../frontend/assets/picto_randonneur.png')}
+                  style={{
+                    height: 55,
+                    width: 55
+                  }}
+                  />
+              </View>
+            )
+          } 
         },
-        tabBarActiveTintColor: "#ec6e5b",
-        tabBarInactiveTintColor: "#335561",
+        tabBarStyle: {
+          backgroundColor: '#213A5C',
+          borderRadius: 12,
+          paddingTop: 15,
+          height: 85,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: 0,
+          },
+          shadowOpacity: 0.40,
+          shadowRadius: 15,
+          elevation: 1,
+        },
+        tabBarActiveTintColor: "#FFB703",
+        tabBarInactiveTintColor: "#fff",
         headerShown: false,
+        tabBarShowLabel: false
       })}
-    >
-      <Tab.Screen name="Home" component={HomeScreen} />
+      >
+      <Tab.Screen name="Home" component={HomeScreen}/>
       <Tab.Screen name="News" component={NewsStack} />
-      {!token? <Tab.Screen name="Login" component={LoginScreen} /> :  <Tab.Screen name="Hike" component={ItinerariesScreen} />}
+      {!token? <Tab.Screen name="Login" component={LoginScreen}/> 
+      : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
-      <Tab.Screen name="UiKit" component={UiKitScreen} />
+      {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
   );
 };
@@ -148,3 +194,4 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
