@@ -73,7 +73,7 @@ const NewsStack = () => {
   );
 };
 
-// Stack user contenant les différentes pages  à aficher pour la tab navigation USER
+// Stack user contenant les différentes pages  à afficher pour la tab navigation USER
 const UserStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -90,7 +90,7 @@ const UserStack = () => {
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
   return (
-    <Tab.Navigator
+    <Tab.Navigator 
     screenOptions={
       ({ route }) => (
         {
@@ -114,46 +114,51 @@ const TabNavigator = () => {
           } else if (route.name === "Login") {
             return (
               <View style={{
-                height: 70,
-                width: 70,
-                borderRadius: 35,
+                height: 80,
+                width: 80,
+                borderRadius: 50,
+                borderColor: '#fff',
+                borderWidth: 10,
                 backgroundColor: '#FFB703',
                 justifyContent: 'center',
                 alignItems: 'center',
-                shadowColor: '#000',
+                marginBottom: 50,
+                /*shadowColor: '#000',
                 shadowOffset: {
                   width: 2,
                   height: 5,
                 },
                 shadowOpacity: 0.80,
                 shadowRadius: 15,
-                elevation: 2,
+                elevation: 2,*/
                 // position: 'absolute'
               }}>
+                <View style={styles.indicatorBefore}/>
                   <Image
-                  source={require('../frontend/assets/picto_randonneur.png')}
+                  source={require('./assets/picto_randonneur.png')}
                   style={{
-                    height: 55,
-                    width: 55
+                    height: 45,
+                    width: 45,
                   }}
                   />
+                  <View style={styles.indicatorAfter}/>
               </View>
             )
           } 
         },
         tabBarStyle: {
           backgroundColor: '#213A5C',
-          borderRadius: 12,
+          borderRadius: 30,
           paddingTop: 15,
-          height: 85,
-          shadowColor: '#000',
-          shadowOffset: {
+          height: 80,
+          //shadowColor: '#000',
+         /* shadowOffset: {
             width: 0,
             height: 0,
           },
           shadowOpacity: 0.40,
           shadowRadius: 15,
-          elevation: 1,
+          elevation: 1,*/
         },
         tabBarActiveTintColor: "#FFB703",
         tabBarInactiveTintColor: "#fff",
@@ -189,9 +194,42 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    //backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
+  indicatorBefore:{
+    width: 22,
+    height: 25,
+    backgroundColor: '#213A5C',
+    position: "absolute",
+    left: -32,
+    top: 22.5,
+    borderTopRightRadius: 20,
+    shadowOffset: {
+      width: 2,
+      height: -15,
+    },
+    shadowColor: '#fff',
+    shadowOpacity: 1,
+    shadowRadius: 0,
+    },
+    indicatorAfter: {
+      width: 22,
+      height: 25,
+      backgroundColor: '#213A5C',
+      position: "absolute",
+      left: 70,
+      top: 22.5,
+      borderTopLeftRadius: 20,
+      shadowOffset: {
+        width: -2,
+        height: -15,
+      },
+      shadowColor: '#fff',
+      shadowOpacity: 1,
+      shadowRadius: 0,
+      },
+ 
 });
 
