@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
@@ -22,6 +24,10 @@ import ItinerariesInfoScreen from "./screens/ItinerariesInfoScreen";
 import HelpInfoScreen from "./screens/HelpInfoScreen";
 import ConfidentialityInfoScreen from "./screens/ConfidentialityInfoScreen";
 
+//ITINERARY SCREENS
+import EntireItineraryScreen from "./screens/EntireItineraryScreen";
+
+
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
@@ -37,10 +43,11 @@ import user from "./reducers/user";
 import bookmarks from "./reducers/bookmarks";
 import modals from "./reducers/modals";
 import meteo from "./reducers/meteo";
+import launchItinerary from "./reducers/launchItinerary";
 // import reducers
 
 
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks });
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, launchItinerary });
 const persistConfig = {
   key: "Sauve-ta-Pow",
   storage: AsyncStorage,
@@ -91,6 +98,46 @@ const UserStack = () => {
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
+  const launchItinerary = useSelector((state) => state.launchItinerary.value);
+  
+  const [modalVisible, setModalVisible] = useState(false);
+  const [call, setCall] = useState(false);
+
+  const handleLaunchItinerary = () => {
+    setCall(true)
+    setModalVisible(true)
+    console.log('OK')
+  }
+
+
+  let imageContainer = {
+    height: 80,
+    width: 80,
+    borderRadius: 50,
+    borderColor: '#fff',
+    borderWidth: 10,
+    backgroundColor: '#FFB703',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 50,
+}
+
+let imgUrl = require('./assets/picto_randonneur.png')
+  
+  if(!launchItinerary){
+    imgUrl = require('./assets/picto_phone.png')
+    imageContainer = {
+      height: 80,
+      width: 80,
+      borderRadius: 50,
+      borderColor: '#fff',
+      borderWidth: 10,
+      backgroundColor: '#F94A56',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 50,
+  }   
+  }
 
   return (
     <Tab.Navigator
@@ -116,17 +163,17 @@ const TabNavigator = () => {
             return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Login") {
             return (
-              <View style={styles.imageContainer}>
+              <TouchableOpacity style={imageContainer} onPress={!launchItinerary ? handleLaunchItinerary : console.log('error')}> 
                 <View style={styles.indicatorBefore}/>
                   <Image
-                  source={require('./assets/picto_randonneur.png')}
+                  source={imgUrl}
                   style={{
-                    height: 45,
-                    width: 45,
+                    height: 40,
+                    width: 40,
                   }}
                   />
                   <View style={styles.indicatorAfter}/>
-              </View>
+              </TouchableOpacity>
             )
           } 
         },
@@ -149,6 +196,7 @@ const TabNavigator = () => {
       : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
+      <Tab.Screen name="Phone" component={EntireItineraryScreen} />
       {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
   );
@@ -206,15 +254,5 @@ const styles = StyleSheet.create({
       shadowOpacity: 1,
       shadowRadius: 0,
       },
-      imageContainer: {
-          height: 80,
-          width: 80,
-          borderRadius: 50,
-          borderColor: '#fff',
-          borderWidth: 10,
-          backgroundColor: '#FFB703',
-          justifyContent: 'center',
-          alignItems: 'center',
-          marginBottom: 50,
-      },
+     
 });
