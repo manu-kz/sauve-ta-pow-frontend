@@ -43,11 +43,11 @@ import user from "./reducers/user";
 import bookmarks from "./reducers/bookmarks";
 import modals from "./reducers/modals";
 import meteo from "./reducers/meteo";
+import itineraries from "./reducers/itineraries";
 import launchItinerary from "./reducers/launchItinerary";
 // import reducers
 
-
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, launchItinerary });
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, itineraries, launchItinerary });
 const persistConfig = {
   key: "Sauve-ta-Pow",
   storage: AsyncStorage,
@@ -98,6 +98,10 @@ const UserStack = () => {
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
+  const showLoginProcess = useSelector(state => state.modals.loginProcess)
+  console.log('token, showLoginProcess', token, showLoginProcess)
+
+  //Fonctionnalité pour pouvoir appler dès l'appui sur le bouton phone
   const launchItinerary = useSelector((state) => state.launchItinerary.value);
   
   const [modalVisible, setModalVisible] = useState(false);
@@ -123,7 +127,7 @@ const TabNavigator = () => {
 }
 
 let imgUrl = require('./assets/picto_randonneur.png')
-  
+  //Changement de style pour le bouton randonneur -> phone
   if(!launchItinerary){
     imgUrl = require('./assets/picto_phone.png')
     imageContainer = {
@@ -192,7 +196,7 @@ let imgUrl = require('./assets/picto_randonneur.png')
       >
       <Tab.Screen name="Home" component={HomeScreen}/>
       <Tab.Screen name="News" component={NewsStack} />
-      {!token? <Tab.Screen name="Login" component={LoginScreen}/> 
+      {(!token || showLoginProcess) ? <Tab.Screen name="Login" component={LoginScreen}/> 
       : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />

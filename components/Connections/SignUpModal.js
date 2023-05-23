@@ -4,7 +4,7 @@ import HealthForm from "./HealthForm";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { setSignUpModal, showHealthForm} from "../reducers/modals";
+import { setSignUpModal, showHealthForm} from "../../reducers/modals";
 
 
 export default function SignUpModal({ navigation }) {
@@ -20,9 +20,9 @@ export default function SignUpModal({ navigation }) {
     <Modal animationType="slide" transparent={true} visible={signUpModal}>
       <View style={styles.modalView}>
         <FontAwesome
-          name="times"
-          size={25}
-          color="black"
+           name="close"
+           size={20}
+           color="#D5D8DC"
           style={styles.cross}
           onPress={() => dispatch(setSignUpModal(false))}
         />

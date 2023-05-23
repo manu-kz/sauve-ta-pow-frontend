@@ -10,15 +10,26 @@ import {
   SafeAreaView,
   Button,
 } from "react-native";
-import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
+import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../reducers/user";
-import { showHealthForm } from "../reducers/modals";
+import { keepUsername, keepToken } from "../../reducers/user";
+import { showHealthForm } from "../../reducers/modals";
 
 export default function SignUpForm({ navigation }) {
   //MODALS
   const dispatch = useDispatch();
+
+  // DATE PICKER
+  const [date, setDate] = useState(new Date());
+  const [mode, setMode] = useState("date");
+  const [show, setShow] = useState(false);
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
+  };
 
   //STATE SIGN UP
 
@@ -28,13 +39,13 @@ export default function SignUpForm({ navigation }) {
   const username = useRef(null);
   const email = useRef(null);
   const phoneNumber = useRef(null);
-  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const dateOfBirth = date.toDateString();
   const adresse = useRef(null);
 
   const [error, setError] = useState("");
 
   //SIGN UP FORM TO CREATE
-
+console.log('dateOfBirth', dateOfBirth)
   async function signup() {
     const fetchObj = {
       firstname: firstname.inputValue,
@@ -46,11 +57,14 @@ export default function SignUpForm({ navigation }) {
       dateOfBirth: dateOfBirth,
       adresse: adresse.inputValue,
     };
-    const rawRes = await fetch("http://10.0.1.43:3000/users/signup", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fetchObj),
-    });
+    const rawRes = await fetch(
+      "https://sauve-ta-pow-backend.vercel.app/users/signup",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fetchObj),
+      }
+    );
     const jsonRes = await rawRes.json();
     console.log("jsonRes", jsonRes);
     const { token, result, error } = jsonRes;
@@ -63,10 +77,10 @@ export default function SignUpForm({ navigation }) {
       setError("Email déjà utilisé");
     } else {
       //Message d'erreur
+      dispatch(showHealthForm(true));
       setError("");
       dispatch(keepUsername(username.inputValue));
       dispatch(keepToken(token));
-      dispatch(showHealthForm(true));
     }
   }
 
@@ -126,39 +140,20 @@ export default function SignUpForm({ navigation }) {
         ref={adresse}
         onChangeText={(value) => (adresse.inputValue = value)}
       />
-      <DatePicker
-        date={dateOfBirth}
-        mode="date"
-        placeholder="Date Of Birth"
-        format="YYYY-MM-DD"
-        minDate="1940-01-01"
-        maxDate="2023-01-01"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        customStyles={{
-          dateIcon: {
-            display: "none",
-          },
-          dateInput: {
-            position: "absolute",
-            zIndex: 0,
-            width: 273,
-            height: 34,
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            borderRadius: 100,
-            borderWidth: 0,
-            borderColor: "#8B9EAB",
-            paddingLeft: 10,
-            margin: 5,
-          },
-        }}
-        onDateChange={(date) => {
-          setDateOfBirth(date);
-        }}
-      />
+
+      <View style={styles.datePicker}>
+        <Text style={{ color: "#B9B9BB" }}> Birthday*</Text>
+
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={mode}
+          is24Hour={true}
+          onChange={onChange}
+          minimumDate={new Date(1940, 1, 1)}
+        />
+      </View>
+
       <Pressable style={styles.button} onPress={() => signup()}>
         <Text style={styles.textStyle}> Suivant</Text>
       </Pressable>
@@ -168,22 +163,20 @@ export default function SignUpForm({ navigation }) {
 }
 
 const styles = StyleSheet.create({
+  
   h2: {
-    fontSize: 26,
+    alignSelf:'flex-start',
+    fontSize: 22,
     fontWeight: "bold",
+    margin:10
   },
   input: {
+    backgroundColor: "#EDEDED",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 20,
     width: 273,
     height: 34,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
   },
 
   button: {
@@ -204,5 +197,16 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  datePicker: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#EDEDED",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 20,
+    width: 273,
+    height: 45,
   },
 });

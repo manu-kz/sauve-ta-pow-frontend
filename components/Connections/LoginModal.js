@@ -15,8 +15,8 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../reducers/user";
-import { setLoginModal, setSignUpModal } from "../reducers/modals";
+import { keepUsername, keepToken } from "../../reducers/user";
+import { setLoginModal, setSignUpModal, showLoginProcess } from "../../reducers/modals";
 
 export default function LoginModal({ navigation }) {
   
@@ -33,20 +33,21 @@ export default function LoginModal({ navigation }) {
   //SIGN IN FORM
   async function login() {
     console.log("fetch");
-    const rawRes = await fetch("http://10.0.1.43:3000/users/signin", {
+    const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: username, password: password }),
     });
     const jsonRes = await rawRes.json();
-    console.log('jsonRes', rawRes)
+    console.log('jsonRes', jsonRes)
     const { token, result } = jsonRes;
 
     if (result) {
       setError(false);
       dispatch(keepUsername(username));
       dispatch(keepToken(token));
-      setModalVisible(!modalVisible);
+      dispatch(setLoginModal(false));
+      dispatch(showLoginProcess(false))
     } else {
       //Message d'erreur
       setError(true);
@@ -63,9 +64,9 @@ export default function LoginModal({ navigation }) {
         >
           <View style={styles.modalView}>
             <FontAwesome
-              name="times"
-              size={25}
-              color="black"
+              name="close"
+              size={20}
+              color="#D5D8DC"
               style={styles.cross}
               onPress={() => dispatch(setLoginModal(false))}
             />
@@ -108,7 +109,7 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       borderRadius: 20,
       padding: 40,
-      justifyContent: "space-evenly",
+      justifyContent: "space-between",
       alignItems: "center",
       shadowColor: "#000",
       shadowOffset: {
@@ -129,19 +130,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
-    width: 273,
-    height: 34,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
-  },
-
+    
+      backgroundColor: "#EDEDED",
+      marginBottom: 10,
+      padding: 10,
+      borderRadius: 20,
+      width: 273,
+      height: 34,
+    },
+ 
   button: {
     width: 143,
     height: 43,

@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../reducers/user";
-import { showHealthForm } from "../reducers/modals";
-import { setSignUpModal } from "../reducers/modals";
+import { keepUsername, keepToken } from "../../reducers/user";
+import { showHealthForm } from "../../reducers/modals";
+import { showLoginProcess } from "../../reducers/modals";
 import { RadioButton } from "react-native-paper";
 
 export default function HealthForm({ navigation }) {
@@ -85,9 +85,8 @@ export default function HealthForm({ navigation }) {
       },
     };
 
-    console.log("ref", socialSecurityNumber.inputValue);
-
-    const rawRes = await fetch("http://10.0.1.43:3000/users/update", {
+  
+    const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fetchObj),
@@ -97,12 +96,12 @@ export default function HealthForm({ navigation }) {
     const { result, message } = jsonRes;
 
     if (!result) {
-      setError("y'a une couille");
+      setError("Il'y a un problème, merci de réessayer");
     } else {
       //Message d'erreur
       setError("Informations Enregistrés");
       dispatch(showHealthForm(false));
-      dispatch(setSignUpModal(false));
+      dispatch(showLoginProcess(false))
     }
   }
 
@@ -139,8 +138,8 @@ export default function HealthForm({ navigation }) {
           <Text style={styles.metrics}>cm</Text>
         </View>
 
+        <View style={styles.yesNoContainer}>
         <Text style={styles.h4}>Fumeur</Text>
-        <View styles={styles.smokerView}>
           <Pressable
             style={[
               styles.smokerButton,
@@ -226,8 +225,8 @@ export default function HealthForm({ navigation }) {
         </ScrollView>
         {medicalHistoryInfo()}
 
+        <View style={styles.yesNoContainer}>
         <Text style={styles.h4}>Directives Avancées</Text>
-        <View styles={styles.smokerView}>
           <Pressable
             style={[
               styles.smokerButton,
@@ -282,56 +281,47 @@ export default function HealthForm({ navigation }) {
 
 const styles = StyleSheet.create({
   h2: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-  h3: {
+    alignSelf:'flex-start',
     fontSize: 20,
     fontWeight: "bold",
+    margin:10
   },
   h4: {
-    fontSize: 18,
+    
+    fontSize: 14,
     fontWeight: "bold",
+
   },
   p: {
     color: "white",
     fontSize: 12,
   },
   input: {
-    width: 273,
+    
+    backgroundColor: "#EDEDED",
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    width: "100%",
     height: 34,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
   },
   champNumeric: {
-    width: 273,
-    height: 34,
-    display: "flex",
-    flexDirection: "row",
+    flexDirection:"row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
+    backgroundColor: "#EDEDED",
+    marginVertical: 5,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    width: "100%",
+    height: 34,
   },
   inputNumeric: {
-    width: 230,
-    // height: 30,
+    width: 200,
+   
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#EDEDED",
   },
   metrics: {
     textAlign: "center",
@@ -357,9 +347,11 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     margin: 5,
   },
-  smokerView: {
-    display: "flex",
+  yesNoContainer: {
     flexDirection: "row",
+    alignItems:"center",
+   justifyContent : "space-evenly",
+   marginVertical: 5 
   },
   smokerButton: {
     width: 50,

@@ -5,39 +5,218 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  Button,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
-import moment from 'moment';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
+import moment from 'moment';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useDispatch, useSelector } from "react-redux";
+import { addItinerarySecondtPart, removeItinerary } from "../reducers/itineraries";
 
 export default function SwipeItemFull() {
+
+  const dispatch = useDispatch()
+
   const [itineraryName, setItineraryName] = useState("");
   const [numberParticipants, setNumberParticipants] = useState(0);
-  const [date, setDate] = useState(new Date());
-  const [members, setmembers] = useState([]);
   const [supervisor, setSupervisor] = useState([]);
-  const [hike, setHike] = useState([]);
+  
+  const today = moment().format('DD-MM-YYYY');
+  
+  
+  // handle click on a discipline
+  const [hike, setHike] = useState(false);
   const [snowshoe, setSnowshoe] = useState(false);
   const [mountaineering, setMountaineering] = useState(false);
   const [ski, setSki] = useState(false);
   const [snowBoard, setSnowBoard] = useState(false);
-
-  const today = moment().format('DD-MM-YYYY');
-
-
-  const handleSubmit = () => {
-    console.log(itineraryName, numberParticipants, date);
+  const [ discipline, setDiscipline ] = useState('')
+  
+  // fonction qui passe les state a true si discipline selectionnée
+  const handleDiscipline = (discipline) => {
+    if(discipline === 'hike') {
+      setHike(!hike)
+    } else if(discipline === 'snowshoe') {
+      setSnowshoe(!snowshoe)
+    } else if(discipline === 'mountaineering') {
+      setMountaineering(!mountaineering)
+    } else if(discipline === 'ski') {
+      setSki(!ski)
+    } else if(discipline === 'snowboard') {
+      setSnowBoard(!snowBoard)
+    }
+    setDiscipline(discipline)
+  }
+  // set les style a gris
+  let styleDisciplicehike = {
+    backgroundColor: "#EDEDED",
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+  let styleDisciplicesnowshoe = {
+    backgroundColor: "#EDEDED",
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+  let styleDisciplicemountaineering = {
+    backgroundColor: "#EDEDED",
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+  let styleDiscipliceski = {
+    backgroundColor: "#EDEDED",
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+  let styleDisciplicesnowBoard = {
+    backgroundColor: "#EDEDED",
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    justifyContent: "center",
+    alignItems: "center",
+  }
+  // change le style des disciplines si selectionnée
+  if(hike) {
+    styleDisciplicehike = {
+      backgroundColor: "#FFB703",
+      width: 60,
+      height: 60,
+      borderRadius: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    }
+  } else if(snowshoe) {
+    styleDisciplicesnowshoe = {
+      backgroundColor: "#FFB703",
+      width: 60,
+      height: 60,
+      borderRadius: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    }  
+  } else if(mountaineering) {
+    styleDisciplicemountaineering = {
+      backgroundColor: "#FFB703",
+      width: 60,
+      height: 60,
+      borderRadius: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    }  
+  } else if(ski) {
+    styleDiscipliceski = {
+      backgroundColor: "#FFB703",
+      width: 60,
+      height: 60,
+      borderRadius: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    }  
+  } else if(snowBoard) {
+    styleDisciplicesnowBoard = {
+      backgroundColor: "#FFB703",
+      width: 60,
+      height: 60,
+      borderRadius: 50,
+      justifyContent: "center",
+      alignItems: "center",
+    }  
+  } 
+  
+  // handle date picker 
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate;
+    setShow(false);
+    setDate(currentDate);
   };
+  
+  // handle members input
+  const [members, setmembers] = useState('');
+  const [ allMembers, setAllMembers ] = useState([])
 
+  console.log(members)
+
+  const handleMembers = () => {
+    // state contenant tous les membres
+    setAllMembers(allMembers.concat(members))
+    setmembers('')
+  }
+
+  // Affiche tous les membres dans la modal swipe Full
+  const showMembers = allMembers?.map((data, i) => {
+    return (
+      <View key={i} style={styles.memberName}>
+        <Text >{data}</Text>
+      </View>
+    )
+  })
+
+  // save dans la db et set le reducer itinerary a une array vide après
+  // faire le fetch post en changeant les input de string a number car textInput n'accepte pas les number 
+  // fetch post de l'itinéraire après avoir useSelector les premières infos 
+  // IF certaines infos pour le post de la db sont null PAS FETCH
+
+  // useSelector dispatch itinéraire
+  const myItinerary = useSelector((state) => state.itineraries.value)
+  console.log('info from reducer ==>',myItinerary)
+  // {"arrival": {"latitude": 45.764043, "longitude": 4.835659}, "date": 2023-05-23T14:01:58.392Z, 
+  // "departure": {"latitude": 45.77722199999999, "longitude": 3.087025}, "discipline": "mountaineering", 
+  // "itineraryName": "test", "memberNumber": "5", "members": ["bjsjsf", "bfjzvd"], "supervisor": "rockf", 
+  // "time": 2418.4333333333334, "waypoints": [{"latitude": 45.439695, "longitude": 4.3871779}], "waypointsName": ["Saint-Étienne"]}    
+
+
+  const itinerary = {
+    itineraryName: itineraryName,
+    memberNumber: numberParticipants,
+    date: date,
+    members: allMembers,
+    supervisor: supervisor,
+    discipline: discipline,
+  }
+  const handleSubmit = () => {
+    dispatch(addItinerarySecondtPart(itinerary))
+    if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
+      fetch('http://10.0.1.87:3000/itineraries/newItinerary', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(myItinerary)
+      }).then(response => response.json()).then(data => {
+        console.log(data)
+        dispatch(removeItinerary())
+      })
+    }
+    // une fois post delete itineraire du reducer
+  };
+  
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.ligneIconContainer}>
         <View style={styles.ligneIcon}></View>
       </View>
       <Text style={styles.h2}>Planifier mon trajet</Text>
-      <View>
         <View style={styles.formContainer}>
           <View style={styles.inputSection}>
             <Image style={styles.itinaryImg} />
@@ -45,7 +224,8 @@ export default function SwipeItemFull() {
               <TextInput
                 style={styles.input}
                 placeholder="Nom de l'itinéraire"
-                maxLength="20"
+                inputMode = 'text'
+                // maxLength="20"
                 onChangeText={(value) => setItineraryName(value)}
                 value={itineraryName}
               />
@@ -57,70 +237,69 @@ export default function SwipeItemFull() {
                   onChangeText={(value) => setNumberParticipants(value)}
                   value={numberParticipants}
                 />
-                <DatePicker
-                 date={date}
-                 mode="date"
-                 placeholder="Date"
-                 format="DD-MM-YYYY"
-                 minDate={today}
-                 maxDate="2050-01-01"
-                 confirmBtnText="Confirmer"
-                 cancelBtnText="Annuler"
-                  customStyles={{
-                    dateIcon: {
-                      display: "none",
-                    },
-                    dateInput: {
-                      backgroundColor: "#EDEDED",
-                      borderRadius: 50,
-                      borderWidth: 0,
-                      marginLeft: '10%',
-                    },
-                    dateText: {
-                        color: "#A8A4A4"
-                      },
-                  }}
-                  onDateChange={(date) => {
-                    setDate(date);
-                  }}
-                />
+                <View style={styles.dateInput}>
+                  <DateTimePicker
+                      testID='dateTimePicker'
+                      value={date}
+                      mode='date'
+                      is24Hour={true}
+                      onChange={onChange}
+                      style={styles.datePicker}
+                  />
+                </View>
               </View>
             </View>
           </View>
-          <TextInput style={styles.input} placeholder="Ajouter un membre" />
-          <TextInput style={styles.input} placeholder="Ajouter un encadrant" />
-          <Text style={styles.h3}>Discipline(s)</Text>
+          <TextInput 
+            style={styles.input}
+            placeholder="Ajouter un encadrant" 
+            onChangeText={(value) => setSupervisor(value)}
+            value={supervisor}
+            />
+           <View style={styles.membersInput}>
+              <TextInput
+              // style={styles.input} 
+              placeholder="Ajouter un membre" 
+              onChangeText={(value) => setmembers(value)}
+              value={members}
+              />
+              <FontAwesome name='check' size={20} onPress={() => handleMembers()}/>
+           </View>
+           <View horizontal={true} style={styles.membersName}>
+            {showMembers}
+           </View>
+          <Text style={styles.h3}>Discipline</Text>
           <View style={styles.disciplinesContainer}>
-            <View style={styles.discipline}>
+            <TouchableOpacity  activeOpacity={0.8} style={styleDisciplicesnowshoe} onPress={() => handleDiscipline('snowshoe')}>
               <Image
                 style={styles.disciplineImg}
                 source={require("../assets/diciplinesIcons/snowshoe.png")}
               />
-            </View>
-            <View style={styles.discipline}>
+            </TouchableOpacity>
+            <TouchableOpacity activeOpacity={0.8}  style={styleDisciplicehike} onPress={() => handleDiscipline('hike')}>
               <Image
                 style={styles.disciplineImg}
                 source={require("../assets/diciplinesIcons/hike.png")}
               />
-            </View>
-            <View style={styles.discipline}>
+            </TouchableOpacity  >
+            <TouchableOpacity activeOpacity={0.8}  style={styleDisciplicemountaineering} onPress={() => handleDiscipline('mountaineering')}>
               <Image
                 style={styles.disciplineImg}
                 source={require("../assets/diciplinesIcons/mountaineering.png")}
               />
-            </View>
-            <View style={styles.discipline}>
+            </TouchableOpacity >
+            <TouchableOpacity activeOpacity={0.8}  style={styleDiscipliceski} onPress={() => handleDiscipline('ski')}>
               <Image
                 style={styles.disciplineImg}
                 source={require("../assets/diciplinesIcons/ski.png")}
               />
-            </View>
-            <View style={styles.discipline}>
+            </TouchableOpacity >
+            <TouchableOpacity activeOpacity={0.8}  style={styleDisciplicesnowBoard} onPress={() => handleDiscipline('snowboard')}>
               <Image
                 style={styles.disciplineImg}
                 source={require("../assets/diciplinesIcons/snowboard.png")}
               />
-            </View>
+            </TouchableOpacity>
           </View>
           <TouchableOpacity
             style={styles.buttonLong}
@@ -130,7 +309,6 @@ export default function SwipeItemFull() {
             <Text style={styles.textButtonWhite}>Enregistrer</Text>
           </TouchableOpacity>
         </View>
-      </View>
     </KeyboardAwareScrollView>
   );
 }
@@ -139,6 +317,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: "5%",
+    // marginBottom: 40,
   },
   h2: {
     fontSize: 20,
@@ -153,6 +332,37 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     padding: 10,
     borderRadius: 20,
+  },
+  membersInput: {
+    flexDirection: 'row',
+    backgroundColor: "#EDEDED",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 20,
+    justifyContent: 'space-between',
+  },
+  membersName: {
+    flexDirection :'row',
+  },
+  memberName: {
+    backgroundColor: '#EDEDED',
+    width: '20%',
+    justifyContent: 'center',
+    alignItems :'center',
+    height: 25,
+    marginRight: 10,
+    borderRadius: 20,
+  },
+  dateInput: {
+    width: 120,
+    backgroundColor: "#EDEDED",
+    borderRadius: 50,
+    borderWidth: 0,
+    marginLeft: 12,
+    marginRight: 10
+  },
+  datePicker: {
+    color: '#EDEDED'
   },
   disciplinesContainer: {
     flexDirection: "row",
@@ -214,7 +424,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   inputSmall: {
-    width: "45%",
+    width: "40%",
     backgroundColor: "#EDEDED",
     padding: 10,
     borderRadius: 20,

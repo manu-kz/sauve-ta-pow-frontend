@@ -9,11 +9,12 @@ export const userSlice = createSlice({
   reducers: {
     keepUsername: (state, action) => {
         state.username = action.payload
+       
         },
     keepToken: (state, action) => {
             state.token = action.payload
-            console.log('keepUsername', state.username)
-            console.log('keepToken', state.token)
+            // console.log('keepUsername', state.username)
+            // console.log('keepToken', state.token)
             },
     keepLocation: (state, action) => {
         state.location = action.payload
@@ -23,6 +24,7 @@ export const userSlice = createSlice({
             state.locationName = action.payload.locationName
             },
   },
+  
 });
 
 
