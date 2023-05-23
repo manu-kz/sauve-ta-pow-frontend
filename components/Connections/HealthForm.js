@@ -225,8 +225,8 @@ export default function HealthForm({ navigation }) {
         </ScrollView>
         {medicalHistoryInfo()}
 
+        <View style={styles.yesNoContainer}>
         <Text style={styles.h4}>Directives Avancées</Text>
-        <View styles={styles.yesNoContainer}>
           <Pressable
             style={[
               styles.smokerButton,
@@ -282,17 +282,15 @@ export default function HealthForm({ navigation }) {
 const styles = StyleSheet.create({
   h2: {
     alignSelf:'flex-start',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: "bold",
     margin:10
   },
-  h3: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   h4: {
-    fontSize: 18,
+    
+    fontSize: 14,
     fontWeight: "bold",
+
   },
   p: {
     color: "white",
@@ -301,7 +299,7 @@ const styles = StyleSheet.create({
   input: {
     
     backgroundColor: "#EDEDED",
-    marginBottom: 10,
+    marginVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 20,
     width: "100%",
@@ -312,7 +310,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#EDEDED",
-    marginBottom: 10,
+    marginVertical: 5,
     paddingHorizontal: 10,
     borderRadius: 20,
     width: "100%",
@@ -351,7 +349,9 @@ const styles = StyleSheet.create({
   },
   yesNoContainer: {
     flexDirection: "row",
-   justifyContent : "space-between"
+    alignItems:"center",
+   justifyContent : "space-evenly",
+   marginVertical: 5 
   },
   smokerButton: {
     width: 50,
