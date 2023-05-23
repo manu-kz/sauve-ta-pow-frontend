@@ -85,7 +85,6 @@ export default function HealthForm({ navigation }) {
       },
     };
 
-    console.log("ref", socialSecurityNumber.inputValue);
 
     const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
       method: "POST",
@@ -93,7 +92,6 @@ export default function HealthForm({ navigation }) {
       body: JSON.stringify(fetchObj),
     });
     const jsonRes = await rawRes.json();
-    console.log("jsonRes", jsonRes);
     const { result, message } = jsonRes;
 
     if (!result) {

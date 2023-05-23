@@ -3,25 +3,125 @@ import {
     Text,
     View,
     Image,
+    ScrollView
   } from 'react-native';
   import { useDispatch, useSelector } from 'react-redux';
-  import { useEffect } from 'react';
+  import { useEffect, useState } from 'react';
   import * as Location from 'expo-location';
   import { keepLocation, keepLocationInfo } from '../../reducers/user';
   import { addLocalWeather } from '../../reducers/meteo';
   import { BlurView } from 'expo-blur';
   import { LinearGradient } from 'expo-linear-gradient';
   import selectWeatherIcon from './WeatherIcons';
-  
+  import HourlyMeteoSection from './HourlyMeteoSection';
+//import DailylyMeteoSection from '../components/meteo/DailyMeteoSection';
   
   export default function MeteoScreen() {
     const dispatch = useDispatch();
     
     const user = useSelector((state) => state.user);
     const meteo = useSelector((state) => state.meteo);
-  
+
+    const [hourlyWeatherData, setHourlyWeatherData] = useState([]);
+    const [dailyWeatherData, setDailyWeatherData] = useState([]);
+
+      
     //fonction pour obtenir l'icone météo actuelle à partir du composant weatherIcons
     const currentWeatherIcon = selectWeatherIcon(meteo.weatherIcon);
+
+
+    async function getCurrentMeteo(locationID) {
+        const rawResponse = await fetch(`http://10.0.2.110:3000/meteo/current/${locationID}`)
+        const responseJSON = await rawResponse.json()
+        responseJSON &&
+             dispatch(
+              addLocalWeather({
+                weatherIcon: responseJSON.meteo[0].WeatherIcon,
+                weatherText: responseJSON.meteo[0].WeatherText,
+                temperature: Math.round(responseJSON.meteo[0].Temperature.Metric.Value),
+              })
+            )
+    }
+
+    async function getHourlyMeteo(locationID) {
+      const rawResponse = await fetch(`http://10.0.2.110:3000/meteo/hourly/${locationID}`)
+      const responseJSON = await rawResponse.json()
+      const newMeteoData = responseJSON.meteo.map((data) => {
+        return {
+          DateTime: data.DateTime,
+          WeatherIcon: data.WeatherIcon,
+          temperatureValue: Math.round(data.Temperature.Value),
+        };
+      });
+      setHourlyWeatherData([...newMeteoData]);
+  }
+
+  const hourlyWeather = hourlyWeatherData.map((data, i) => {
+    const hourlyweatherIcon = selectWeatherIcon(data.WeatherIcon);
+    const hours = data.DateTime.slice(11, 13);
+
+    return (
+      <View key={i} style={styles.hourlyContainer}>
+        <Image style={styles.hourlyIcon} source={hourlyweatherIcon} />
+        <View>
+          <Text style={styles.hourlyTextHour}>{hours}h</Text>
+          <Text style={styles.hourlyTextTemperature}>
+            {data.temperatureValue}°C
+          </Text>
+        </View>
+      </View>
+    );
+  });
+
+  async function getDailyMeteo(locationID) {
+    const rawResponse = await fetch(`http://10.0.2.110:3000/meteo/daily/${locationID}`)
+    const responseJSON = await rawResponse.json()
+   const newMeteoData = responseJSON.meteo.map((data) => {
+    const dayOfWeek = new Date(data.Date)
+      .toLocaleString('fr-fr', { weekday: 'long' })
+      .slice(0, -21);
+
+    return {
+      WeatherIcon: data.Day.Icon,
+      weekDay: dayOfWeek,
+      temperatureMin: Math.round(data.Temperature.Minimum.Value),
+      temperatureMax: Math.round(data.Temperature.Maximum.Value),
+    };
+  });
+  setDailyWeatherData([...newMeteoData]);
+}
+
+const dailylyWeather = dailyWeatherData.map((data, i) => {
+  const dailyweatherIcon = selectWeatherIcon(data.WeatherIcon);
+  const today = new Date()
+    .toLocaleString('fr-fr', { weekday: 'long' })
+    .slice(0, -21);
+
+  return (
+    <View key={i} style={styles.dailyContainer}>
+      <View style={styles.dailySubContainerLeft}>
+        <Image style={styles.dailyIcon} source={dailyweatherIcon} />
+        {/* pour le jour qui correspond à aujourd'hui, afficher "aujourd'hui" */}
+        {today === data.weekDay && (
+          <Text style={styles.dailyTextDay}>aujourd'hui</Text>
+        )}
+        {today !== data.weekDay && (
+          <Text style={styles.dailyTextDay}>{data.weekDay}</Text>
+        )}
+      </View>
+      <View style={styles.dailySubContainerRight}>
+        <Text style={styles.dailyTextTemperature}>
+          {data.temperatureMin}°C
+        </Text>
+        <Text style={styles.dailyTextTemperature}>
+          {data.temperatureMax}°C
+        </Text>
+      </View>
+    </View>
+  );
+});
+
+
   
     // 1 obtenir la localisation de l'utilisateur
   
@@ -54,33 +154,17 @@ import {
                   locationKey: data.location.Key,
                 })
               );
+              getCurrentMeteo(data.location.Key)
+              getHourlyMeteo(data.location.Key)
+              getDailyMeteo(data.location.Key)
           });
       }
-    }, []);
-  
-    // 2 fetch current météo
-  
-    //ajout de la current météo au store pour réutilisation dans le dashboard
-    // on réutilise la locationKey qu'on met en params pour avoir la météo locale
-    useEffect(() => {
-      fetch(`http://10.0.2.110:3000/meteo/locationKey/${user.locationKey}`)
-        .then((response) => response.json())
-        .then((data) => {
-          // dispatch meteo dans le store
-          data &&
-            dispatch(
-              addLocalWeather({
-                weatherIcon: data.meteo[0].WeatherIcon,
-                weatherText: data.meteo[0].WeatherText,
-                temperature: Math.round(data.meteo[0].Temperature.Metric.Value),
-              })
-            );
-        });
-      // refresh à chaque changement de locationKey pour avoir toujours la météo locale
-    }, [user.locationKey]);
+    }, [user.location]);
+
   
   
     return (
+      <>
               <BlurView intensity={30} style={styles.mainCardContainer}>
                 <LinearGradient
                   colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
@@ -113,6 +197,50 @@ import {
                   )}
                 </LinearGradient>
               </BlurView>
+              <BlurView intensity={30} style={styles.hourlyCardContainer}>
+              <LinearGradient
+                colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                useAngle
+                angle={110}
+                style={styles.card}
+              >
+                <View style={styles.hourlyCardTop}>
+                  <Text style={styles.hourlyTitle}>
+                    Prévisions heure par heure
+                  </Text>
+                </View>
+                <ScrollView horizontal={true}>
+                  <View style={styles.hourlyCardBottom}>{hourlyWeather}</View>
+                </ScrollView>
+              </LinearGradient>
+            </BlurView>
+            <BlurView intensity={30} style={styles.dailyCardContainer}>
+                <LinearGradient
+                  colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
+                  start={{ x: 0, y: 1 }}
+                  end={{ x: 1, y: 1 }}
+                  useAngle
+                  angle={110}
+                  style={styles.card}
+                >
+                  <View style={styles.dailyCardTop}>
+                    <Text style={styles.dailyTitle}>5 prochains jours</Text>
+                  </View>
+                  <View style={styles.dailyCardBottom}>
+                    <View style={styles.minMaxContainer}>
+                      <View style={styles.tempBar}></View>
+                      <View style={styles.tempBar}>
+                        <Text style={styles.dailyTextTempLabel}>min</Text>
+                        <Text style={styles.dailyTextTempLabel}>max</Text>
+                      </View>
+                    </View>
+                    {dailylyWeather}
+                  </View>
+                </LinearGradient>
+              </BlurView>
+            </>
     );
   }
   
@@ -167,6 +295,133 @@ import {
     temperature: {
       fontSize: 12,
       color: '#000',
+    },
+    card: {
+      height: '100%',
+      width: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      padding: 5,
+      borderRadius: 20,
+    },
+    hourlyCardContainer: {
+      width: 328,
+      height: 106,
+      marginBottom: 20,
+      borderRadius: 20,
+    },
+    hourlyCardTop: {
+      margin: 5,
+      width: '100%',
+      paddingBottom: 5,
+      borderBottomWidth: 2,
+      borderColor: '#fff',
+    },
+    hourlyTitle: {
+      width: '100%',
+      color: '#fff',
+      fontWeight: 600,
+      fontSize: 20,
+    },
+    hourlyCardBottom: {
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      width: '100%',
+    },
+    hourlyContainer: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginHorizontal: 10,
+    },
+    hourlyIcon: {
+      height: 30,
+      width: 30,
+      marginRight: 3,
+    },
+    hourlyTextHour: {
+      color: '#fff',
+      fontWeight: 900,
+    },
+    hourlyTextTemperature: {
+      color: '#fff',
+    },
+    dailyCardContainer: {
+      width: 328,
+      height: 280,
+      marginBottom: 20,
+      borderRadius: 20,
+    },
+    dailyTitle: {
+        width: '100%',
+        color: '#fff',
+        fontWeight: 600,
+        fontSize: 20,
+      },
+      dailyCardTop: {
+        margin: 5,
+        width: '100%',
+        paddingBottom: 5,
+        borderBottomWidth: 2,
+        borderColor: '#fff',
+      },
+    dailyCardBottom: {
+      width: '100%',
+    },
+    dailyContainer: {
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+      borderBottomWidth: 0.5,
+      borderBottomColor: '#fff',
+      padding: 6,
+    },
+    minMaxContainer: {
+      width: '100%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+    tempBar: {
+      width: '50%',
+      flexDirection: 'row',
+      alignItems: 'flex-start',
+      justifyContent: 'space-around',
+      paddingLeft: 30,
+    },
+    dailySubContainerLeft: {
+      width: '50%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'flex-start',
+    },
+    dailySubContainerRight: {
+      width: '50%',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-around',
+      paddingLeft: 30,
+    },
+    dailyIcon: {
+      height: 30,
+      width: 30,
+      marginRight: 3,
+    },
+    dailyTextDay: {
+      color: '#fff',
+      fontWeight: 600,
+      marginLeft: '10%',
+    },
+    dailyTextTempLabel: {
+      color: '#fff',
+      fontSize: 10,
+    },
+    dailyTextTemperature: {
+      color: '#fff',
     },
   });
   

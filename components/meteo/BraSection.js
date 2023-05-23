@@ -6,10 +6,18 @@ import {
   ScrollView,
 } from 'react-native';
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { keepFavoriteBra } from '../../reducers/user';
+
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import selectBraIcon from './BraIcons';
 
 export default function braSection() {
   const [bra, setBra] = useState([]);
+  const dispatch = useDispatch()
+  const user = useSelector((state) => state.user);
+
+  console.log('user', user)
 
   // ajout de tous les BRA
 
@@ -39,12 +47,38 @@ export default function braSection() {
       });
   }, []);
 
+  const handleFav = (props) => {
+    const fetchObj = {
+      favoriteBra: props
+    };
+    
+     console.log("ref", fetchObj);
+
+     fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(fetchObj),
+    }).then((response) => response.json())
+      .then(data => {
+      console.log('data articles apres fetch ==> ', data)
+      //dispatch(keepFavoriteBra(data))
+    })
+      
+  }
+
+  const isFav = 'Chablais'
+
+  let heartColor = '#D5D8DC'
+
+
   // map sur le usestate pour afficher tous les BRA
   const mountainBra = bra.map((data, i) => {
     const currentBraIcon = selectBraIcon(data.risk);
-
     return (
       <View key={i} style={styles.massifContainer}>
+        <View style={styles.topContainer}>
+            <FontAwesome name='heart' size={18} color={heartColor} onPress={() => handleFav(data.massif)} style={styles.heart} isFav={isFav} />
+          </View>
         <View style={styles.iconBraContainer}>
           <Image source={currentBraIcon} style={styles.riskIcon} />
         </View>
@@ -79,20 +113,31 @@ const styles = StyleSheet.create({
     backgroundColor: '#8B9EAB',
     marginHorizontal: 10,
     borderRadius: 20,
-    width: 150,
+    width: 200,
+  },
+  topContainer: {
+    width:'100%',
+    display: 'flex',
+    justifyContent:'flex-start',
+    alignItems: 'flex-end',
+  },
+  heart: {
+    height: 20,
+    width: 20,
+    marginRight:10,
+    marginTop:10
   },
   iconBraContainer: {
-    height: 150,
-    width: 150,
+    height: 100,
+    width: 100,
     borderRadius: 100,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
   },
   riskIcon: {
-    height: '80%',
-    width: '80%',
+    height: '100%',
+    width: '100%',
     borderRadius: 100,
     borderWidth: 2,
     borderColor: '#fff',
@@ -101,12 +146,14 @@ const styles = StyleSheet.create({
   massifNameContainer: {
     width: '100%',
     alignItems: 'flex-start',
-    paddingLeft: 10,
-    marginTop: 10,
+    marginTop: 30,
+    marginBottom:1,
+    marginLeft:30
   },
   massifName: {
     color: '#fff',
     fontWeight: 900,
+    fontSize:12
   },
   majBra: {
     color: '#fff',
