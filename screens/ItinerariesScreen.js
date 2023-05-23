@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Dimensions } from "react-native";
 import * as Location from "expo-location";
 import Constants from "expo-constants";
@@ -10,7 +10,14 @@ import SwipeUpDown from "react-native-swipe-up-down";
 import SwipeItemMini from "../components/SwipeItemMini";
 import SwipeItemFull from "../components/SwipeItemFull";
 
+import { addItinerariesFirstPart } from "../reducers/itineraries";
+import { useDispatch, useSelector } from "react-redux";
+
+
 export default function App() {
+
+  const dispatch = useDispatch()
+
   const [currentPosition, setCurrentPosition] = useState(null);
   const [departure, setDeparture] = useState(null);
   const [wayPoint, setWayPoint] = useState([]);
@@ -120,6 +127,32 @@ export default function App() {
       pinColor="#8B9EAB"
     />
   ));
+  let swipe 
+
+  // save les infos itinéraires dans le reducer
+  const [ dispatchOk, setDispatchOk ] = useState(false)
+  const handleSaveitinerary = () => {
+
+    console.log('click ok')
+    
+    const itinerary = {
+      departure: departure,
+      wayPoint: wayPoint? wayPoint : null,
+      wayPointName: wayPointName? wayPointName : null,
+      arrival: arrival,
+      time: duration,
+    }
+    
+    dispatch(addItinerariesFirstPart(itinerary))
+    setDispatchOk(true)
+  }
+  
+  const itineraries = useSelector((state) => state.itineraries.value)
+  console.log('my itineraries from reducer ==> ', itineraries)
+
+  // swipe up when click ok to continue 
+  const [ swipeOk, setSwipeOk ] = useState(false)
+
 
   return (
     <View style={styles.container}>
@@ -189,12 +222,22 @@ export default function App() {
           />
           {distance && duration ? (
             <View>
-              <Text>Distance: {distance.toFixed(2)} km</Text>
-              <Text>
-                Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
-                {duration >= 60 && duration < 1440 && "h"}
-                {duration < 60 && "min"}
-              </Text>
+              <View style={styles.validationContainer}> 
+                <Text>Distance: {distance.toFixed(2)} km</Text>
+                <Text>
+                  Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
+                  {duration >= 60 && duration < 1440 && "h"}
+                  {duration < 60 && "min"}
+                </Text>
+                {/* <View > */}
+                  <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>
+                    <Text >OK</Text>
+                  </TouchableOpacity>
+                {/* </View> */}
+              </View>
+              <View>
+                {dispatchOk && <Text>Swipe Up pour continuer ton itinéraire</Text>}
+              </View>
             </View>
           ) : null}
         </View>
@@ -205,8 +248,8 @@ export default function App() {
         itemFull={() => <SwipeItemFull />}
         animation="spring"
         disableSwipeIcon={true}
-        extraMarginTop={150}
-        swipeHeight={180}
+        extraMarginTop={100}
+        swipeHeight={150}
         iconColor="#A8A4A4"
         iconSize={30}
         style={styles.swipe}
@@ -240,5 +283,57 @@ const styles = StyleSheet.create({
   },
   swipe: {
     backgroundColor: "#FFFFFF",
+    // height: 800,
+  },
+  validationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  validationButton: {
+    backgroundColor: '#EDEDED',
+    width: 50,
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
   },
 });
+
+// TAKE SCREEN SHOT 
+
+// import React, {useRef} from 'react';
+// import {StyleSheet, Text, View, Button} from 'react-native';
+// import ViewShot from 'react-native-view-shot';
+// import CameraRoll from '@react-native-community/cameraroll';
+// const SomeComponent =() => {
+//   const ref = useRef();
+//   const takeScreenShot = () => {
+//     ref.current.capture().then(uri => {
+//       CameraRoll.save(uri,{type:"photo",album:"QR codes"});
+//       alert("Took screenshot");
+//     });
+//   };
+//   return (
+//     <View style={styles.container}>
+//       <ViewShot
+//         ref={ref}
+//         options={{
+//         fileName: 'file-name', // screenshot image name
+//         format: 'jpg', // image extention
+//         quality: 0.9 // image quality
+//         }} >
+//         <Text> Some awesome content</Text>
+//       </ViewShot>
+//       <Button title="Share QR Code" onPress={takeScreenShot}/>
+//     </View>
+//   );
+// };
+// const styles = StyleSheet.create({
+//   container: {
+//     flex:1,
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     backgroundColor: '#171821',
+//   }
+// });

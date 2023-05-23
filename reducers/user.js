@@ -13,8 +13,8 @@ export const userSlice = createSlice({
         },
     keepToken: (state, action) => {
             state.token = action.payload
-            console.log('keepUsername', state.username)
-            console.log('keepToken', state.token)
+            // console.log('keepUsername', state.username)
+            // console.log('keepToken', state.token)
             },
     keepLocation: (state, action) => {
         state.location = action.payload
