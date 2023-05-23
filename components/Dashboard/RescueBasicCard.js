@@ -89,7 +89,7 @@ export default function RescueBasicCard(props) {
         >
           <Image
             style={styles.cardImageRescueBasics}
-            source={require(`/Users/home/Desktop/SAUV' TA POW/CODE/sauve-ta-pow-frontend/assets/rescue3.jpg`)}
+            source={require("../../assets/rescue1")}
           />
           <View style={styles.rescueBasicsCardHeader}>
             <View style={styles.cardHeaderRescueBasics}>
