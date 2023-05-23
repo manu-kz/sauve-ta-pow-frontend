@@ -10,7 +10,7 @@ import SwipeUpDown from "react-native-swipe-up-down";
 import SwipeItemMini from "../components/SwipeItemMini";
 import SwipeItemFull from "../components/SwipeItemFull";
 
-import { addItinerariesFirstPart } from "../reducers/itineraries";
+import { addItineraryFirstPart } from "../reducers/itineraries";
 import { useDispatch, useSelector } from "react-redux";
 
 
@@ -132,23 +132,18 @@ export default function App() {
   // save les infos itinéraires dans le reducer
   const [ dispatchOk, setDispatchOk ] = useState(false)
   const handleSaveitinerary = () => {
-
-    console.log('click ok')
-    
     const itinerary = {
       departure: departure,
-      wayPoint: wayPoint? wayPoint : null,
-      wayPointName: wayPointName? wayPointName : null,
+      waypoints: wayPoint,
+      waypointsName: wayPointName,
       arrival: arrival,
       time: duration,
     }
     
-    dispatch(addItinerariesFirstPart(itinerary))
+    dispatch(addItineraryFirstPart(itinerary))
     setDispatchOk(true)
   }
-  
   const itineraries = useSelector((state) => state.itineraries.value)
-  console.log('my itineraries from reducer ==> ', itineraries)
 
   // swipe up when click ok to continue 
   const [ swipeOk, setSwipeOk ] = useState(false)

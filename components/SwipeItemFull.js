@@ -6,18 +6,23 @@ import {
   TouchableOpacity,
   Image,
   Button,
+  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
 import moment from 'moment';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import { useDispatch, useSelector } from "react-redux";
+import { addItinerarySecondtPart, removeItinerary } from "../reducers/itineraries";
 
 export default function SwipeItemFull() {
+
+  const dispatch = useDispatch()
+
   const [itineraryName, setItineraryName] = useState("");
   const [numberParticipants, setNumberParticipants] = useState(0);
-  const [members, setmembers] = useState([]);
   const [supervisor, setSupervisor] = useState([]);
   
   const today = moment().format('DD-MM-YYYY');
@@ -145,17 +150,67 @@ export default function SwipeItemFull() {
     setDate(currentDate);
   };
   
+  // handle members input
+  const [members, setmembers] = useState('');
+  const [ allMembers, setAllMembers ] = useState([])
+
+  console.log(members)
+
+  const handleMembers = () => {
+    // state contenant tous les membres
+    setAllMembers(allMembers.concat(members))
+    setmembers('')
+  }
+
+  // Affiche tous les membres dans la modal swipe Full
+  const showMembers = allMembers?.map((data, i) => {
+    return (
+      <View key={i} style={styles.memberName}>
+        <Text >{data}</Text>
+      </View>
+    )
+  })
+
   // save dans la db et set le reducer itinerary a une array vide après
   // faire le fetch post en changeant les input de string a number car textInput n'accepte pas les number 
+  // fetch post de l'itinéraire après avoir useSelector les premières infos 
+  // IF certaines infos pour le post de la db sont null PAS FETCH
+
+  // useSelector dispatch itinéraire
+  const myItinerary = useSelector((state) => state.itineraries.value)
+  console.log('info from reducer ==>',myItinerary)
+  // {"arrival": {"latitude": 45.764043, "longitude": 4.835659}, "date": 2023-05-23T14:01:58.392Z, 
+  // "departure": {"latitude": 45.77722199999999, "longitude": 3.087025}, "discipline": "mountaineering", 
+  // "itineraryName": "test", "memberNumber": "5", "members": ["bjsjsf", "bfjzvd"], "supervisor": "rockf", 
+  // "time": 2418.4333333333334, "waypoints": [{"latitude": 45.439695, "longitude": 4.3871779}], "waypointsName": ["Saint-Étienne"]}    
+
+
+  const itinerary = {
+    itineraryName: itineraryName,
+    memberNumber: numberParticipants,
+    date: date,
+    members: allMembers,
+    supervisor: supervisor,
+    discipline: discipline,
+  }
   const handleSubmit = () => {
-    console.log(itineraryName, numberParticipants, date, members, supervisor, discipline);
+    dispatch(addItinerarySecondtPart(itinerary))
+    if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
+      fetch('http://10.0.1.87:3000/itineraries/newItinerary', {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(myItinerary)
+      }).then(response => response.json()).then(data => {
+        console.log(data)
+        dispatch(removeItinerary())
+      })
+    }
+    // une fois post delete itineraire du reducer
   };
   
-  const handleSaveitinerary = () => {
-    // fetch post de l'itinéraire après avoir useSelector les premières infos 
-  }
-  
-
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.ligneIconContainer}>
@@ -195,9 +250,25 @@ export default function SwipeItemFull() {
               </View>
             </View>
           </View>
-          <TextInput style={styles.input} placeholder="Ajouter un membre" />
-          <TextInput style={styles.input} placeholder="Ajouter un encadrant" />
-          <Text style={styles.h3}>Discipline(s)</Text>
+          <TextInput 
+            style={styles.input}
+            placeholder="Ajouter un encadrant" 
+            onChangeText={(value) => setSupervisor(value)}
+            value={supervisor}
+            />
+           <View style={styles.membersInput}>
+              <TextInput
+              // style={styles.input} 
+              placeholder="Ajouter un membre" 
+              onChangeText={(value) => setmembers(value)}
+              value={members}
+              />
+              <FontAwesome name='check' size={20} onPress={() => handleMembers()}/>
+           </View>
+           <View horizontal={true} style={styles.membersName}>
+            {showMembers}
+           </View>
+          <Text style={styles.h3}>Discipline</Text>
           <View style={styles.disciplinesContainer}>
             <TouchableOpacity  activeOpacity={0.8} style={styleDisciplicesnowshoe} onPress={() => handleDiscipline('snowshoe')}>
               <Image
@@ -235,7 +306,7 @@ export default function SwipeItemFull() {
             activeOpacity={0.8}
             onPress={() => handleSubmit()}
           >
-            <Text style={styles.textButtonWhite} onPress={() => handleSaveitinerary()}>Enregistrer</Text>
+            <Text style={styles.textButtonWhite}>Enregistrer</Text>
           </TouchableOpacity>
         </View>
     </KeyboardAwareScrollView>
@@ -248,9 +319,6 @@ const styles = StyleSheet.create({
     padding: "5%",
     // marginBottom: 40,
   },
-  // infosContainer: {
-  //   marginBottom: 40,
-  // },
   h2: {
     fontSize: 20,
     fontWeight: "bold",
@@ -263,6 +331,26 @@ const styles = StyleSheet.create({
     backgroundColor: "#EDEDED",
     marginBottom: 10,
     padding: 10,
+    borderRadius: 20,
+  },
+  membersInput: {
+    flexDirection: 'row',
+    backgroundColor: "#EDEDED",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 20,
+    justifyContent: 'space-between',
+  },
+  membersName: {
+    flexDirection :'row',
+  },
+  memberName: {
+    backgroundColor: '#EDEDED',
+    width: '20%',
+    justifyContent: 'center',
+    alignItems :'center',
+    height: 25,
+    marginRight: 10,
     borderRadius: 20,
   },
   dateInput: {

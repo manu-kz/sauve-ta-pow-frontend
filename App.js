@@ -28,7 +28,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 // persist store
-//AsyncStorage.clear()
+// AsyncStorage.clear()
 import { Provider } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";

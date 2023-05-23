@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
  value: {
   departure: null, 
-  waypoint: null,
-  waypointName: null,
+  waypoints: null,
+  waypointsName: null,
   arrival: null,
   time: null,
   itineraryName: null,
@@ -20,32 +20,47 @@ export const itinerariesSlice = createSlice({
   name: 'itineraries',
   initialState,
   reducers: {
-    // reducer en deux partie :
-    // premier ajout avec departure/waypoint/waypointName/arrival
-    // deuxième partie avec itineraryName/memberNumber/date/members/supervisor/discipline
-    addItinerariesFirstPart: (state, action) => {
+    //  reducer en deux parties:
+
+    // infos recupré de la scren map
+    addItineraryFirstPart: (state, action) => {
       const initial = state.value
+
       initial.departure = action.payload.departure
-      initial.waypoint = action.payload.waypoint
-      initial.waypointName = action.payload.waypointName
+      initial.waypoints = action.payload.waypoints
+      initial.waypointsName = action.payload.waypointsName
       initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
-      // initial.arrival = action.payload.arrival
+      initial.time = action.payload.time
     },
-    addItinerariesSecondPart: (state, action) => {
-      console.log('action payload ==> ', action.payload)
-      state.value.push(action.payload);
+
+    // infos recupérés depuis le swipe up 
+    addItinerarySecondtPart: (state, action) => {
+      const initial = state.value
+
+      initial.itineraryName = action.payload.itineraryName
+      initial.memberNumber = action.payload.memberNumber
+      initial.date = action.payload.date
+      initial.members = action.payload.members
+      initial.supervisor = action.payload.supervisor
+      initial.discipline = action.payload.discipline
     },
-    removePlace: (state, action) => {
-      state.value = [];
+    removeItinerary: (state, action) => {
+      state.value = {
+        departure: null, 
+        waypoints: null,
+        waypointsName: null,
+        arrival: null,
+        time: null,
+        itineraryName: null,
+        memberNumber: null,
+        date: null,
+        members: null,
+        supervisor: null,
+        discipline: null,
+      }
     },
   },
 });
 
-export const { addItinerariesFirstPart, removePlace } = itinerariesSlice.actions;
+export const { addItineraryFirstPart, addItinerarySecondtPart,  removeItinerary } = itinerariesSlice.actions;
 export default itinerariesSlice.reducer;
