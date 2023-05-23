@@ -7,7 +7,8 @@ import {
   Alert,
   Modal,
   Pressable,
-  SafeAreaView,
+ 
+
   Button,
 } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -86,7 +87,10 @@ console.log('dateOfBirth', dateOfBirth)
 
   // USER PERSONAL INFO
   return (
-    <>
+
+
+
+    <View>
       <Text style={styles.h2}>S'inscrire</Text>
       <TextInput
         style={styles.input}
@@ -158,7 +162,8 @@ console.log('dateOfBirth', dateOfBirth)
         <Text style={styles.textStyle}> Suivant</Text>
       </Pressable>
       <Text>{error}</Text>
-    </>
+    </View>
+    
   );
 }
 
