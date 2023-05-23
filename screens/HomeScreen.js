@@ -49,7 +49,7 @@ export default function HomeScreen({ navigation }) {
     fetchNews().catch(console.error);
   }, []);
 
-  console.log("news", news);
+
   const newsArticle =
     news &&
     news.map((data, i) => {

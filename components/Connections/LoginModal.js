@@ -46,7 +46,7 @@ export default function LoginModal({ navigation }) {
       setError(false);
       dispatch(keepUsername(username));
       dispatch(keepToken(token));
-      setModalVisible(!modalVisible);
+      dispatch(setLoginModal(false));
     } else {
       //Message d'erreur
       setError(true);

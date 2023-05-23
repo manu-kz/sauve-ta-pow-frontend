@@ -39,13 +39,13 @@ export default function SignUpForm({ navigation }) {
   const username = useRef(null);
   const email = useRef(null);
   const phoneNumber = useRef(null);
-  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const dateOfBirth = date.toDateString();
   const adresse = useRef(null);
 
   const [error, setError] = useState("");
 
   //SIGN UP FORM TO CREATE
-
+console.log('dateOfBirth', dateOfBirth)
   async function signup() {
     const fetchObj = {
       firstname: firstname.inputValue,
@@ -83,7 +83,7 @@ export default function SignUpForm({ navigation }) {
       dispatch(keepToken(token));
     }
   }
-console.log('date', date)
+
   // USER PERSONAL INFO
   return (
     <>
@@ -142,7 +142,7 @@ console.log('date', date)
       />
 
       <View style={styles.datePicker}>
-        <Text style={{color: "#B9B9BB"}}> Birthday*</Text>
+        <Text style={{ color: "#B9B9BB" }}> Birthday*</Text>
 
         <DateTimePicker
           testID="dateTimePicker"
@@ -163,9 +163,12 @@ console.log('date', date)
 }
 
 const styles = StyleSheet.create({
+  
   h2: {
-    fontSize: 26,
+    alignSelf:'flex-start',
+    fontSize: 22,
     fontWeight: "bold",
+    margin:10
   },
   input: {
     backgroundColor: "#EDEDED",

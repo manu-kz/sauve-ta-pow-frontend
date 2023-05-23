@@ -10,7 +10,7 @@ import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { keepUsername, keepToken } from "../../reducers/user";
 import { showHealthForm } from "../../reducers/modals";
-import { setSignUpModal } from "../../reducers/modals";
+import { showLoginProcess } from "../../reducers/modals";
 import { RadioButton } from "react-native-paper";
 
 export default function HealthForm({ navigation }) {
@@ -85,8 +85,7 @@ export default function HealthForm({ navigation }) {
       },
     };
 
-    console.log("ref", socialSecurityNumber.inputValue);
-
+  
     const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -97,12 +96,12 @@ export default function HealthForm({ navigation }) {
     const { result, message } = jsonRes;
 
     if (!result) {
-      setError("y'a une couille");
+      setError("Il'y a un problème, merci de réessayer");
     } else {
       //Message d'erreur
       setError("Informations Enregistrés");
       dispatch(showHealthForm(false));
-      dispatch(setSignUpModal(false));
+      dispatch(showLoginProcess(false))
     }
   }
 
@@ -139,8 +138,8 @@ export default function HealthForm({ navigation }) {
           <Text style={styles.metrics}>cm</Text>
         </View>
 
+        <View style={styles.yesNoContainer}>
         <Text style={styles.h4}>Fumeur</Text>
-        <View styles={styles.smokerView}>
           <Pressable
             style={[
               styles.smokerButton,
@@ -227,7 +226,7 @@ export default function HealthForm({ navigation }) {
         {medicalHistoryInfo()}
 
         <Text style={styles.h4}>Directives Avancées</Text>
-        <View styles={styles.smokerView}>
+        <View styles={styles.yesNoContainer}>
           <Pressable
             style={[
               styles.smokerButton,
@@ -282,8 +281,10 @@ export default function HealthForm({ navigation }) {
 
 const styles = StyleSheet.create({
   h2: {
-    fontSize: 26,
+    alignSelf:'flex-start',
+    fontSize: 22,
     fontWeight: "bold",
+    margin:10
   },
   h3: {
     fontSize: 20,
@@ -301,33 +302,28 @@ const styles = StyleSheet.create({
     
     backgroundColor: "#EDEDED",
     marginBottom: 10,
-    padding: 10,
+    paddingHorizontal: 10,
     borderRadius: 20,
-    width: 273,
+    width: "100%",
     height: 34,
   },
   champNumeric: {
-    width: 273,
-    height: 34,
-    display: "flex",
-    flexDirection: "row",
+    flexDirection:"row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
+    backgroundColor: "#EDEDED",
+    marginBottom: 10,
+    paddingHorizontal: 10,
+    borderRadius: 20,
+    width: "100%",
+    height: 34,
   },
   inputNumeric: {
-    width: 230,
-    // height: 30,
+    width: 200,
+   
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#fff",
+    backgroundColor: "#EDEDED",
   },
   metrics: {
     textAlign: "center",
@@ -353,9 +349,9 @@ const styles = StyleSheet.create({
     borderRadius: 100,
     margin: 5,
   },
-  smokerView: {
-    display: "flex",
+  yesNoContainer: {
     flexDirection: "row",
+   justifyContent : "space-evenly"
   },
   smokerButton: {
     width: 50,

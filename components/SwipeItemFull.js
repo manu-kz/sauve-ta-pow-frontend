@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import React, { useState } from "react";
-import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
+
 import moment from 'moment';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
