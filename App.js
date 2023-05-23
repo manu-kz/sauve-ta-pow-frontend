@@ -28,7 +28,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 // persist store
-// AsyncStorage.clear()
+AsyncStorage.clear()
 import { Provider } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
@@ -39,9 +39,10 @@ import user from "./reducers/user";
 import bookmarks from "./reducers/bookmarks";
 import modals from "./reducers/modals";
 import meteo from "./reducers/meteo";
+import itineraries from "./reducers/itineraries";
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks });
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, itineraries });
 const persistConfig = {
   key: "Sauve-ta-Pow",
   storage: AsyncStorage,
