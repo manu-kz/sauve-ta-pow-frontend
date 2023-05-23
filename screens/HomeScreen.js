@@ -13,27 +13,61 @@ import {
   ScrollView,
 } from "react-native";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useDispatch, useSelector } from "react-redux";
-import RescueBasicCard from "../components/RescueBasicCard";
+import RescueBasicCard from "../components/Dashboard/RescueBasicCard";
+import ArticleDashboard from "../components/Dashboard/ArticleDashboard";
 import { articles } from "../assets/rescueBasics";
 
 export default function HomeScreen({ navigation }) {
   const username = useSelector((state) => state.user.username);
+  const [news, setNews] = useState(null);
 
   // IMG BACKGROUND STATE
   const [heightImg, setHeightImg] = useState(0);
 
-  //LAYOUT FUNCTION IMG BACKGROUND
+  //LAYOUT FUNCTION POUR IMAGE EN  BACKGROUND
   const onLayout = (event) => {
     const { height } = event.nativeEvent.layout;
     setHeightImg(height);
   };
 
-  //MAP RESCUE BASICS
+  //FETCH LE PREMIER ARTICLE
 
+  useEffect(() => {
+    // declare the data fetching function
+    const fetchNews = async () => {
+      const rawRes = await fetch(
+        "https://sauve-ta-pow-backend.vercel.app/articles/"
+      );
+      const jsonRes = await rawRes.json();
+      setNews(jsonRes.articles.slice(0, 1));
+    };
+
+    fetchNews().catch(console.error);
+  }, []);
+
+  console.log("news", news);
+  const newsArticle =
+    news &&
+    news.map((data, i) => {
+      return (
+        <ArticleDashboard
+          key={i}
+          top={heightImg}
+          author={data.author}
+          title={data.title}
+          description={data.description}
+          content={data.content}
+          publishedAt={data.publishedAt}
+          urlToImage={data.urlToImage}
+        />
+      );
+    });
+
+  //MAPPING ON RESCUE BASICS TO CREATE CARDS
   const rescueArticles = articles.map((data, i) => {
     return (
       <RescueBasicCard
@@ -42,7 +76,7 @@ export default function HomeScreen({ navigation }) {
         description={data.description}
         paragraphes={data.paragraphes}
         img={data.img}
-        num = {data.num}
+        num={data.num}
       />
     );
   });
@@ -80,22 +114,7 @@ export default function HomeScreen({ navigation }) {
           </BlurView>
         </View>
       </ImageBackground>
-      <View
-        style={{
-          ...styles.containerContentPreview,
-          top: heightImg - heightImg * 0.1,
-        }}
-      >
-        <Image source={require("../assets/card-exemple-img.png")} />
-        <View style={styles.containertextContentPreview}>
-          <Text style={styles.h3}>Title</Text>
-          <Text style={styles.p}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit aute irure
-            dolor in reprehenderit...
-          </Text>
-          <Text style={styles.knowMore}>En savoir plus</Text>
-        </View>
-      </View>
+      {newsArticle}
 
       <ScrollView horizontal={true} style={styles.rescueBasic}>
         {rescueArticles}

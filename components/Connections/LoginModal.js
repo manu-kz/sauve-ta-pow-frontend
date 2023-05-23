@@ -63,9 +63,9 @@ export default function LoginModal({ navigation }) {
         >
           <View style={styles.modalView}>
             <FontAwesome
-              name="times"
-              size={25}
-              color="black"
+              name="close"
+              size={20}
+              color="#D5D8DC"
               style={styles.cross}
               onPress={() => dispatch(setLoginModal(false))}
             />
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
       backgroundColor: "white",
       borderRadius: 20,
       padding: 40,
-      justifyContent: "space-evenly",
+      justifyContent: "space-between",
       alignItems: "center",
       shadowColor: "#000",
       shadowOffset: {
@@ -129,19 +129,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   input: {
-    width: 273,
-    height: 34,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
-  },
-
+    
+      backgroundColor: "#EDEDED",
+      marginBottom: 10,
+      padding: 10,
+      borderRadius: 20,
+      width: 273,
+      height: 34,
+    },
+ 
   button: {
     width: 143,
     height: 43,

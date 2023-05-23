@@ -20,9 +20,9 @@ export default function SignUpModal({ navigation }) {
     <Modal animationType="slide" transparent={true} visible={signUpModal}>
       <View style={styles.modalView}>
         <FontAwesome
-          name="times"
-          size={25}
-          color="black"
+           name="close"
+           size={20}
+           color="#D5D8DC"
           style={styles.cross}
           onPress={() => dispatch(setSignUpModal(false))}
         />

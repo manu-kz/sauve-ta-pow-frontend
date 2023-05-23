@@ -298,17 +298,13 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   input: {
+    
+    backgroundColor: "#EDEDED",
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 20,
     width: 273,
     height: 34,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#fff",
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: "#8B9EAB",
-    paddingLeft: 10,
-    margin: 5,
   },
   champNumeric: {
     width: 273,

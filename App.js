@@ -28,7 +28,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 
 // persist store
-//AsyncStorage.clear()
+AsyncStorage.clear()
 import { Provider } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
@@ -89,6 +89,7 @@ const UserStack = () => {
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
+  const showHealthForm = useSelector(state => state.modals.healthForm)
   return (
     <Tab.Navigator 
     screenOptions={
@@ -168,7 +169,7 @@ const TabNavigator = () => {
       >
       <Tab.Screen name="Home" component={HomeScreen}/>
       <Tab.Screen name="News" component={NewsStack} />
-      {!token? <Tab.Screen name="Login" component={LoginScreen}/> 
+      {!token && !showHealthForm ? <Tab.Screen name="Login" component={LoginScreen}/> 
       : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
