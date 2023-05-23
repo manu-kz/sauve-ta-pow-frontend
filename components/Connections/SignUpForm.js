@@ -13,8 +13,8 @@ import {
 import DatePicker from "react-native-datepicker"; //https://www.npmjs.com/package/react-native-datepicker
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../reducers/user";
-import { showHealthForm } from "../reducers/modals";
+import { keepUsername, keepToken } from "../../reducers/user";
+import { showHealthForm } from "../../reducers/modals";
 
 export default function SignUpForm({ navigation }) {
   //MODALS
@@ -46,7 +46,7 @@ export default function SignUpForm({ navigation }) {
       dateOfBirth: dateOfBirth,
       adresse: adresse.inputValue,
     };
-    const rawRes = await fetch("http://10.0.1.43:3000/users/signup", {
+    const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/signup", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fetchObj),

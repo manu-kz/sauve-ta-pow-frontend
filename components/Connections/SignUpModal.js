@@ -4,7 +4,7 @@ import HealthForm from "./HealthForm";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { setSignUpModal, showHealthForm} from "../reducers/modals";
+import { setSignUpModal, showHealthForm} from "../../reducers/modals";
 
 
 export default function SignUpModal({ navigation }) {

@@ -15,8 +15,8 @@ import {
   ImageBackground,
 } from "react-native";
 import { useState } from "react";
-import LoginModal from "../components/LoginModal";
-import SignUpModal from "../components/SignUpModal";
+import LoginModal from "../components/Connections/LoginModal";
+import SignUpModal from "../components/Connections/SignUpModal";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoginModal } from "../reducers/modals";
 

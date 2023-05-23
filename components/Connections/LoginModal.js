@@ -15,8 +15,8 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../reducers/user";
-import { setLoginModal, setSignUpModal } from "../reducers/modals";
+import { keepUsername, keepToken } from "../../reducers/user";
+import { setLoginModal, setSignUpModal } from "../../reducers/modals";
 
 export default function LoginModal({ navigation }) {
   
@@ -33,7 +33,7 @@ export default function LoginModal({ navigation }) {
   //SIGN IN FORM
   async function login() {
     console.log("fetch");
-    const rawRes = await fetch("http://10.0.1.43:3000/users/signin", {
+    const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/signin", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ username: username, password: password }),
