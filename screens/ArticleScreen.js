@@ -94,7 +94,7 @@ import {
       shadowOffset: { width: 1, height: 2},
       shadowRadius: 5,
       elevation: 3,
-      backgroundColor: 'white',
+      backgroundColor: '#FFFFFF',
       margin: 4,
     },
     article: {
@@ -126,6 +126,6 @@ import {
     },
     plus: {
       fontWeight: 'bold',
-      color: '#D5D8DC',
+      color: '#8B9EAB',
     },
   })

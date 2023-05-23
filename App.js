@@ -1,31 +1,35 @@
+import React, { useState } from "react";
+
 import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
 import { useSelector } from "react-redux";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import HomeScreen from './screens/HomeScreen';
-import MeteoScreen from './screens/MeteoScreen';
-import ItinerariesScreen from './screens/ItinerariesScreen';
-import UiKitScreen from './screens/UiKitScreen';
-import LoginScreen from './screens/LoginScreen';
+import HomeScreen from "./screens/HomeScreen";
+import MeteoScreen from "./screens/MeteoScreen";
+import ItinerariesScreen from "./screens/ItinerariesScreen";
+import UiKitScreen from "./screens/UiKitScreen";
+import LoginScreen from "./screens/LoginScreen";
 // NEWS SCREEN
-import NewsScreen from './screens/NewsScreen';
-import FavorisScreen from './screens/FavorisScreen';
-import EntireArticleScreen from './screens/EntireArticleScreen';
-import ArticlesScreen from './screens/ArticleScreen';
-// USER SCREENS 
-import UserScreen from './screens/UserScreen';
-import PersonalInfosScreen from './screens/PersonalInfoScreen'
-import HealthInfoScreen from './screens/HealthInfoScreen';
-import ItinerariesInfoScreen from './screens/ItinerariesInfoScreen';
-import HelpInfoScreen from './screens/HelpInfoScreen';
-import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
+import NewsScreen from "./screens/NewsScreen";
+import FavorisScreen from "./screens/FavorisScreen";
+import EntireArticleScreen from "./screens/EntireArticleScreen";
+import ArticlesScreen from "./screens/ArticleScreen";
+// USER SCREENS
+import UserScreen from "./screens/UserScreen";
+import PersonalInfosScreen from "./screens/PersonalInfoScreen";
+import HealthInfoScreen from "./screens/HealthInfoScreen";
+import ItinerariesInfoScreen from "./screens/ItinerariesInfoScreen";
+import HelpInfoScreen from "./screens/HelpInfoScreen";
+import ConfidentialityInfoScreen from "./screens/ConfidentialityInfoScreen";
+
+//ITINERARY SCREENS
+import EntireItineraryScreen from "./screens/EntireItineraryScreen";
 
 
-
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
 
 // persist store
 AsyncStorage.clear()
@@ -40,9 +44,10 @@ import bookmarks from "./reducers/bookmarks";
 import modals from "./reducers/modals";
 import meteo from "./reducers/meteo";
 import itineraries from "./reducers/itineraries";
+import launchItinerary from "./reducers/launchItinerary";
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, itineraries });
+const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, itineraries, launchItinerary });
 const persistConfig = {
   key: "Sauve-ta-Pow",
   storage: AsyncStorage,
@@ -83,17 +88,63 @@ const UserStack = () => {
       <Stack.Screen name="HealthInfo" component={HealthInfoScreen} />
       <Stack.Screen name="ItinerariesInfo" component={ItinerariesInfoScreen} />
       <Stack.Screen name="HelpInfo" component={HelpInfoScreen} />
-      <Stack.Screen name="ConfidentialityInfo" component={ConfidentialityInfoScreen} />
+      <Stack.Screen
+        name="ConfidentialityInfo"
+        component={ConfidentialityInfoScreen}
+      />
     </Stack.Navigator>
-    )
-}
+  );
+};
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
   const showLoginProcess = useSelector(state => state.modals.loginProcess)
   console.log('token, showLoginProcess', token, showLoginProcess)
+
+  //Fonctionnalité pour pouvoir appler dès l'appui sur le bouton phone
+  const launchItinerary = useSelector((state) => state.launchItinerary.value);
+  
+  const [modalVisible, setModalVisible] = useState(false);
+  const [call, setCall] = useState(false);
+
+  const handleLaunchItinerary = () => {
+    setCall(true)
+    setModalVisible(true)
+    console.log('OK')
+  }
+
+
+  let imageContainer = {
+    height: 80,
+    width: 80,
+    borderRadius: 50,
+    borderColor: '#fff',
+    borderWidth: 10,
+    backgroundColor: '#FFB703',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 50,
+}
+
+let imgUrl = require('./assets/picto_randonneur.png')
+  //Changement de style pour le bouton randonneur -> phone
+  if(!launchItinerary){
+    imgUrl = require('./assets/picto_phone.png')
+    imageContainer = {
+      height: 80,
+      width: 80,
+      borderRadius: 50,
+      borderColor: '#fff',
+      borderWidth: 10,
+      backgroundColor: '#F94A56',
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginBottom: 50,
+  }   
+  }
+
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
     screenOptions={
       ({ route }) => (
         {
@@ -116,55 +167,29 @@ const TabNavigator = () => {
             return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Login") {
             return (
-              <View style={{
-                height: 80,
-                width: 80,
-                borderRadius: 50,
-                borderColor: '#fff',
-                borderWidth: 10,
-                backgroundColor: '#FFB703',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 50,
-                /*shadowColor: '#000',
-                shadowOffset: {
-                  width: 2,
-                  height: 5,
-                },
-                shadowOpacity: 0.80,
-                shadowRadius: 15,
-                elevation: 2,*/
-                // position: 'absolute'
-              }}>
+              <TouchableOpacity style={imageContainer} onPress={!launchItinerary ? handleLaunchItinerary : console.log('error')}> 
                 <View style={styles.indicatorBefore}/>
                   <Image
-                  source={require('./assets/picto_randonneur.png')}
+                  source={imgUrl}
                   style={{
-                    height: 45,
-                    width: 45,
+                    height: 40,
+                    width: 40,
                   }}
                   />
                   <View style={styles.indicatorAfter}/>
-              </View>
+              </TouchableOpacity>
             )
           } 
         },
         tabBarStyle: {
           backgroundColor: '#213A5C',
-          borderRadius: 30,
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
           paddingTop: 15,
           height: 80,
-          //shadowColor: '#000',
-         /* shadowOffset: {
-            width: 0,
-            height: 0,
-          },
-          shadowOpacity: 0.40,
-          shadowRadius: 15,
-          elevation: 1,*/
         },
         tabBarActiveTintColor: "#FFB703",
-        tabBarInactiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#FFFFFF",
         headerShown: false,
         tabBarShowLabel: false
       })}
@@ -175,6 +200,7 @@ const TabNavigator = () => {
       : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
+      {/*<Tab.Screen name="Phone" component={EntireItineraryScreen} />*/}
       {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
   );
@@ -197,7 +223,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -233,6 +258,5 @@ const styles = StyleSheet.create({
       shadowOpacity: 1,
       shadowRadius: 0,
       },
- 
+     
 });
-
