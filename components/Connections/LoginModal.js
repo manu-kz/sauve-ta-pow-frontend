@@ -16,7 +16,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { keepUsername, keepToken } from "../../reducers/user";
-import { setLoginModal, setSignUpModal } from "../../reducers/modals";
+import { setLoginModal, setSignUpModal, showLoginProcess } from "../../reducers/modals";
 
 export default function LoginModal({ navigation }) {
   
@@ -39,7 +39,7 @@ export default function LoginModal({ navigation }) {
       body: JSON.stringify({ username: username, password: password }),
     });
     const jsonRes = await rawRes.json();
-    console.log('jsonRes', rawRes)
+    console.log('jsonRes', jsonRes)
     const { token, result } = jsonRes;
 
     if (result) {
@@ -47,6 +47,7 @@ export default function LoginModal({ navigation }) {
       dispatch(keepUsername(username));
       dispatch(keepToken(token));
       dispatch(setLoginModal(false));
+      dispatch(showLoginProcess(false))
     } else {
       //Message d'erreur
       setError(true);
