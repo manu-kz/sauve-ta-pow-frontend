@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../reducers/user";
-import { showHealthForm } from "../reducers/modals";
-import { setSignUpModal } from "../reducers/modals";
+import { keepUsername, keepToken } from "../../reducers/user";
+import { showHealthForm } from "../../reducers/modals";
+import { setSignUpModal } from "../../reducers/modals";
 import { RadioButton } from "react-native-paper";
 
 export default function HealthForm({ navigation }) {
@@ -87,7 +87,7 @@ export default function HealthForm({ navigation }) {
 
     console.log("ref", socialSecurityNumber.inputValue);
 
-    const rawRes = await fetch("http://10.0.1.43:3000/users/update", {
+    const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fetchObj),
