@@ -38,15 +38,11 @@ export default function LoginScreen({ navigation }) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
+            
           <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <>
-              <View>
-                <Text style={styles.h1}>Créer un itinéraire</Text>
-                <Text style={styles.h4}>
-                  Pour accéder à toutes les fonctionnalitées de l'application,
-                  merci de vous inscrire à Sauve ta Pow
-                </Text>
-                </View>
+          <>
+              <Text style={styles.h1}>Créer un itinéraire</Text>
+
               {!loginModal && !signUpModal && (
                 <Pressable
                   style={styles.buttonShortWhite}
@@ -58,7 +54,8 @@ export default function LoginScreen({ navigation }) {
               )}
               {loginModal && <LoginModal style={styles.modal} />}
               {signUpModal && <SignUpModal />}
-            </>
+
+              </>
           </TouchableWithoutFeedback>
           <View style={styles.whiteRectangle}></View>
         </KeyboardAvoidingView>
@@ -87,14 +84,6 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     marginLeft: "5%",
   },
-  h4: {
-    fontSize: 13,
-    fontWeight: "bold",
-    color: "white",
-    alignSelf: "flex-start",
-    marginLeft: "5%",
-    marginRight:"10%"
-  },
 
   buttonShortWhite: {
     width: 143,
@@ -102,6 +91,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#fff",
+
     borderRadius: 100,
     marginBottom: "10%",
     marginTop: '120%'

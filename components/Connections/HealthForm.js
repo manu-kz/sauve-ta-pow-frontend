@@ -85,14 +85,13 @@ export default function HealthForm({ navigation }) {
       },
     };
 
-  
+
     const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(fetchObj),
     });
     const jsonRes = await rawRes.json();
-    console.log("jsonRes", jsonRes);
     const { result, message } = jsonRes;
 
     if (!result) {

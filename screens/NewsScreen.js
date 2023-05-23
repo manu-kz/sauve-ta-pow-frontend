@@ -26,7 +26,6 @@ export default function NewsScreen() {
   const dispatch = useDispatch()
   const testBookmarks  = useSelector((state) => state.bookmarks.value)
 
-  console.log('store bookmarks depuis news page ==> ', testBookmarks)
 
   //  ---------------------------------------- AFFICHAGE DE LA PAGE DES ARTICLES --------------------------------------------
 

@@ -14,18 +14,9 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import * as Location from 'expo-location';
-import { keepLocation, keepLocationInfo } from '../reducers/user';
-import { addLocalWeather } from '../reducers/meteo';
-import { BlurView } from 'expo-blur';
-import { LinearGradient } from 'expo-linear-gradient';
-import selectWeatherIcon from '../components/meteo/WeatherIcons';
+import { useState } from 'react';
 import BraSection from '../components/meteo/BraSection';
-import HourlyMeteoSection from '../components/meteo/HourlyMeteoSection';
-import DailylyMeteoSection from '../components/meteo/DailyMeteoSection';
-import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
+//import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
 
 export default function MeteoScreen() {
   const [height, setHeight] = useState(0);
@@ -47,9 +38,7 @@ export default function MeteoScreen() {
         >
           <Text style={styles.h1}>Météo</Text>
           <View style={styles.contentContainer}>
-            <CurrentMeteoSection />
-            <HourlyMeteoSection />
-            <DailylyMeteoSection />
+            {/* <CurrentMeteoSection /> */}
           </View>
           <View style={{ ...styles.inputView, top: height }}>
             <TextInput

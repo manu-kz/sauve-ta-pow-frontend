@@ -1,11 +1,10 @@
-import { StyleSheet, View, Modal } from "react-native";
+import { StyleSheet, View, Modal, } from "react-native";
 import SignUpForm from "./SignUpForm";
 import HealthForm from "./HealthForm";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
-import { setSignUpModal, showHealthForm} from "../../reducers/modals";
-
+import { setSignUpModal, showHealthForm } from "../../reducers/modals";
 
 export default function SignUpModal({ navigation }) {
   //MODALS
@@ -13,25 +12,27 @@ export default function SignUpModal({ navigation }) {
   const signUpModal = useSelector((state) => state.modals.signUpModal);
   const showHealthForm = useSelector((state) => state.modals.healthForm);
   const userToken = useSelector((state) => state.user.token);
-  console.log('userToken', userToken)
+  console.log("userToken", userToken);
   //STATE SIGN UP
 
   return (
+    
     <Modal animationType="slide" transparent={true} visible={signUpModal}>
       <View style={styles.modalView}>
-        <FontAwesome
-           name="close"
-           size={20}
-           color="#D5D8DC"
-          style={styles.cross}
-          onPress={() => dispatch(setSignUpModal(false))}
-        />
+        {!showHealthForm && 
+          <FontAwesome
+            name="close"
+            size={20}
+            color="#D5D8DC"
+            style={styles.cross}
+            onPress={() => dispatch(setSignUpModal(false))}
+          />
+        }
 
-      
-        {!showHealthForm? <SignUpForm/> :<HealthForm/> }
-        
+        {!showHealthForm ? <SignUpForm /> : <HealthForm />}
       </View>
     </Modal>
+    
   );
 }
 
