@@ -93,7 +93,6 @@ export default function HealthForm({ navigation }) {
     });
     const jsonRes = await rawRes.json();
     const { result, message } = jsonRes;
-
     if (!result) {
       setError("Il'y a un problème, merci de réessayer");
     } else {

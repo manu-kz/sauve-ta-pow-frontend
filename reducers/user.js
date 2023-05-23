@@ -24,7 +24,7 @@ export const userSlice = createSlice({
             state.locationName = action.payload.locationName
             },
     keepFavoriteBra:(state, action) => {
-            state.favoriteBra = action.payload.favoriteBra
+            state.favoriteBra = action.payload
               },  },
 });
 

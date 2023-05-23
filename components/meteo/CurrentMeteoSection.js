@@ -13,8 +13,6 @@ import {
   import { BlurView } from 'expo-blur';
   import { LinearGradient } from 'expo-linear-gradient';
   import selectWeatherIcon from './WeatherIcons';
-  import HourlyMeteoSection from './HourlyMeteoSection';
-//import DailylyMeteoSection from '../components/meteo/DailyMeteoSection';
   
   export default function MeteoScreen() {
     const dispatch = useDispatch();

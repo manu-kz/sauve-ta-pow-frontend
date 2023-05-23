@@ -1,10 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  ScrollView,
-} from 'react-native';
+import { StyleSheet, Text, View, Image, ScrollView, TextInput } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { keepFavoriteBra } from '../../reducers/user';
@@ -12,12 +6,14 @@ import { keepFavoriteBra } from '../../reducers/user';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import selectBraIcon from './BraIcons';
 
-export default function braSection() {
-  const [bra, setBra] = useState([]);
-  const dispatch = useDispatch()
-  const user = useSelector((state) => state.user);
+export default function braSection(props) {
 
-  console.log('user', user)
+  const [bra, setBra] = useState([]);
+  const [error, setError] = useState('');
+
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const token = useSelector((state) => state.user.token);
 
   // ajout de tous les BRA
 
@@ -47,29 +43,32 @@ export default function braSection() {
       });
   }, []);
 
-  const handleFav = (props) => {
+  const handleFav = async (props) => {
     const fetchObj = {
-      favoriteBra: props
+      token: token,
+      favoriteBra: props,
     };
-    
-     console.log("ref", fetchObj);
+    dispatch(keepFavoriteBra(props));
 
-     fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fetchObj),
-    }).then((response) => response.json())
-      .then(data => {
-      console.log('data articles apres fetch ==> ', data)
-      //dispatch(keepFavoriteBra(data))
-    })
-      
-  }
-
-  const isFav = 'Chablais'
-
-  let heartColor = '#D5D8DC'
-
+    const rawRes = await fetch(
+      'https://sauve-ta-pow-backend.vercel.app/users/update',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fetchObj),
+      }
+    );
+    const jsonRes = await rawRes.json();
+    const { result, message } = jsonRes;
+    //console.log('data articles apres fetch ==> ', jsonRes)
+    console.log('jsonRes', jsonRes);
+    if (!result) {
+      setError("Il'y a un problème, merci de réessayer");
+    } else {
+      //Message d'erreur
+      setError('Informations Enregistrés');
+    }
+  };
 
   // map sur le usestate pour afficher tous les BRA
   const mountainBra = bra.map((data, i) => {
@@ -77,8 +76,25 @@ export default function braSection() {
     return (
       <View key={i} style={styles.massifContainer}>
         <View style={styles.topContainer}>
-            <FontAwesome name='heart' size={18} color={heartColor} onPress={() => handleFav(data.massif)} style={styles.heart} isFav={isFav} />
-          </View>
+          {user.favoriteBra === data.massif && (
+            <FontAwesome
+              name="heart"
+              size={18}
+              color={'red'}
+              onPress={() => handleFav(data.massif)}
+              style={styles.heart}
+            />
+          )}
+          {user.favoriteBra !== data.massif && (
+            <FontAwesome
+              name="heart"
+              size={18}
+              color={'#D5D8DC'}
+              onPress={() => handleFav(data.massif)}
+              style={styles.heart}
+            />
+          )}
+        </View>
         <View style={styles.iconBraContainer}>
           <Image source={currentBraIcon} style={styles.riskIcon} />
         </View>
@@ -92,9 +108,14 @@ export default function braSection() {
   });
 
   return (
+    <>
+      <View style={{ ...styles.inputView, top: props.height }}>
+        <TextInput style={styles.input} placeholder="Rechercher un massif" />
+      </View>
       <ScrollView horizontal={true}>
         <View style={styles.riskContainer}>{mountainBra}</View>
       </ScrollView>
+    </>
   );
 }
 
@@ -116,16 +137,16 @@ const styles = StyleSheet.create({
     width: 200,
   },
   topContainer: {
-    width:'100%',
+    width: '100%',
     display: 'flex',
-    justifyContent:'flex-start',
+    justifyContent: 'flex-start',
     alignItems: 'flex-end',
   },
   heart: {
     height: 20,
     width: 20,
-    marginRight:10,
-    marginTop:10
+    marginRight: 10,
+    marginTop: 10,
   },
   iconBraContainer: {
     height: 100,
@@ -147,17 +168,35 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'flex-start',
     marginTop: 30,
-    marginBottom:1,
-    marginLeft:30
+    marginBottom: 1,
+    marginLeft: 30,
   },
   massifName: {
     color: '#fff',
     fontWeight: 900,
-    fontSize:12
+    fontSize: 12,
   },
   majBra: {
     color: '#fff',
     fontWeight: 100,
     fontSize: 9,
+  },
+  inputView: {
+    zIndex:1,
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  input: {
+    width: 273,
+    height: 34,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: '#8B9EAB',
+    paddingLeft: 10,
+    margin: 5,
   },
 });

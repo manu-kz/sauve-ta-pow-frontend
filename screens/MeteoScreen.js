@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import BraSection from '../components/meteo/BraSection';
-//import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
+import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
 
 export default function MeteoScreen() {
   const [height, setHeight] = useState(0);
@@ -38,16 +38,10 @@ export default function MeteoScreen() {
         >
           <Text style={styles.h1}>Météo</Text>
           <View style={styles.contentContainer}>
-            {/* <CurrentMeteoSection /> */}
-          </View>
-          <View style={{ ...styles.inputView, top: height }}>
-            <TextInput
-              style={styles.input}
-              placeholder="Rechercher un massif"
-            />
+            <CurrentMeteoSection />
           </View>
         </ImageBackground>
-        <BraSection />
+        <BraSection height = {height*0.97} />
       </ScrollView>
       <View style={styles.whiteRectangle}>
       </View>
@@ -75,24 +69,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     display: 'flex',
     alignItems: 'center',
-  },
-  inputView: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    width: 273,
-    height: 34,
-    backgroundColor: '#fff',
-    borderRadius: 100,
-    borderWidth: 1,
-    borderColor: '#8B9EAB',
-    paddingLeft: 10,
-    margin: 5,
   },
   whiteRectangle: {
     backgroundColor: '#FFFFFF',
