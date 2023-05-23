@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
 
     // article container
     articlesContainer: {
-      height: 510
+      height: '75%'
     },
    });
 

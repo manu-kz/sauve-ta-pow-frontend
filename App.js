@@ -4,28 +4,26 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import HomeScreen from './screens/HomeScreen';
-import MeteoScreen from './screens/MeteoScreen';
-import ItinerariesScreen from './screens/ItinerariesScreen';
-import UiKitScreen from './screens/UiKitScreen';
-import LoginScreen from './screens/LoginScreen';
+import HomeScreen from "./screens/HomeScreen";
+import MeteoScreen from "./screens/MeteoScreen";
+import ItinerariesScreen from "./screens/ItinerariesScreen";
+import UiKitScreen from "./screens/UiKitScreen";
+import LoginScreen from "./screens/LoginScreen";
 // NEWS SCREEN
-import NewsScreen from './screens/NewsScreen';
-import FavorisScreen from './screens/FavorisScreen';
-import EntireArticleScreen from './screens/EntireArticleScreen';
-import ArticlesScreen from './screens/ArticleScreen';
-// USER SCREENS 
-import UserScreen from './screens/UserScreen';
-import PersonalInfosScreen from './screens/PersonalInfoScreen'
-import HealthInfoScreen from './screens/HealthInfoScreen';
-import ItinerariesInfoScreen from './screens/ItinerariesInfoScreen';
-import HelpInfoScreen from './screens/HelpInfoScreen';
-import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
+import NewsScreen from "./screens/NewsScreen";
+import FavorisScreen from "./screens/FavorisScreen";
+import EntireArticleScreen from "./screens/EntireArticleScreen";
+import ArticlesScreen from "./screens/ArticleScreen";
+// USER SCREENS
+import UserScreen from "./screens/UserScreen";
+import PersonalInfosScreen from "./screens/PersonalInfoScreen";
+import HealthInfoScreen from "./screens/HealthInfoScreen";
+import ItinerariesInfoScreen from "./screens/ItinerariesInfoScreen";
+import HelpInfoScreen from "./screens/HelpInfoScreen";
+import ConfidentialityInfoScreen from "./screens/ConfidentialityInfoScreen";
 
-
-
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import Feather from 'react-native-vector-icons/Feather';
+import FontAwesome from "react-native-vector-icons/FontAwesome";
+import Feather from "react-native-vector-icons/Feather";
 
 // persist store
 // AsyncStorage.clear()
@@ -40,6 +38,7 @@ import bookmarks from "./reducers/bookmarks";
 import modals from "./reducers/modals";
 import meteo from "./reducers/meteo";
 // import reducers
+
 
 const reducers = combineReducers({ articles, user, modals, meteo, bookmarks });
 const persistConfig = {
@@ -82,15 +81,19 @@ const UserStack = () => {
       <Stack.Screen name="HealthInfo" component={HealthInfoScreen} />
       <Stack.Screen name="ItinerariesInfo" component={ItinerariesInfoScreen} />
       <Stack.Screen name="HelpInfo" component={HelpInfoScreen} />
-      <Stack.Screen name="ConfidentialityInfo" component={ConfidentialityInfoScreen} />
+      <Stack.Screen
+        name="ConfidentialityInfo"
+        component={ConfidentialityInfoScreen}
+      />
     </Stack.Navigator>
-    )
-}
+  );
+};
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
+
   return (
-    <Tab.Navigator 
+    <Tab.Navigator
     screenOptions={
       ({ route }) => (
         {
@@ -113,26 +116,7 @@ const TabNavigator = () => {
             return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Login") {
             return (
-              <View style={{
-                height: 80,
-                width: 80,
-                borderRadius: 50,
-                borderColor: '#fff',
-                borderWidth: 10,
-                backgroundColor: '#FFB703',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginBottom: 50,
-                /*shadowColor: '#000',
-                shadowOffset: {
-                  width: 2,
-                  height: 5,
-                },
-                shadowOpacity: 0.80,
-                shadowRadius: 15,
-                elevation: 2,*/
-                // position: 'absolute'
-              }}>
+              <View style={styles.imageContainer}>
                 <View style={styles.indicatorBefore}/>
                   <Image
                   source={require('./assets/picto_randonneur.png')}
@@ -148,20 +132,13 @@ const TabNavigator = () => {
         },
         tabBarStyle: {
           backgroundColor: '#213A5C',
-          borderRadius: 30,
+          borderTopLeftRadius: 30,
+          borderTopRightRadius: 30,
           paddingTop: 15,
           height: 80,
-          //shadowColor: '#000',
-         /* shadowOffset: {
-            width: 0,
-            height: 0,
-          },
-          shadowOpacity: 0.40,
-          shadowRadius: 15,
-          elevation: 1,*/
         },
         tabBarActiveTintColor: "#FFB703",
-        tabBarInactiveTintColor: "#fff",
+        tabBarInactiveTintColor: "#FFFFFF",
         headerShown: false,
         tabBarShowLabel: false
       })}
@@ -194,7 +171,6 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -230,6 +206,15 @@ const styles = StyleSheet.create({
       shadowOpacity: 1,
       shadowRadius: 0,
       },
- 
+      imageContainer: {
+          height: 80,
+          width: 80,
+          borderRadius: 50,
+          borderColor: '#fff',
+          borderWidth: 10,
+          backgroundColor: '#FFB703',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginBottom: 50,
+      },
 });
-
