@@ -60,6 +60,7 @@ export default function LoginScreen({ navigation }) {
               {signUpModal && <SignUpModal />}
             </>
           </TouchableWithoutFeedback>
+          <View style={styles.whiteRectangle}></View>
         </KeyboardAvoidingView>
       </SafeAreaView>
     </ImageBackground>
@@ -76,7 +77,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   h1: {
     fontSize: 32,
@@ -103,6 +104,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     borderRadius: 100,
     marginBottom: "10%",
+    marginTop: '120%'
 
   },
   textButtonGrey: {
@@ -116,4 +118,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
+   whiteRectangle: {
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    height: 15,
+  }
 });

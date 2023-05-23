@@ -128,6 +128,11 @@ const styles = StyleSheet.create({
   // CARDS RESCUE
   cardsContainerRescueBasics: {
     flexDirection: "row",
+    shadowColor: 'black',
+      shadowOpacity: 0.30,
+      shadowOffset: { width: 1, height: 2},
+      shadowRadius: 5,
+      elevation: 3,
   },
   cardSectionRescueBasics: {
     width: 190,

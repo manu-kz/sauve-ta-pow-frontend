@@ -60,6 +60,8 @@ export default function MeteoScreen() {
         </ImageBackground>
         <BraSection />
       </ScrollView>
+      <View style={styles.whiteRectangle}>
+      </View>
     </SafeAreaView>
   );
 }
@@ -103,4 +105,9 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     margin: 5,
   },
+  whiteRectangle: {
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    height: 15,
+  }
 });

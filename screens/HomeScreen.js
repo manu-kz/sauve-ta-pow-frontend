@@ -11,6 +11,7 @@ import {
   SafeAreaView,
   ImageBackground,
   ScrollView,
+  ViewBase,
 } from "react-native";
 
 import { useRef, useState, useEffect } from "react";
@@ -82,7 +83,8 @@ export default function HomeScreen({ navigation }) {
   });
 
   return (
-    <>
+  
+    <View style={styles.container}>
       <ImageBackground
         source={require("../assets/Dashboard.jpg")}
         style={styles.imgBackground}
@@ -119,11 +121,16 @@ export default function HomeScreen({ navigation }) {
       <ScrollView horizontal={true} style={styles.rescueBasic}>
         {rescueArticles}
       </ScrollView>
-    </>
+    </View>
+    
   );
 }
 
 const styles = StyleSheet.create({
+  container:{
+    flex: 1,
+    backgroundColor: '#FFFFFF'
+  },
   imgBackground: {},
   h1: {
     margin: 20,

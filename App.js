@@ -26,6 +26,7 @@ import ConfidentialityInfoScreen from "./screens/ConfidentialityInfoScreen";
 
 //ITINERARY SCREENS
 import EntireItineraryScreen from "./screens/EntireItineraryScreen";
+import ItineraryListScreen from "./screens/ItineraryListScreen";
 
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -167,7 +168,7 @@ let imgUrl = require('./assets/picto_randonneur.png')
             return <Feather name={iconName} size={25} color={color} style={style}/>;
           } else if (route.name === "Login") {
             return (
-              <TouchableOpacity style={imageContainer} onPress={!launchItinerary ? handleLaunchItinerary : console.log('error')}> 
+              <View style={imageContainer} onPress={token && !launchItinerary ? handleLaunchItinerary : console.log('error to call')}> 
                 <View style={styles.indicatorBefore}/>
                   <Image
                   source={imgUrl}
@@ -177,7 +178,7 @@ let imgUrl = require('./assets/picto_randonneur.png')
                   }}
                   />
                   <View style={styles.indicatorAfter}/>
-              </TouchableOpacity>
+              </View>
             )
           } 
         },
@@ -201,6 +202,7 @@ let imgUrl = require('./assets/picto_randonneur.png')
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
       {/*<Tab.Screen name="Phone" component={EntireItineraryScreen} />*/}
+      <Tab.Screen name="itineraryList" component={ItineraryListScreen} />
       {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
   );

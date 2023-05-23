@@ -126,6 +126,9 @@ export default function EntireItineraryScreen() {
         </TouchableOpacity>
         <View style={styles.boderDecoration}></View>
       </ScrollView>
+      <View style={styles.whiteRectangle}>
+
+      </View>
     </SafeAreaView>
   );
 }
@@ -222,4 +225,9 @@ const styles = StyleSheet.create({
     left: "6.3%",
     zIndex: -1,
   },
+  whiteRectangle: {
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    height: 15,
+  }
 });
