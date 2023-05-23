@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = { username: null, token: null, location: null, locationKey:null, locationName:null  }
+const initialState = { username: null, token: null, location: null, locationKey:null, locationName:null, favoriteBra:null  }
 ;
 
 export const userSlice = createSlice({
@@ -23,10 +23,11 @@ export const userSlice = createSlice({
             state.locationKey = action.payload.locationKey
             state.locationName = action.payload.locationName
             },
-  },
-  
+    keepFavoriteBra:(state, action) => {
+            state.favoriteBra = action.payload.favoriteBra
+              },  },
 });
 
 
-export const {keepUsername , keepToken, keepLocation, keepLocationInfo} = userSlice.actions;
+export const {keepUsername , keepToken, keepLocation, keepLocationInfo, keepFavoriteBra} = userSlice.actions;
 export default userSlice.reducer;
