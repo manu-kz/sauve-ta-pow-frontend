@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   },
   yesNoContainer: {
     flexDirection: "row",
-   justifyContent : "space-evenly"
+   justifyContent : "space-between"
   },
   smokerButton: {
     width: 50,
