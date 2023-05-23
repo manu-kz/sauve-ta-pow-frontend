@@ -42,9 +42,6 @@ export default function LoginScreen({ navigation }) {
             <>
               <Text style={styles.h1}>Créer un itinéraire</Text>
 
-              {loginModal && <LoginModal style={styles.modal} />}
-              {signUpModal && <SignUpModal />}
-
               {!loginModal && !signUpModal && (
                 <Pressable
                   style={styles.buttonShortWhite}
@@ -54,6 +51,9 @@ export default function LoginScreen({ navigation }) {
                   <Text style={styles.textButtonGrey}>Log In</Text>
                 </Pressable>
               )}
+              {loginModal && <LoginModal style={styles.modal} />}
+              {signUpModal && <SignUpModal />}
+
             </>
           </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
