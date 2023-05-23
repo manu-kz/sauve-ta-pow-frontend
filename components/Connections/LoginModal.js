@@ -39,7 +39,7 @@ export default function LoginModal({ navigation }) {
       body: JSON.stringify({ username: username, password: password }),
     });
     const jsonRes = await rawRes.json();
-    console.log('jsonRes', rawRes)
+    // console.log('jsonRes', rawRes)
     const { token, result } = jsonRes;
 
     if (result) {
