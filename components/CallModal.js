@@ -1,55 +1,51 @@
+import React from "react";
 import {
   StyleSheet,
   Text,
   View,
   Image,
-  TextInput,
-  Platform,
-  Alert,
-  Modal,
-  Pressable,
-  SafeAreaView,
   TouchableOpacity,
+  Modal,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { showCallModal } from "../reducers/modals";
+import { useEffect, useState } from 'react';
+
 
 export default function CallModal() {
   const dispatch = useDispatch();
-
   const callModal = useSelector((state) => state.modals.callModal);
+  const [threeWord, setThreeWords] = useState('');
+
+  useEffect(() => {
+    fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/what3words/${longitude}/${latitude}`)
+      .then(response => response.json())
+      .then(data => {
+        setThreeWords(data.words);
+      });
+  }, []);
 
   const step = [
-    {
-      number: 1,
-      description:
-        "Identifiez-vous. Indiquez votre nom et numéro de téléphone.",
-    },
+    { number: 1, description: "Identifiez-vous. Indiquez votre nom et numéro de téléphone." },
     { number: 2, description: "Expliquez le type d'accident" },
-    {
-      number: 3,
-      description: "Précisez le nombre et l’état apparent des victimes.",
-    },
+    { number: 3, description: "Précisez le nombre et l’état apparent des victimes." },
     { number: 4, description: "Décrivez la situation." },
     { number: 5, description: "Précisez s’il y a des risques persistants." },
-    {
-      number: 6,
-      description: "Indiquez votre localisation grâce à ces trois mots :",
-    },
+    { number: 6, description: `Indiquez votre localisation grâce à ces trois mots :${threeWord}` },
   ];
 
-  const stepList = step.map((data, i) => {
-    return (
-      <View key={i} style={styles.stepList}>
-        <View style={styles.numberContainer}>
-          <Text style={styles.number}>{data.number}</Text>
-        </View>
-        <Text style={styles.p}>{data.description}</Text>
+  const stepList = step.map((data, i) => (
+    <View key={i} style={styles.stepList}>
+      <View style={styles.numberContainer}>
+        <Text style={styles.number}>{data.number}</Text>
       </View>
-    );
-  });
+      <Text style={styles.p}>{data.description}</Text>
+    </View>
+  ));
+
+
+  
   return (
     <Modal animationType="slide" transparent={true} visible={callModal}>
       <View style={styles.modalView}>
