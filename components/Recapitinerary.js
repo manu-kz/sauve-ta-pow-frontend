@@ -9,8 +9,14 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
+import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function Recapitinerary() {
+
+export default function Recapitinerary(props) {
+
+ 
+
   return (
     <View style={styles.container}>
       <Image
@@ -18,12 +24,14 @@ export default function Recapitinerary() {
         source={require("../assets/map.jpg")}
       />
       <View style={styles.textContainer}>
-        <Text style={styles.h2}>Nom</Text>
-        <Text style={styles.p}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit aute irure
-          dolor in reprehenderit...
-        </Text>
-        <Text style={styles.link}>En savoir plus</Text>
+        <Text style={styles.h2}>{props.name}</Text>
+        <Text style={styles.p}>Départ: {props.departure}</Text>
+        <Text style={styles.p}>Arrivée: {props.arrival}</Text>
+        <TouchableOpacity
+          activeOpacity={0.8}
+        >
+          <Text style={styles.link}>En savoir plus</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -55,6 +63,6 @@ const styles = StyleSheet.create({
   },
   textContainer: {
     padding: 20,
-    width: '60%',
-  }
+    width: "60%",
+  },
 });
