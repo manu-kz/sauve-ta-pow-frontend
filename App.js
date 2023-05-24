@@ -59,6 +59,7 @@ import { Linking } from 'react-native';
 
 
 
+
 const reducers = combineReducers({
   articles,
   user,
@@ -205,14 +206,6 @@ const TabNavigator = () => {
             return (
               <View
                 style={imageContainer}
-<<<<<<< HEAD
-=======
-                onPress={
-                  token && !launchItinerary
-                    ? handleLaunchItinerary // dispatch(setLoginModal(true))
-                    : console.log('error to call')
-                }
->>>>>>> phoneCall
               >
                 <View style={styles.indicatorBefore} />
                 <Image
