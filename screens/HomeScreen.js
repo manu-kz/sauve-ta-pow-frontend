@@ -1,27 +1,21 @@
 import {
-  Button,
   StyleSheet,
   Text,
   View,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  KeyboardAvoidingView,
   Platform,
   SafeAreaView,
   ImageBackground,
   ScrollView,
-  ViewBase,
 } from "react-native";
 
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import RescueBasicCard from "../components/Dashboard/RescueBasicCard";
 import ArticleDashboard from "../components/Dashboard/ArticleDashboard";
 import { articles } from "../assets/rescueBasics";
-
+import MeteoCard from "../components/Dashboard/MeteoCard";
 export default function HomeScreen({ navigation }) {
   const username = useSelector((state) => state.user.username);
   const [news, setNews] = useState(null);
@@ -34,6 +28,8 @@ export default function HomeScreen({ navigation }) {
     const { height } = event.nativeEvent.layout;
     setHeightImg(height);
   };
+
+
 
   //FETCH LE PREMIER ARTICLE
 
@@ -49,7 +45,6 @@ export default function HomeScreen({ navigation }) {
 
     fetchNews().catch(console.error);
   }, []);
-
 
   const newsArticle =
     news &&
@@ -83,7 +78,6 @@ export default function HomeScreen({ navigation }) {
   });
 
   return (
-  
     <View style={styles.container}>
       <ImageBackground
         source={require("../assets/Dashboard.jpg")}
@@ -94,16 +88,7 @@ export default function HomeScreen({ navigation }) {
         <SafeAreaView />
         <Text style={styles.h1}>Welcome {username ? username : ""} </Text>
         <View style={styles.cardsContainer}>
-          <BlurView intensity={30} style={styles.weatherCard}>
-            <LinearGradient
-              colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.2)"]}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              useAngle
-              angle={110}
-              style={styles.card}
-            />
-          </BlurView>
+          <MeteoCard/>
           <BlurView intensity={30} style={styles.braCard}>
             <LinearGradient
               colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.2)"]}
@@ -122,14 +107,13 @@ export default function HomeScreen({ navigation }) {
         {rescueArticles}
       </ScrollView>
     </View>
-    
   );
 }
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     flex: 1,
-    backgroundColor: '#FFFFFF'
+    backgroundColor: "#FFFFFF",
   },
   imgBackground: {},
   h1: {
