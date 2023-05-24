@@ -25,16 +25,22 @@ export default function EntireItineraryScreen() {
   const [btnContent, setBtnContent] = useState("Commencer");
   
   const handleLaunchItinerary = () => {
-    setIslaunched(true)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Quitter")
+    setIslaunched(!islaunched)
   };
-  const handleQuitItinerary = () => {
-    setIslaunched(false)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Commencer");
-  };
+
   
+  useEffect(() => {
+    if (islaunched) {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Quitter");
+    } else {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Commencer");
+    }
+  }, [islaunched]); 
+  
+
+
   let launchBtn = {
     backgroundColor: "#FFB703",
     padding: 20,
@@ -63,7 +69,7 @@ export default function EntireItineraryScreen() {
   // faire map sur les noms de membre participants
   const members = myItinerary.members.map((data, i) => {
     return (
-      <View style={styles.peopleCard}>
+      <View style={styles.peopleCard} key={i}>
         <Text style={styles.peopleCardContent} key={i}>
           {data} <FontAwesome name="close" size={12} color="#FFFFFF" />
         </Text>
@@ -96,6 +102,8 @@ export default function EntireItineraryScreen() {
       </View>
     )
   })
+
+  // remove les infos du reducer !!!!!!!!!!
 
   return (
     <SafeAreaView style={styles.container}>
@@ -156,7 +164,8 @@ export default function EntireItineraryScreen() {
         </View>
         <TouchableOpacity
           style={launchBtn}
-          onPress={islaunched ? handleQuitItinerary : handleLaunchItinerary}
+          onPress={
+            handleLaunchItinerary}
         >
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>
