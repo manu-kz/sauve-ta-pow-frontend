@@ -16,6 +16,8 @@ import { useEffect, useState } from 'react';
 export default function CallModal() {
   const dispatch = useDispatch();
   const callModal = useSelector((state) => state.modals.callModal);
+  const localisation = useSelector((state) => state.user);
+  console.log(localisation)
   const [threeWord, setThreeWords] = useState('');
 
   useEffect(() => {
