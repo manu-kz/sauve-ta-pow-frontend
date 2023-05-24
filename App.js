@@ -47,6 +47,10 @@ import itineraries from "./reducers/itineraries";
 import launchItinerary from "./reducers/launchItinerary";
 // import reducers
 
+//IMPORT FOR PHONE CALL
+import { Linking } from 'react-native';
+
+
 const reducers = combineReducers({
   articles,
   user,
@@ -162,6 +166,12 @@ const TabNavigator = () => {
     };
   }
 
+  const phoneCall = () => {
+    const phoneNumber = '112'; 
+  
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

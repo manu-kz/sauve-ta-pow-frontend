@@ -10,11 +10,17 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
+import CallModal from "../components/CallModal";
+import { showCallModal } from "../reducers/modals";
+
+
 
 export default function EntireItineraryScreen() {
   const dispatch = useDispatch();
+  const callModal = useSelector((state) => state.modals.callModal);
+
 
   const [islaunched, setIslaunched] = useState(false);
   const [btnContent, setBtnContent] = useState("Commencer");
@@ -22,7 +28,7 @@ export default function EntireItineraryScreen() {
   const handleLaunchItinerary = () => {
     setIslaunched(true)
     dispatch(launchItinerary(islaunched))
-    setBtnContent("Quitter");
+    setBtnContent("Quitter")
   };
   const handleQuitItinerary = () => {
     setIslaunched(false)
@@ -55,6 +61,7 @@ export default function EntireItineraryScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.containerMargin}>
+      <CallModal/>
         <View style={styles.header}>
           <View style={styles.discipline}>
             <Image
