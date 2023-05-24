@@ -1,6 +1,6 @@
 export const articles = [
   {
-    img: "../assets/rescue1.jpg",
+    img: require('../assets/rescue1.jpg'),
     bigTitle: "Sur le terrain",
     description:
       "Ce chapitre est dédié aux connaissances du milieu, à la préparation de la sortie, au choix de l'itinéraire et à la gestion sur le terrain.",
@@ -38,7 +38,7 @@ export const articles = [
   },
 
   {
-    img: "../assets/rescue2.jpg",
+    img: require('../assets/rescue2.jpg'),
     bigTitle: "Facteurs Humains",
     description:
       "Cette partie traite de l'influence des membres du groupe sur la prise de décicion. L'humeur, la motivation, la fatigue ou l'effet de groupe sont autant de paramètres à prendre en compte pour évoluer en sécurité.",
@@ -79,7 +79,7 @@ export const articles = [
   },
 
   {
-    img: "../assets/rescue3.jpg",
+    img: require("../assets/rescue3.jpg"),
     bigTitle: "Le Secours",
     description:
       "Vous n'avez pas pu éviter l'accident! Cette section aborde le message d'alerte, la gestion de la recherche et les gestes de premiers secours.",

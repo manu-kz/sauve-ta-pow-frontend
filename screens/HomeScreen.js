@@ -16,6 +16,7 @@ import RescueBasicCard from "../components/Dashboard/RescueBasicCard";
 import ArticleDashboard from "../components/Dashboard/ArticleDashboard";
 import { articles } from "../assets/rescueBasics";
 import MeteoCard from "../components/Dashboard/MeteoCard";
+import BraCard from "../components/Dashboard/BraCard";
 export default function HomeScreen({ navigation }) {
   const username = useSelector((state) => state.user.username);
   const [news, setNews] = useState(null);
@@ -65,7 +66,7 @@ export default function HomeScreen({ navigation }) {
 
   //MAPPING ON RESCUE BASICS TO CREATE CARDS
   const rescueArticles = articles.map((data, i) => {
-    return (
+     return (
       <RescueBasicCard
         key={i}
         bigTitle={data.bigTitle}
@@ -89,16 +90,7 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.h1}>Welcome {username ? username : ""} </Text>
         <View style={styles.cardsContainer}>
           <MeteoCard/>
-          <BlurView intensity={30} style={styles.braCard}>
-            <LinearGradient
-              colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.2)"]}
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              useAngle
-              angle={110}
-              style={styles.card}
-            />
-          </BlurView>
+          <BraCard/>
         </View>
       </ImageBackground>
       {newsArticle}
@@ -142,22 +134,6 @@ const styles = StyleSheet.create({
   cardsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-  },
-  weatherCard: {
-    width: "45%",
-    height: 150,
-    marginBottom: 50,
-  },
-  braCard: {
-    width: "35%",
-    height: 150,
-    marginBottom: 50,
-  },
-
-  card: {
-    borderRadius: 30,
-    height: "100%",
-    width: "100%",
   },
 
   containerContentPreview: {
