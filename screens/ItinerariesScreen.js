@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { Dimensions } from "react-native";
@@ -13,6 +13,7 @@ import SwipeItemFull from "../components/SwipeItemFull";
 import { addItineraryFirstPart } from "../reducers/itineraries";
 import { useDispatch, useSelector } from "react-redux";
 
+import { captureRef } from "react-native-view-shot";
 
 export default function App() {
 
@@ -27,6 +28,14 @@ export default function App() {
   const [arrival, setArrival] = useState(null);
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  const moveTo = async (position) => {
+    const camera = await mapRef.current?.getCamera();
+    if (camera) {
+      camera.center = position;
+      mapRef.current?.animateCamera(camera, { duration: 1000 });
+    }
+  };
 
   //Demande d'autorisation pour accéder à la localisation
   useEffect(() => {
@@ -57,8 +66,8 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        console.log("Position:", position);
-        console.log("Place:", placeId);
+        // console.log("Position:", position);
+        // console.log("Place:", placeId);
         setDeparture(position);
         setDepartureName(details.structured_formatting.main_text)
       }
@@ -80,7 +89,7 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        console.log("Position:", position);
+        // console.log("Position:", position);
         setWayPoint([...wayPoint, position]);
         setWayPointName([
           ...wayPointName,
@@ -106,7 +115,7 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        console.log("Position:", position);
+        // console.log("Position:", position);
         setArrival(position);
         setArrivalName(details.structured_formatting.main_text)
       }
@@ -115,13 +124,25 @@ export default function App() {
     }
   };
 
+  //  ref map pour traçage route et zoom sur map
+  const mapRef = useRef(null)
+
+  const edgePaddingValue = 70;
+
+  const edgePadding = {
+    top: edgePaddingValue,
+    right: edgePaddingValue,
+    bottom: edgePaddingValue,
+    left: edgePaddingValue,
+  };
+
   const itinerayLineOnReady = (args) => {
     if (args) {
       setDistance(args.distance);
       setDuration(args.duration);
+      mapRef.current?.fitToCoordinates([departure, arrival], { edgePadding });
     }
   };
-
 
   const wayPoints = wayPoint.map((waypoint, index) => (
     <Marker
@@ -131,33 +152,47 @@ export default function App() {
       pinColor="#8B9EAB"
     />
   ));
-  let swipe 
 
   // save les infos itinéraires dans le reducer
-  const [ dispatchOk, setDispatchOk ] = useState(false)
+  // handle capture d'écran
+  const ref = useRef()
+
   const handleSaveitinerary = () => {
-    const itinerary = {
-      departure: departure,
-      departureName: departureName,
-      waypoints: wayPoint,
-      waypointsName: wayPointName,
-      arrival: arrival,
-      arrivalName: arrivalName,
-      time: duration,
-    }
-    
-    dispatch(addItineraryFirstPart(itinerary))
-    setDispatchOk(true)
+    // Capture d'écran
+    captureRef(ref, {
+      format: "jpg",
+      quality: 0.8,
+    }).then(
+      (uri) => {
+      console.log("Image saved to", uri)
+      const itinerary = {
+        departure: departure,
+        departureName: departureName,
+        waypoints: wayPoint,
+        waypointsName: wayPointName,
+        arrival: arrival,
+        arrivalName: arrivalName,
+        time: duration,
+        itineraryImg: uri
+      }
+      
+      dispatch(addItineraryFirstPart(itinerary))
+    },
+      (error) => console.error("Oops, snapshot failed", error)
+    );
+    swipeUpDownRef.current.showFull();
+
   }
   const itineraries = useSelector((state) => state.itineraries.value)
 
   // swipe up when click ok to continue 
-  const [ swipeOk, setSwipeOk ] = useState(false)
+  const swipeUpDownRef = useRef();
 
 
   return (
     <View style={styles.container}>
       <MapView
+        ref={ref}
         style={styles.map}
         provider={PROVIDER_GOOGLE}
         mapType="satellite"
@@ -236,17 +271,15 @@ export default function App() {
                   </TouchableOpacity>
                 {/* </View> */}
               </View>
-              <View style={styles.swipeUp}>
-                {dispatchOk && <Text style={styles.swipeUpToContinue}>Swipe Up pour continuer ton itinéraire</Text>}
-              </View>
             </View>
           ) : null}
         </View>
       </View>
 
       <SwipeUpDown
-        itemMini={() => <SwipeItemMini />}
+        // itemMini={() => <SwipeItemMini />}
         itemFull={() => <SwipeItemFull />}
+        ref={swipeUpDownRef}
         animation="spring"
         disableSwipeIcon={true}
         extraMarginTop={100}
@@ -317,39 +350,3 @@ const styles = StyleSheet.create({
 });
 
 // TAKE SCREEN SHOT 
-
-// import React, {useRef} from 'react';
-// import {StyleSheet, Text, View, Button} from 'react-native';
-// import ViewShot from 'react-native-view-shot';
-// import CameraRoll from '@react-native-community/cameraroll';
-// const SomeComponent =() => {
-//   const ref = useRef();
-//   const takeScreenShot = () => {
-//     ref.current.capture().then(uri => {
-//       CameraRoll.save(uri,{type:"photo",album:"QR codes"});
-//       alert("Took screenshot");
-//     });
-//   };
-//   return (
-//     <View style={styles.container}>
-//       <ViewShot
-//         ref={ref}
-//         options={{
-//         fileName: 'file-name', // screenshot image name
-//         format: 'jpg', // image extention
-//         quality: 0.9 // image quality
-//         }} >
-//         <Text> Some awesome content</Text>
-//       </ViewShot>
-//       <Button title="Share QR Code" onPress={takeScreenShot}/>
-//     </View>
-//   );
-// };
-// const styles = StyleSheet.create({
-//   container: {
-//     flex:1,
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     backgroundColor: '#171821',
-//   }
-// });
