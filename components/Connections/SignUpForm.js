@@ -1,24 +1,12 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  TextInput,
-  Platform,
-  Alert,
-  Modal,
-  Pressable,
- 
-
-  Button,
-} from "react-native";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { keepUsername, keepToken } from "../../reducers/user";
 import { showHealthForm } from "../../reducers/modals";
 
 export default function SignUpForm({ navigation }) {
-  //MODALS
+
   const dispatch = useDispatch();
 
   // DATE PICKER
@@ -32,8 +20,7 @@ export default function SignUpForm({ navigation }) {
     setDate(currentDate);
   };
 
-  //STATE SIGN UP
-
+  //USE REF SIGN UP FORM
   const lastname = useRef(null);
   const firstname = useRef(null);
   const password = useRef(null);
@@ -43,10 +30,10 @@ export default function SignUpForm({ navigation }) {
   const dateOfBirth = date.toDateString();
   const adresse = useRef(null);
 
+  //ERROR MESSAGE 
   const [error, setError] = useState("");
 
-  //SIGN UP FORM TO CREATE
-console.log('dateOfBirth', dateOfBirth)
+  // SIGN UP FUNCTION THAT SENDS INFO TO DB
   async function signup() {
     const fetchObj = {
       firstname: firstname.inputValue,
@@ -67,7 +54,9 @@ console.log('dateOfBirth', dateOfBirth)
       }
     );
     const jsonRes = await rawRes.json();
-    console.log("jsonRes", jsonRes);
+
+    console.log("Response Création User ", jsonRes);
+
     const { token, result, error } = jsonRes;
 
     if (!result && error === "Missing or empty fields") {
@@ -85,11 +74,8 @@ console.log('dateOfBirth', dateOfBirth)
     }
   }
 
-  // USER PERSONAL INFO
+// USER SIGN UP FORM
   return (
-
-
-
     <View>
       <Text style={styles.h2}>S'inscrire</Text>
       <TextInput
@@ -163,17 +149,15 @@ console.log('dateOfBirth', dateOfBirth)
       </Pressable>
       <Text>{error}</Text>
     </View>
-    
   );
 }
 
 const styles = StyleSheet.create({
-  
   h2: {
-    alignSelf:'flex-start',
+    alignSelf: "flex-start",
     fontSize: 22,
     fontWeight: "bold",
-    margin:10
+    margin: 10,
   },
   input: {
     backgroundColor: "#EDEDED",
@@ -190,6 +174,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
+    alignSelf:"center",
     backgroundColor: "#8B9EAB",
     borderRadius: 100,
     margin: 5,

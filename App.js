@@ -33,7 +33,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
 
 // persist store
-//AsyncStorage.clear()
+AsyncStorage.clear()
 import { Provider } from "react-redux";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { persistStore, persistReducer } from "redux-persist";
@@ -99,8 +99,9 @@ const UserStack = () => {
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
-  const showLoginProcess = useSelector(state => state.modals.loginProcess)
-  console.log('token, showLoginProcess', token, showLoginProcess)
+  const showLoginProcess = useSelector(state => state.user.loginProcess)
+  console.log('token in storage ==>', token)
+  console.log('Is login process activated in storage ==>', showLoginProcess)
 
   //Fonctionnalité pour pouvoir appler dès l'appui sur le bouton phone
   const launchItinerary = useSelector((state) => state.launchItinerary.value);
