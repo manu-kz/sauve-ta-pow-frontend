@@ -27,7 +27,6 @@ export default function BraCard() {
       const jsonRes = await rawRes.json();
       const { bra } = jsonRes;
 
-      console.log("jsonRes", jsonRes);
 
       const newDate = new Date(bra.BULLETINS_NEIGE_AVALANCHE.DateValidite[0]);
       const year = newDate.getUTCFullYear();

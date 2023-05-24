@@ -31,7 +31,6 @@ export default function MeteoCard() {
         });
       }
     })();
-console.log('user.location', user.location)
     // FETCH LOCATION KEY POUR METEO
     if (user.location) {
       fetch(`http://10.0.2.110:3000/meteo/location/${user.location}`)
@@ -45,7 +44,6 @@ console.log('user.location', user.location)
               })
             );
           getCurrentMeteo(data.location.Key);
-          console.log('first', data.location.Key)
         });
     }
   }, [user.location]);

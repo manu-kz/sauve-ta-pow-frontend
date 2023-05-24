@@ -51,7 +51,6 @@ export default function braSection(props) {
   }, []);
 
   const handleFav = async (props) => {
-    console.log('props', props)
     const fetchObj = {
       token: token,
       favoriteBra: props,
