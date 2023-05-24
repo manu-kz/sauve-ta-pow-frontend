@@ -172,7 +172,6 @@ export default function SwipeItemFull() {
   // IF certaines infos pour le post de la db sont null PAS FETCH
   // useSelector dispatch itinéraire
   const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log(myItinerary)
 
   const itinerary = {
     itineraryName: itineraryName,
@@ -216,6 +215,7 @@ export default function SwipeItemFull() {
       alert('Sauvegarde ton trajet avant de continuer !')
     }
   };
+
 
   return (
     <KeyboardAwareScrollView style={styles.container}>

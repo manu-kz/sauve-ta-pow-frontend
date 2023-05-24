@@ -56,7 +56,7 @@ export default function braSection(props) {
       favoriteBra: props,
     };
     dispatch(keepFavoriteBra(props));
-
+   
     const rawRes = await fetch(
       'https://sauve-ta-pow-backend.vercel.app/users/update',
       {
@@ -67,8 +67,6 @@ export default function braSection(props) {
     );
     const jsonRes = await rawRes.json();
     const { result, message } = jsonRes;
-    //console.log('data articles apres fetch ==> ', jsonRes)
-    console.log('jsonRes', jsonRes);
     if (!result) {
       setError("Il'y a un problème, merci de réessayer");
     } else {

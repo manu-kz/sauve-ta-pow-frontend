@@ -98,7 +98,6 @@ export default function HealthForm({ navigation }) {
       }
     );
     const jsonRes = await rawRes.json();
-    console.log("Response Update DB ", jsonRes);
     const { result, message } = jsonRes;
     if (!result) {
       setError("Il'y a un problème, merci de réessayer");

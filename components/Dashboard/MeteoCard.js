@@ -31,7 +31,6 @@ export default function MeteoCard() {
         });
       }
     })();
-
     // FETCH LOCATION KEY POUR METEO
     if (user.location) {
       fetch(`http://10.0.2.110:3000/meteo/location/${user.location}`)
@@ -92,7 +91,7 @@ export default function MeteoCard() {
         <Image style={styles.meteoIcon} source={currentWeatherIcon}/>
 
         {!user.locationKey && (
-          <Text style={styles.weatherInfo}>Pas de connexion</Text>
+          <Text style={styles.weatherError}>Pas de connexion</Text>
         )}
         {user.locationKey && (
           <View style={styles.weather} >
@@ -146,6 +145,11 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   weatherInfo: {
+    fontSize: 15,
+    color: "#fff",
+  },
+  weatherError:{
+    textAlign:'center',
     fontSize: 15,
     color: "#fff",
   },

@@ -37,7 +37,6 @@ useEffect(() => {
 
 // récup les favoris depuis le store apres le dispatch
 const bookmarks = useSelector((state) => state.bookmarks.value)
-console.log('my bookmark store ==> ', bookmarks)
 
 const handleArticlesNavigation = () => {
     navigation.navigate('Articles')

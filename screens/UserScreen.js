@@ -29,7 +29,6 @@ export default function UserScreen({ navigation }) {
   useEffect(() => {
     fetch(`http://10.0.87:3000/users/${token}`).then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
-      console.log(data)
       for(let infos of data.user) {
         // set toutes les infos nécésaires pour les placer sur la page 
         setFirstname(infos.firstname? infos.firstname : 'Prénom')
@@ -62,7 +61,6 @@ export default function UserScreen({ navigation }) {
       quality: 1,
     });
 
-    console.log(result)
     // affiche image séléctionnée
     if (!result.canceled) {
       setImage(result.assets[0].uri);

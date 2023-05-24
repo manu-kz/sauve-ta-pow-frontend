@@ -135,8 +135,7 @@ const ItineraryStack = () => {
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
   const showLoginProcess = useSelector((state) => state.user.loginProcess);
-  //console.log("token in storage ==>", token)
-  //console.log('Is login process activated in storage ==>', showLoginProcess);
+
 
   //Fonctionnalité pour pouvoir appler dès l'appui sur le bouton phone
   const launchItinerary = useSelector((state) => state.launchItinerary.value);
@@ -147,7 +146,6 @@ const TabNavigator = () => {
   const handleLaunchItinerary = () => {
     setCall(true);
     setModalVisible(true);
-    console.log('OK');
   };
 
   let imageContainer = {

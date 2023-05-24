@@ -18,14 +18,11 @@ export const userSlice = createSlice({
         },
     keepToken: (state, action) => {
       state.token = action.payload;
-      // console.log('keepUsername', state.username)
-      // console.log('keepToken', state.token)
     },
 
     //LOGIN PROCESS ON OR OFF
     showLoginProcess: (state, action) => {
       state.loginProcess = action.payload;
-      console.log("loginProcess", showLoginProcess);
     },
 
     keepLocation: (state, action) => {
@@ -34,6 +31,7 @@ export const userSlice = createSlice({
     keepLocationInfo: (state, action) => {
       state.locationKey = action.payload.locationKey;
       state.locationName = action.payload.locationName;
+      
     },
     keepFavoriteBra: (state, action) => {
       state.favoriteBra = action.payload;

@@ -14,17 +14,14 @@ export const modalsSlice = createSlice({
     //SHOW THE DIFFERENT MODAL ONE AFTER THE OTHER
     setLoginModal: (state, action) => {
       state.loginModal = action.payload;
-      // console.log("loginModal", state);
     },
     setSignUpModal: (state, action) => {
       state.signUpModal = action.payload;
-      //console.log("SignUpModal", action.payload);
     },
 
     //SHOW HEALTH FORM
     showHealthForm: (state, action) => {
       state.healthForm = action.payload;
-      //console.log("showHealthForm", action.payload);
     },
     //SHOW CALL MODAL
     showCallModal: (state, action) => {
