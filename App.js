@@ -58,6 +58,8 @@ import showCallModal from './reducers/modals';
 
 //IMPORT FOR PHONE CALL
 import { Linking } from 'react-native';
+import { useDispatch, useSelector } from "react-redux";
+
 
 
 
@@ -186,6 +188,7 @@ const TabNavigator = () => {
   };
   
   //MODAL STEP
+  const dispatch = useDispatch();
   const callModal = useSelector((state) => state.modals.callModal);
 
 
