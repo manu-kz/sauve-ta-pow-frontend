@@ -17,7 +17,6 @@ export default function braSection(props) {
   const [bra, setBra] = useState([]);
   const [error, setError] = useState('');
   const [search, setSearch] = useState('');
-  console.log('search', search)
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
