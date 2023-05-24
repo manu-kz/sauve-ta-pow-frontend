@@ -26,11 +26,11 @@ export default function ItineraryListScreen({ navigation }) {
     console.log('fetch ok !!')
     fetch(`http://10.0.1.87:3000/itineraries/${token}`).then((response) => response.json()).then(data => {
       console.log(data.itineraries) 
-
-        data.itineraries.map((data, i) => {
-        console.log('data in map', data)
-        setMyItineraries([...myItineraries, data])
-        })
+        setMyItineraries(data.itineraries)
+        // data.itineraries.map((data, i) => {
+        // console.log('data in map', data)
+        // setMyItineraries(data)
+        // })
     })
   }, []);
 
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     margin: "10%",
   },
-  scrollView: {
-    marginBottom: '56%'
-  },
+  // scrollView: {
+  //   marginBottom: '15%'
+  // },
 });
