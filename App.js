@@ -167,7 +167,7 @@ const TabNavigator = () => {
       borderRadius: 50,
       borderColor: '#fff',
       borderWidth: 10,
-      backgroundColor: '#F94A56',
+      backgroundColor: '#52BD8F',
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 50,
@@ -175,7 +175,7 @@ const TabNavigator = () => {
   }
 
   const phoneCall = () => {
-    const phoneNumber = '112'; 
+    const phoneNumber = '+33698836092'; 
   
     Linking.openURL(`tel:${phoneNumber}`);
   };
@@ -269,6 +269,8 @@ const TabNavigator = () => {
           tabPress:(e) => {
               if (token && !launchItinerary){
                 handleLaunchItinerary()
+              } else if (token && launchItinerary){
+                phoneCall()
               }
           }
         }} />
