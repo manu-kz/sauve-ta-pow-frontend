@@ -1,58 +1,65 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { StyleSheet, TouchableOpacity, View, Image } from "react-native";
-import { useSelector } from "react-redux";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import { useSelector } from 'react-redux';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeScreen from "./screens/HomeScreen";
-import MeteoScreen from "./screens/MeteoScreen";
-import ItinerariesScreen from "./screens/ItinerariesScreen";
-import UiKitScreen from "./screens/UiKitScreen";
-import LoginScreen from "./screens/LoginScreen";
+import HomeScreen from './screens/HomeScreen';
+import MeteoScreen from './screens/MeteoScreen';
+import ItinerariesScreen from './screens/ItinerariesScreen';
+import UiKitScreen from './screens/UiKitScreen';
+import LoginScreen from './screens/LoginScreen';
 // NEWS SCREEN
-import NewsScreen from "./screens/NewsScreen";
-import FavorisScreen from "./screens/FavorisScreen";
-import EntireArticleScreen from "./screens/EntireArticleScreen";
-import ArticlesScreen from "./screens/ArticleScreen";
+import NewsScreen from './screens/NewsScreen';
+import FavorisScreen from './screens/FavorisScreen';
+import EntireArticleScreen from './screens/EntireArticleScreen';
+import ArticlesScreen from './screens/ArticleScreen';
 // USER SCREENS
-import UserScreen from "./screens/UserScreen";
-import PersonalInfosScreen from "./screens/PersonalInfoScreen";
-import HealthInfoScreen from "./screens/HealthInfoScreen";
-import ItinerariesInfoScreen from "./screens/ItinerariesInfoScreen";
-import HelpInfoScreen from "./screens/HelpInfoScreen";
-import ConfidentialityInfoScreen from "./screens/ConfidentialityInfoScreen";
+import UserScreen from './screens/UserScreen';
+import PersonalInfosScreen from './screens/PersonalInfoScreen';
+import HealthInfoScreen from './screens/HealthInfoScreen';
+import ItinerariesInfoScreen from './screens/ItinerariesInfoScreen';
+import HelpInfoScreen from './screens/HelpInfoScreen';
+import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
 
 //ITINERARY SCREENS
-import EntireItineraryScreen from "./screens/EntireItineraryScreen";
-import ItineraryListScreen from "./screens/ItineraryListScreen";
+import EntireItineraryScreen from './screens/EntireItineraryScreen';
+import ItineraryListScreen from './screens/ItineraryListScreen';
 
-
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 
 // persist store
 //AsyncStorage.clear()
-import { Provider } from "react-redux";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { persistStore, persistReducer } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
-import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import articles from "./reducers/articles";
-import user from "./reducers/user";
-import bookmarks from "./reducers/bookmarks";
-import modals from "./reducers/modals";
-import meteo from "./reducers/meteo";
-import itineraries from "./reducers/itineraries";
-import launchItinerary from "./reducers/launchItinerary";
+import { Provider } from 'react-redux';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { persistStore, persistReducer } from 'redux-persist';
+import { PersistGate } from 'redux-persist/integration/react';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import articles from './reducers/articles';
+import user from './reducers/user';
+import bookmarks from './reducers/bookmarks';
+import modals from './reducers/modals';
+import meteo from './reducers/meteo';
+import itineraries from './reducers/itineraries';
+import launchItinerary from './reducers/launchItinerary';
 // import reducers
 
-const reducers = combineReducers({ articles, user, modals, meteo, bookmarks, itineraries, launchItinerary });
+const reducers = combineReducers({
+  articles,
+  user,
+  modals,
+  meteo,
+  bookmarks,
+  itineraries,
+  launchItinerary,
+});
 const persistConfig = {
-  key: "Sauve-ta-Pow",
+  key: 'Sauve-ta-Pow',
   storage: AsyncStorage,
-  blacklist: ["modals", "meteo"],
+  blacklist: ['modals', 'meteo'],
 };
 
 // import reducers
@@ -99,22 +106,21 @@ const UserStack = () => {
 
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
-  const showLoginProcess = useSelector(state => state.user.loginProcess)
-  console.log('token in storage ==>', token)
-  console.log('Is login process activated in storage ==>', showLoginProcess)
+  const showLoginProcess = useSelector((state) => state.user.loginProcess);
+  console.log('token in storage ==>', token);
+  console.log('Is login process activated in storage ==>', showLoginProcess);
 
   //Fonctionnalité pour pouvoir appler dès l'appui sur le bouton phone
   const launchItinerary = useSelector((state) => state.launchItinerary.value);
-  
+
   const [modalVisible, setModalVisible] = useState(false);
   const [call, setCall] = useState(false);
 
   const handleLaunchItinerary = () => {
-    setCall(true)
-    setModalVisible(true)
-    console.log('OK')
-  }
-
+    setCall(true);
+    setModalVisible(true);
+    console.log('OK');
+  };
 
   let imageContainer = {
     height: 80,
@@ -126,12 +132,12 @@ const TabNavigator = () => {
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 50,
-}
+  };
 
-let imgUrl = require('./assets/picto_randonneur.png')
+  let imgUrl = require('./assets/picto_randonneur.png');
   //Changement de style pour le bouton randonneur -> phone
-  if(!launchItinerary){
-    imgUrl = require('./assets/picto_phone.png')
+  if (launchItinerary) {
+    imgUrl = require('./assets/picto_phone.png');
     imageContainer = {
       height: 80,
       width: 80,
@@ -142,46 +148,77 @@ let imgUrl = require('./assets/picto_randonneur.png')
       justifyContent: 'center',
       alignItems: 'center',
       marginBottom: 50,
-  }   
+    };
   }
 
   return (
     <Tab.Navigator
-    screenOptions={
-      ({ route }) => (
-        {
+      screenOptions={({ route }) => ({
         tabBarIcon: ({ color, size, style }) => {
-          let iconName = "";
-          if (route.name === "News") {
-            iconName = "file-text";
-            return <Feather name={iconName} size={25} color={color} style={style}/>;
-          } else if (route.name === "Meteo") {
-            iconName = "cloud-drizzle";
-            return <Feather name={iconName} size={25} color={color} style={style}/>;
-          } else if (route.name === "Hike") {
-            iconName = "navigation";
-            return <Feather name={iconName} size={25} color={color} style={style}/>;
-          } else if (route.name === "User") {
-            iconName = "user";
-            return <Feather name={iconName} size={25} color={color} style={style}/>;
-          } else if (route.name === "Home") {
-            iconName = "home";
-            return <Feather name={iconName} size={25} color={color} style={style}/>;
-          } else if (route.name === "Login") {
+          let iconName = '';
+          if (route.name === 'News') {
+            iconName = 'file-text';
             return (
-              <View style={imageContainer} onPress={token && !launchItinerary ? handleLaunchItinerary : console.log('error to call')}> 
-                <View style={styles.indicatorBefore}/>
-                  <Image
+              <Feather name={iconName} size={25} color={color} style={style} />
+            );
+          } else if (route.name === 'Meteo') {
+            iconName = 'cloud-drizzle';
+            return (
+              <Feather name={iconName} size={25} color={color} style={style} />
+            );
+          } else if (route.name === 'Hike') {
+            return (
+              <View
+                style={imageContainer}
+                onPress={
+                  token && !launchItinerary
+                    ? handleLaunchItinerary
+                    : console.log('error to call')
+                }
+              >
+                <View style={styles.indicatorBefore} />
+                <Image
                   source={imgUrl}
                   style={{
                     height: 40,
                     width: 40,
                   }}
-                  />
-                  <View style={styles.indicatorAfter}/>
+                />
+                <View style={styles.indicatorAfter} />
               </View>
-            )
-          } 
+            );
+          } else if (route.name === 'User') {
+            iconName = 'user';
+            return (
+              <Feather name={iconName} size={25} color={color} style={style} />
+            );
+          } else if (route.name === 'Home') {
+            iconName = 'home';
+            return (
+              <Feather name={iconName} size={25} color={color} style={style} />
+            );
+          } else if (route.name === 'Login') {
+            return (
+              <View
+                style={imageContainer}
+                onPress={
+                  token && !launchItinerary
+                    ? handleLaunchItinerary
+                    : console.log('error to call')
+                }
+              >
+                <View style={styles.indicatorBefore} />
+                <Image
+                  source={imgUrl}
+                  style={{
+                    height: 40,
+                    width: 40,
+                  }}
+                />
+                <View style={styles.indicatorAfter} />
+              </View>
+            );
+          }
         },
         tabBarStyle: {
           backgroundColor: '#213A5C',
@@ -190,19 +227,22 @@ let imgUrl = require('./assets/picto_randonneur.png')
           paddingTop: 15,
           height: 80,
         },
-        tabBarActiveTintColor: "#FFB703",
-        tabBarInactiveTintColor: "#FFFFFF",
+        tabBarActiveTintColor: '#FFB703',
+        tabBarInactiveTintColor: '#FFFFFF',
         headerShown: false,
-        tabBarShowLabel: false
+        tabBarShowLabel: false,
       })}
-      >
-      <Tab.Screen name="Home" component={HomeScreen}/>
+    >
+      <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="News" component={NewsStack} />
-      {(!token || showLoginProcess) ? <Tab.Screen name="Login" component={LoginScreen}/> 
-      : <Tab.Screen name="Hike" component={ItinerariesScreen} />}
+      {!token || showLoginProcess ? (
+        <Tab.Screen name="Login" component={LoginScreen} />
+      ) : (
+        <Tab.Screen name="Hike" component={ItinerariesScreen} />
+      )}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
-      {/*<Tab.Screen name="Phone" component={EntireItineraryScreen} />*/}
+      <Tab.Screen name="Phone" component={EntireItineraryScreen} />
       {/*<Tab.Screen name="itineraryList" component={ItineraryListScreen} />*/}
       {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
@@ -226,14 +266,14 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
   },
-  indicatorBefore:{
+  indicatorBefore: {
     width: 22,
     height: 25,
     backgroundColor: '#213A5C',
-    position: "absolute",
+    position: 'absolute',
     left: -32,
     top: 22.5,
     borderTopRightRadius: 20,
@@ -244,22 +284,21 @@ const styles = StyleSheet.create({
     shadowColor: '#fff',
     shadowOpacity: 1,
     shadowRadius: 0,
+  },
+  indicatorAfter: {
+    width: 22,
+    height: 25,
+    backgroundColor: '#213A5C',
+    position: 'absolute',
+    left: 70,
+    top: 22.5,
+    borderTopLeftRadius: 20,
+    shadowOffset: {
+      width: -2,
+      height: -15,
     },
-    indicatorAfter: {
-      width: 22,
-      height: 25,
-      backgroundColor: '#213A5C',
-      position: "absolute",
-      left: 70,
-      top: 22.5,
-      borderTopLeftRadius: 20,
-      shadowOffset: {
-        width: -2,
-        height: -15,
-      },
-      shadowColor: '#fff',
-      shadowOpacity: 1,
-      shadowRadius: 0,
-      },
-     
+    shadowColor: '#fff',
+    shadowOpacity: 1,
+    shadowRadius: 0,
+  },
 });

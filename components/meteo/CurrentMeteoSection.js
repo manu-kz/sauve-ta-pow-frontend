@@ -81,7 +81,7 @@ export default function MeteoScreen() {
     const newMeteoData = responseJSON.meteo.map((data) => {
       const dayOfWeek = new Date(data.Date)
         .toLocaleString('fr-fr', { weekday: 'long' })
-        .slice(0, -21);
+        .slice(0, -20);
 
       return {
         WeatherIcon: data.Day.Icon,
@@ -98,7 +98,7 @@ export default function MeteoScreen() {
     const dailyweatherIcon = selectWeatherIcon(data.WeatherIcon);
     const today = new Date()
       .toLocaleString('fr-fr', { weekday: 'long' })
-      .slice(0, -21);
+      .slice(0, -20);
 
     return (
       <View key={i} style={styles.dailyContainer}>
