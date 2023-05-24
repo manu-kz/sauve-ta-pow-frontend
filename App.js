@@ -183,7 +183,7 @@ const TabNavigator = () => {
     Linking.openURL(`tel:${phoneNumber}`);
   };
   
-  //MODAL ETAPES
+  //MODAL STEP
   const callModal = useSelector((state) => state.modals.callModal);
 
 
