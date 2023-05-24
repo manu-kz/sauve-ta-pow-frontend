@@ -10,10 +10,21 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { showCallModal } from "../reducers/modals";
+import { useEffect, useState } from 'react';
+
 
 export default function CallModal() {
   const dispatch = useDispatch();
   const callModal = useSelector((state) => state.modals.callModal);
+  const [threeWord, setThreeWords] = useState('');
+
+  useEffect(() => {
+    fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/what3words/${longitude}/${latitude}`)
+      .then(response => response.json())
+      .then(data => {
+        setThreeWords(data.words);
+      });
+  }, []);
 
   const step = [
     { number: 1, description: "Identifiez-vous. Indiquez votre nom et numéro de téléphone." },
@@ -21,7 +32,7 @@ export default function CallModal() {
     { number: 3, description: "Précisez le nombre et l’état apparent des victimes." },
     { number: 4, description: "Décrivez la situation." },
     { number: 5, description: "Précisez s’il y a des risques persistants." },
-    { number: 6, description: "Indiquez votre localisation grâce à ces trois mots :" },
+    { number: 6, description: `Indiquez votre localisation grâce à ces trois mots :${threeWord}` },
   ];
 
   const stepList = step.map((data, i) => (
@@ -32,6 +43,9 @@ export default function CallModal() {
       <Text style={styles.p}>{data.description}</Text>
     </View>
   ));
+
+
+  
   return (
     <Modal animationType="slide" transparent={true} visible={callModal}>
       <View style={styles.modalView}>
