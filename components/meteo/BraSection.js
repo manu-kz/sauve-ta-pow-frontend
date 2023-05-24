@@ -67,8 +67,6 @@ export default function braSection(props) {
     );
     const jsonRes = await rawRes.json();
     const { result, message } = jsonRes;
-    //console.log('data articles apres fetch ==> ', jsonRes)
-    console.log('jsonRes', jsonRes);
     if (!result) {
       setError("Il'y a un problème, merci de réessayer");
     } else {

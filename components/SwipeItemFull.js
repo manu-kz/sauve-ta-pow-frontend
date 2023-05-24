@@ -174,7 +174,6 @@ export default function SwipeItemFull() {
   // IF certaines infos pour le post de la db sont null PAS FETCH
   // useSelector dispatch itinéraire
   const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log(myItinerary)
 
   const itinerary = {
     itineraryName: itineraryName,
@@ -216,7 +215,6 @@ export default function SwipeItemFull() {
 
   // handle show itinerary image
   const image = useSelector((state) => state.itineraries.value.itineraryImg)
-  console.log('url image ===> ',image)
   
   return (
     <KeyboardAwareScrollView style={styles.container}>

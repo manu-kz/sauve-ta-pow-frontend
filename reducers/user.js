@@ -18,14 +18,11 @@ export const userSlice = createSlice({
         },
     keepToken: (state, action) => {
       state.token = action.payload;
-      // console.log('keepUsername', state.username)
-      // console.log('keepToken', state.token)
     },
 
     //LOGIN PROCESS ON OR OFF
     showLoginProcess: (state, action) => {
       state.loginProcess = action.payload;
-      console.log("loginProcess", showLoginProcess);
     },
 
     keepLocation: (state, action) => {
