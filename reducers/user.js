@@ -30,13 +30,16 @@ export const userSlice = createSlice({
 
     keepLocation: (state, action) => {
       state.location = action.payload;
+      // console.log('state.location', state.location)
     },
     keepLocationInfo: (state, action) => {
       state.locationKey = action.payload.locationKey;
       state.locationName = action.payload.locationName;
+      
     },
     keepFavoriteBra: (state, action) => {
       state.favoriteBra = action.payload;
+      console.log('state.favoriteBra', state.favoriteBra)
     },
   },
 });
