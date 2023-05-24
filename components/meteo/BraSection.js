@@ -51,12 +51,13 @@ export default function braSection(props) {
   }, []);
 
   const handleFav = async (props) => {
+    console.log('props', props)
     const fetchObj = {
       token: token,
       favoriteBra: props,
     };
     dispatch(keepFavoriteBra(props));
-
+   
     const rawRes = await fetch(
       'https://sauve-ta-pow-backend.vercel.app/users/update',
       {

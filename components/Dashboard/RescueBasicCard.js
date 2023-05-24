@@ -78,6 +78,7 @@ export default function RescueBasicCard(props) {
       </View>
     </Modal>
   );
+  console.log('props.img', props.img)
   return (
     <>
       {modal}
@@ -88,8 +89,8 @@ export default function RescueBasicCard(props) {
           activeOpacity={1}
         >
           <Image
+            source={props.img}
             style={styles.cardImageRescueBasics}
-            // source={require("../../assets/rescue1")}
           />
           <View style={styles.rescueBasicsCardHeader}>
             <View style={styles.cardHeaderRescueBasics}>
