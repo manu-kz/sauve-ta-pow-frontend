@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 import { useState } from 'react';
 import BraSection from '../components/meteo/BraSection';
-import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
+//import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
 
 export default function MeteoScreen() {
   const [height, setHeight] = useState(0);
@@ -39,7 +39,7 @@ export default function MeteoScreen() {
           <SafeAreaView style={styles.container}>
           <Text style={styles.h1}>Météo</Text>
           <View style={styles.contentContainer}>
-            <CurrentMeteoSection />
+            {/* <CurrentMeteoSection /> */}
           </View>
           </SafeAreaView>
         </ImageBackground>

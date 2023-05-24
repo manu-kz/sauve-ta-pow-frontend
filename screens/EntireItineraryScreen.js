@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -17,21 +17,27 @@ export default function EntireItineraryScreen() {
   const dispatch = useDispatch();
 
   const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log(myItinerary)
+  //console.log('itinerary',myItinerary)
 
   const [islaunched, setIslaunched] = useState(false);
   const [btnContent, setBtnContent] = useState("Commencer");
 
   const handleLaunchItinerary = () => {
-    setIslaunched(true)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Quitter");
+    setIslaunched(!islaunched)
   };
-  const handleQuitItinerary = () => {
-    setIslaunched(false)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Commencer");
-  };
+
+  
+  useEffect(() => {
+    if (islaunched) {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Quitter");
+    } else {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Commencer");
+    }
+  }, [islaunched]); 
+  
+
 
   let launchBtn = {
     backgroundColor: "#FFB703",
@@ -123,7 +129,8 @@ export default function EntireItineraryScreen() {
         </View>
         <TouchableOpacity
           style={launchBtn}
-          onPress={islaunched ? handleQuitItinerary : handleLaunchItinerary}
+          onPress={
+            handleLaunchItinerary}
         >
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>
