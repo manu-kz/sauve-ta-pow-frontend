@@ -226,12 +226,12 @@ export default function App() {
                 </Text>
                 {/* <View > */}
                   <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>
-                    <Text >OK</Text>
+                    <Text style={styles.textOK}>OK</Text>
                   </TouchableOpacity>
                 {/* </View> */}
               </View>
-              <View>
-                {dispatchOk && <Text>Swipe Up pour continuer ton itinéraire</Text>}
+              <View style={styles.swipeUp}>
+                {dispatchOk && <Text style={styles.swipeUpToContinue}>Swipe Up pour continuer ton itinéraire</Text>}
               </View>
             </View>
           ) : null}
@@ -285,13 +285,28 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  textOK: {
+    color: 'white'
+  },
   validationButton: {
-    backgroundColor: '#EDEDED',
+    backgroundColor: '#213A5C',
     width: 50,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+  },
+  swipeUpToContinue: {
+    fontSize: 18,
+    color: 'white',
+  },
+  swipeUp: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#213A5C',
+    marginTop: 10,
+    borderRadius: 20,
+    height: 35,
   },
 });
 

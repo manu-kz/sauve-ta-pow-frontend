@@ -187,7 +187,7 @@ export default function SwipeItemFull() {
   // {"arrival": {"latitude": 45.764043, "longitude": 4.835659}, "date": 2023-05-23T15:49:49.970Z, "departure": {"latitude": 45.77722199999999, "longitude": 3.087025}, "discipline": "ski", "itineraryImg": null, "itineraryName": "vs vvs", "memberNumber": "5", "members": ["bdbd"], "supervisor": "encrnfjf", "time": 2023.65, "waypoints": [], "waypointsName": []}
   const itinerary = {
     itineraryName: itineraryName,
-    memberNumber: numberParticipants,
+    membersNumber: numberParticipants,
     date: date,
     members: allMembers,
     supervisor: supervisor,
