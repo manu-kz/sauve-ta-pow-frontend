@@ -52,13 +52,14 @@ import modals from './reducers/modals';
 import meteo from './reducers/meteo';
 import itineraries from './reducers/itineraries';
 import launchItinerary from './reducers/launchItinerary';
-import showCallModal from './reducers/modals';
 
 // import reducers
 
 //IMPORT FOR PHONE CALL
 import { Linking } from 'react-native';
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import showCallModal from './reducers/modals';
+
 
 
 
@@ -189,8 +190,6 @@ const TabNavigator = () => {
   
   //MODAL STEP
   const dispatch = useDispatch();
-  const callModal = useSelector((state) => state.modals.callModal);
-
 
   return (
     <Tab.Navigator
