@@ -27,6 +27,7 @@ import ConfidentialityInfoScreen from "./screens/ConfidentialityInfoScreen";
 //ITINERARY SCREENS
 import EntireItineraryScreen from "./screens/EntireItineraryScreen";
 import ItineraryListScreen from "./screens/ItineraryListScreen";
+import SwipeItemFull from "./components/SwipeItemFull";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import Feather from "react-native-vector-icons/Feather";
@@ -110,6 +111,7 @@ const ItineraryStack = () => {
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name="ItinerariesList" component={ItineraryListScreen} />
       <Stack.Screen name="Itineraries" component={ItinerariesScreen} />
+      <Stack.Screen name="SwipeItem" component={SwipeItemFull} />
       <Stack.Screen name="EntireItinerary" component={EntireItineraryScreen} />
     </Stack.Navigator>
   );
