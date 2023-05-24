@@ -12,6 +12,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
+import CallModal from '../components/CallModal';
 
 
 import moment from "moment";
@@ -173,6 +174,7 @@ export default function EntireItineraryScreen() {
       <View style={styles.whiteRectangle}>
 
       </View>
+      <CallModal/>
     </SafeAreaView>
   );
 }
