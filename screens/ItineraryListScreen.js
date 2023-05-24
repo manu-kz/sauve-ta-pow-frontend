@@ -24,8 +24,8 @@ export default function ItineraryListScreen({ navigation }) {
 
   useEffect(() => {
     console.log('fetch ok !!')
-    fetch(`http://10.0.1.87:3000/itineraries/${token}`).then((response) => response.json()).then(data => {
-      console.log(data.itineraries) 
+    fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/${token}`).then((response) => response.json()).then(data => {
+      console.log('data fetch',data.itineraries) 
         setMyItineraries(data.itineraries)
         // data.itineraries.map((data, i) => {
         // console.log('data in map', data)
@@ -86,9 +86,10 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   whiteRectangle: {
-    backgroundColor: "#FFFFFF",
-    width: "100%",
-    height: 15,
+    // backgroundColor: "pink",
+    // width: "100%",
+    // height: 5,
+    // zIndex: 0
   },
   buttonCircleGrey: {
     width: 50,
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     paddingRight: 10,
     margin: "10%",
   },
-  // scrollView: {
-  //   marginBottom: '15%'
-  // },
+  scrollView: {
+    height: '71%'
+  },
 });
