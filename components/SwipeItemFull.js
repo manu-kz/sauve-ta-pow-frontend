@@ -184,7 +184,7 @@ export default function SwipeItemFull() {
   // "itineraryName": "test", "memberNumber": "5", "members": ["bjsjsf", "bfjzvd"], "supervisor": "rockf", 
   // "time": 2418.4333333333334, "waypoints": [{"latitude": 45.439695, "longitude": 4.3871779}], "waypointsName": ["Saint-Étienne"]}    
 
-
+  // {"arrival": {"latitude": 45.764043, "longitude": 4.835659}, "date": 2023-05-23T15:49:49.970Z, "departure": {"latitude": 45.77722199999999, "longitude": 3.087025}, "discipline": "ski", "itineraryImg": null, "itineraryName": "vs vvs", "memberNumber": "5", "members": ["bdbd"], "supervisor": "encrnfjf", "time": 2023.65, "waypoints": [], "waypointsName": []}
   const itinerary = {
     itineraryName: itineraryName,
     memberNumber: numberParticipants,
@@ -193,8 +193,12 @@ export default function SwipeItemFull() {
     supervisor: supervisor,
     discipline: discipline,
   }
-  const handleSubmit = () => {
+
+  const handleSave = () => {
     dispatch(addItinerarySecondtPart(itinerary))
+  }
+
+  const handleSubmit = () => {
     if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
       fetch('http://10.0.1.87:3000/itineraries/newItinerary', {
         method: "POST",
@@ -204,11 +208,11 @@ export default function SwipeItemFull() {
         },
         body: JSON.stringify(myItinerary)
       }).then(response => response.json()).then(data => {
-        console.log(data)
+        console.log('data fetch ==>',data)
+        // une fois post delete itineraire du reducer
         dispatch(removeItinerary())
       })
     }
-    // une fois post delete itineraire du reducer
   };
   
   return (
@@ -301,13 +305,22 @@ export default function SwipeItemFull() {
               />
             </TouchableOpacity>
           </View>
-          <TouchableOpacity
-            style={styles.buttonLong}
-            activeOpacity={0.8}
-            onPress={() => handleSubmit()}
-          >
-            <Text style={styles.textButtonWhite}>Enregistrer</Text>
-          </TouchableOpacity>
+          <View style={styles.saveButtons}>
+            <TouchableOpacity
+              style={styles.buttonLong}
+              activeOpacity={0.8}
+              onPress={() => handleSave()}
+            >
+              <Text style={styles.textButtonWhite}>Save</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonLong}
+              activeOpacity={0.8}
+              onPress={() => handleSubmit()}
+            >
+              <Text style={styles.textButtonWhite}>Continue</Text>
+            </TouchableOpacity>
+          </View>
         </View>
     </KeyboardAwareScrollView>
   );
@@ -384,14 +397,18 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
   },
+  saveButtons: {
+    flexDirection: 'row'
+  },
   buttonLong: {
-    width: "100%",
+    width: "40%",
     height: 40,
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#8B9EAB",
     borderRadius: 50,
     marginTop: "10%",
+    marginRight: 60,
   },
   textButtonWhite: {
     color: "#ffffff",
