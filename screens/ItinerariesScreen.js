@@ -114,7 +114,6 @@ export default function App() {
       console.error("Erreur lors de la récupération de la position:", error);
     }
   };
-  console.log('depart / arrive NAME ===> ', departureName, arrivalName)
 
   const itinerayLineOnReady = (args) => {
     if (args) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -12,16 +12,15 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
+import moment from "moment";
 
 export default function EntireItineraryScreen() {
-  const dispatch = useDispatch();
 
-  const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log(myItinerary)
+  const dispatch = useDispatch();
 
   const [islaunched, setIslaunched] = useState(false);
   const [btnContent, setBtnContent] = useState("Commencer");
-
+  
   const handleLaunchItinerary = () => {
     setIslaunched(true)
     dispatch(launchItinerary(islaunched))
@@ -32,7 +31,7 @@ export default function EntireItineraryScreen() {
     dispatch(launchItinerary(islaunched))
     setBtnContent("Commencer");
   };
-
+  
   let launchBtn = {
     backgroundColor: "#FFB703",
     padding: 20,
@@ -42,7 +41,7 @@ export default function EntireItineraryScreen() {
     width: "50%",
     marginLeft: "25%",
   };
-
+  
   if (islaunched) {
     launchBtn = {
       backgroundColor: "#F94A56",
@@ -54,6 +53,46 @@ export default function EntireItineraryScreen() {
       marginLeft: "25%",
     };
   }
+  
+  // handle information from reducer
+  const myItinerary = useSelector((state) => state.itineraries.value)
+  
+  // faire map sur les noms de membre participants
+  const members = myItinerary.members.map((data, i) => {
+    return (
+      <View style={styles.peopleCard}>
+        <Text style={styles.peopleCardContent} key={i}>
+          {data} <FontAwesome name="close" size={12} color="#FFFFFF" />
+        </Text>
+      </View>
+    )
+  })
+
+  // handle waypoints 
+  const [ isWaypoints, setIsWaypoints ] = useState(false)
+  const waypointsName = myItinerary.waypointsName
+
+  // check si il y a des waypoints
+  useEffect(() => {
+    if(myItinerary.waypointsName.length) {
+      setIsWaypoints(true)
+    }
+  }, []);
+
+  // ajout de waypoints sur la page
+  const allWaypoints = waypointsName.map((data, i) => {
+    return (
+      <View style={styles.iconSection} key={i}>
+        <View style={styles.iconContainer}>
+          <FontAwesome name="flag" size={20} color="#FFFFFF" />
+        </View>
+        <View style={styles.itineraryTextContainer}>
+          <Text style={styles.h3}>Point de passage {1}</Text>
+          <Text style={styles.p}>{data}</Text>
+        </View>
+      </View>
+    )
+  })
 
   return (
     <SafeAreaView style={styles.container}>
@@ -61,13 +100,14 @@ export default function EntireItineraryScreen() {
         <View style={styles.header}>
           <View style={styles.discipline}>
             <Image
+              tintColor='white'
               style={styles.disciplineImg}
               source={require("../assets/diciplinesIcons/snowshoe.png")}
             />
           </View>
           <View>
-            <Text style={styles.h1}>Nom Itinéraire</Text>
-            <Text style={styles.p}>01/01/2024 • temps estimé : 0h00</Text>
+            <Text style={styles.h1}>{myItinerary.itineraryName}</Text>
+            <Text style={styles.p}>{moment(myItinerary.date).format('DD/MM/YYYY')} • temps estimé : {myItinerary.time}</Text>
           </View>
         </View>
         <Image
@@ -75,51 +115,41 @@ export default function EntireItineraryScreen() {
           source={require("../assets/map.jpg")}
         />
         <Text style={styles.h2}>Informations</Text>
-        <Text style={styles.p}>3 membres</Text>
+        <Text style={styles.p}>{myItinerary.membersNumber} membre(s)</Text>
         <View style={styles.peopleCardSection}>
-          <View style={styles.peopleCard}>
-            <Text style={styles.peopleCardContent}>
-              Username <FontAwesome name="close" size={12} color="#FFFFFF" />
-            </Text>
-          </View>
+            {members}
         </View>
         <Text style={styles.p}>1 encadrant</Text>
         <View style={styles.peopleCardSection}>
           <View style={styles.peopleCard}>
             <Text style={styles.peopleCardContent}>
-              Username <FontAwesome name="close" size={12} color="#FFFFFF" />
+              {myItinerary.supervisor} <FontAwesome name="close" size={12} color="#FFFFFF" />
             </Text>
           </View>
         </View>
         <Text style={styles.h2}>Etapes de mon itinéraire</Text>
-        <View>
+        <View style={styles.trajetContainer}>
           <View style={styles.iconSection}>
             <View style={styles.iconContainer}>
               <Ionicons name="location-outline" size={20} color="#FFFFFF" />
             </View>
             <View style={styles.itineraryTextContainer}>
               <Text style={styles.h3}>Départ</Text>
-              <Text style={styles.p}>Nom du lieu</Text>
+              <Text style={styles.p}>{myItinerary.departureName}</Text>
             </View>
           </View>
-          <View style={styles.iconSection}>
-            <View style={styles.iconContainer}>
-              <FontAwesome name="flag" size={20} color="#FFFFFF" />
-            </View>
-            <View style={styles.itineraryTextContainer}>
-              <Text style={styles.h3}>Point(s) de passage</Text>
-              <Text style={styles.p}>Nom du lieu</Text>
-            </View>
-          </View>
+          {/* condition si points de passages les afficher */}
+          {isWaypoints && allWaypoints}
           <View style={styles.iconSection}>
             <View style={styles.iconContainer}>
               <Ionicons name="location-outline" size={20} color="#FFFFFF" />
             </View>
             <View style={styles.itineraryTextContainer}>
               <Text style={styles.h3}>Arrivée</Text>
-              <Text style={styles.p}>Nom du lieu</Text>
+              <Text style={styles.p}>{myItinerary.arrivalName}</Text>
             </View>
           </View>
+          <View style={styles.boderDecoration}></View>
         </View>
         <TouchableOpacity
           style={launchBtn}
@@ -127,7 +157,6 @@ export default function EntireItineraryScreen() {
         >
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>
-        <View style={styles.boderDecoration}></View>
       </ScrollView>
       <View style={styles.whiteRectangle}>
 
@@ -195,10 +224,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#8B9EAB",
     padding: 15,
     borderRadius: 50,
+    flexDirection: 'row',
+    marginRight: 10,
+    height: 50,
+    width: '30%',
+    justifyContent: 'center',
+    alignItems: 'center'
   },
   peopleCardContent: {
     color: "#FFFFFF",
   },
+  trajetContainer: {
+    marginTop: 10,
+
+  },
+
+
+
   iconSection: {
     flexDirection: "row",
     marginTop: "5%",
@@ -223,10 +265,13 @@ const styles = StyleSheet.create({
     borderColor: "#8B9EAB",
     position: "absolute",
     width: "100%",
-    height: "20%",
-    top: "60%",
-    left: "6.3%",
+    // height: "20%",
+    // top: "5%",
+    // bottom: '10%',
+    left: "7%",
     zIndex: -1,
+    marginTop: 18,
+    height: '80%',
   },
   whiteRectangle: {
     backgroundColor: '#FFFFFF',

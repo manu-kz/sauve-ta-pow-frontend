@@ -155,7 +155,6 @@ export default function SwipeItemFull() {
   const [members, setmembers] = useState('');
   const [ allMembers, setAllMembers ] = useState([])
 
-  console.log(members)
 
   const handleMembers = () => {
     // state contenant tous les membres
@@ -175,7 +174,6 @@ export default function SwipeItemFull() {
   // IF certaines infos pour le post de la db sont null PAS FETCH
   // useSelector dispatch itinéraire
   const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log('info from reducer ==>',myItinerary)  
 
   const itinerary = {
     itineraryName: itineraryName,
@@ -206,9 +204,9 @@ export default function SwipeItemFull() {
         },
         body: JSON.stringify(myItinerary)
       }).then(response => response.json()).then(data => {
-        console.log('data fetch ==>',data)
         // une fois post delete itineraire du reducer
         // dispatch(removeItinerary())
+
         // navigue vers la page de résumé de l'itinéraire
         navigation.navigate('EntireItinerary')
       })
