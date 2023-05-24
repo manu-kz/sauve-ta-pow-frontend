@@ -25,7 +25,6 @@ export default function LoginScreen({ navigation }) {
   const loginModal = useSelector((state) => state.modals.loginModal);
   const signUpModal = useSelector((state) => state.modals.signUpModal);
 
-  console.log("loginModals / signUpModals", loginModal, signUpModal);
 
   return (
     <ImageBackground
