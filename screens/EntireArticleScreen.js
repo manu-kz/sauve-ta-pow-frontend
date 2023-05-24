@@ -34,7 +34,7 @@ import {
     article.isBookmarked = !article.isBookmarked
     const isBookmarked = bookmarks?.some(bookmark => bookmark.title === article.title);
     if(isBookmarked) {
-      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/deleteBookmark/${token}`, {
+      fetch(`http://10.0.87:3000/bookmarks/deleteBookmark/${token}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(article)
@@ -42,13 +42,11 @@ import {
         dispatch(removeBookmark(data.bookmark))
       })
     } else {
-      console.log('else')
-      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/newBookmark/${token}`, {
+      fetch(`http://10.0.87:3000/bookmarks/newBookmark/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(article)
       }).then((response) => response.json()).then(data => {
-        console.log('data articles apres fetch ==> ', data.bookmark)
         heartColor = '#D5D8DC'
         dispatch(addBookmark(data.bookmark))
       })
@@ -65,7 +63,6 @@ import {
     navigation.navigate('Articles')
   }
 
-  console.log(article.author)
 
    return (
      <View style={styles.entireArticle}>

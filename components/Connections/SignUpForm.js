@@ -55,7 +55,6 @@ export default function SignUpForm({ navigation }) {
     );
     const jsonRes = await rawRes.json();
 
-    console.log("Response Création User ", jsonRes);
 
     const { token, result, error } = jsonRes;
 

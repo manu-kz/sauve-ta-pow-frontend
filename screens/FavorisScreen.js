@@ -29,7 +29,7 @@ const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
 
 //  useEffect fetch get les favoris d'un user
 useEffect(() => {
-    fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/bookmarks/${token}`).then((response) => response.json()).then(data => {
+    fetch(`http://10.0.87:3000/bookmarks/bookmarks/${token}`).then((response) => response.json()).then(data => {
       // dispatch favoris dans le store 
       dispatch(importBookmarks(data.bookmarks))
     })
@@ -37,7 +37,6 @@ useEffect(() => {
 
 // récup les favoris depuis le store apres le dispatch
 const bookmarks = useSelector((state) => state.bookmarks.value)
-console.log('my bookmark store ==> ', bookmarks)
 
 const handleArticlesNavigation = () => {
     navigation.navigate('Articles')

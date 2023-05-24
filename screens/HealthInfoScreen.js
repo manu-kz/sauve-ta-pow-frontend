@@ -23,7 +23,7 @@ import {
         navigation.navigate('UserPage')
       }
 
-    const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+    const token = useSelector((state) => state.user.token)
 
     // fetch des infos du user en fonction du token 
     // set toutes les infos nécésaires pour els placer sur la page 
@@ -44,7 +44,6 @@ import {
     useEffect(() => {
       fetch(`http://10.0.1.87:3000/users/${token}`).then((response) => response.json()).then(data => {
         // dispatch articles dans le store 
-        console.log(data)
         for(let infos of data.user) {
           // set toutes les infos nécésaires pour les placer sur la page 
           // mis en string pour être accepter dans l'input

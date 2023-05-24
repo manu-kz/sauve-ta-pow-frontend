@@ -36,7 +36,6 @@ export default function App() {
 
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
-          //console.log('LOCATION', location.coords);
           setCurrentPosition(location.coords);
         });
       }
@@ -58,8 +57,6 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        // console.log("Position:", position);
-        // console.log("Place:", placeId);
         setDeparture(position);
         setDepartureName(details.structured_formatting.main_text)
       }
@@ -81,7 +78,6 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        // console.log("Position:", position);
         setWayPoint([...wayPoint, position]);
         setWayPointName([
           ...wayPointName,
@@ -107,7 +103,6 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        // console.log("Position:", position);
         setArrival(position);
         setArrivalName(details.structured_formatting.main_text)
       }
@@ -246,17 +241,19 @@ export default function App() {
           {distance && duration ? (
             <View>
               <View style={styles.validationContainer}> 
-                <Text>Distance: {distance.toFixed(2)} km</Text>
-                <Text>
-                  Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
-                  {duration >= 60 && duration < 1440 && "h"}
-                  {duration < 60 && "min"}
-                </Text>
-                {/* <View > */}
+                <View  style={styles.distance}>
+                  <Text>Distance: {distance.toFixed(2)} km</Text>
+                </View>
+                <View  style={styles.time}>
+                  <Text>
+                    Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
+                    {duration >= 60 && duration < 1440 && "h"}
+                    {duration < 60 && "min"}
+                  </Text>
+                </View>
                   <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>
                     <Text style={styles.textOK}>OK</Text>
                   </TouchableOpacity>
-                {/* </View> */}
               </View>
             </View>
           ) : null}
@@ -282,10 +279,11 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: 'white',
   },
   map: {
     width: Dimensions.get("window").width,
-    height: Dimensions.get("window").height,
+    height: '98%',
   },
   searchBarContainer: {
     position: "absolute",
@@ -311,6 +309,22 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  distance: {
+    backgroundColor: '#EDEDED',
+    width: '45%',
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  time: {
+    backgroundColor: '#EDEDED',
+    width: '30%',
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,   
+  },
   textOK: {
     color: 'white'
   },
@@ -335,5 +349,3 @@ const styles = StyleSheet.create({
     height: 35,
   },
 });
-
-// TAKE SCREEN SHOT 

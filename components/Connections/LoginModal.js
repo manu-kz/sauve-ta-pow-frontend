@@ -39,7 +39,6 @@ export default function LoginModal({ navigation }) {
     );
     const jsonRes = await rawRes.json();
 
-    console.log("Response Login ", jsonRes);
 
     const { token, result } = jsonRes;
 

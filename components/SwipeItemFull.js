@@ -25,9 +25,7 @@ export default function SwipeItemFull() {
   const [itineraryName, setItineraryName] = useState("");
   const [numberParticipants, setNumberParticipants] = useState(0);
   const [supervisor, setSupervisor] = useState([]);
-  
-  const today = moment().format('DD-MM-YYYY');
-  
+    
   
   // handle click on a discipline
   const [hike, setHike] = useState(false);
@@ -174,7 +172,6 @@ export default function SwipeItemFull() {
   // IF certaines infos pour le post de la db sont null PAS FETCH
   // useSelector dispatch itinéraire
   const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log(myItinerary)
 
   const itinerary = {
     itineraryName: itineraryName,
@@ -185,8 +182,11 @@ export default function SwipeItemFull() {
     discipline: discipline,
   }
 
+  const [ isSave, setIsSave ] = useState(false)
   // quand appuie sur button save dispatch les info pour tous récup quand fetch
   const handleSave = () => {
+    // check si les données sont bien save avant de continue
+    setIsSave(true)
     dispatch(addItinerarySecondtPart(itinerary))
   }
 
@@ -196,28 +196,27 @@ export default function SwipeItemFull() {
 
   // fetch des données de l'itinéraire et remove les infos du réducer
   const handleSubmit = () => {
-    if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
-      fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/newItinerary/${token}`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(myItinerary)
-      }).then(response => response.json()).then(data => {
-        // une fois post delete itineraire du reducer
-        // dispatch(removeItinerary())
-
-        // navigue vers la page de résumé de l'itinéraire
-        navigation.navigate('EntireItinerary')
-      })
+    if(isSave) {
+      if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
+        fetch(`http://10.0.1.87:3000/itineraries/newItinerary/${token}`, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(myItinerary)
+        }).then(response => response.json()).then(data => {  
+          // navigue vers la page de résumé de l'itinéraire
+          navigation.navigate('EntireItinerary')
+          setIsSave(false)
+        })
+      }
+    } else {
+      alert('Sauvegarde ton trajet avant de continuer !')
     }
   };
 
-  // handle show itinerary image
-  const image = useSelector((state) => state.itineraries.value.itineraryImg)
-  console.log('url image ===> ',image)
-  
+
   return (
     <KeyboardAwareScrollView style={styles.container}>
       <View style={styles.ligneIconContainer}>
@@ -265,7 +264,6 @@ export default function SwipeItemFull() {
             />
            <View style={styles.membersInput}>
               <TextInput
-              // style={styles.input} 
               placeholder="Ajouter un membre" 
               onChangeText={(value) => setmembers(value)}
               value={members}
@@ -310,18 +308,19 @@ export default function SwipeItemFull() {
           </View>
           <View style={styles.saveButtons}>
             <TouchableOpacity
-              style={styles.buttonLong}
+              style={styles.buttonSave}
               activeOpacity={0.8}
               onPress={() => handleSave()}
             >
-              <Text style={styles.textButtonWhite}>Save</Text>
+              <Text style={styles.textButtonWhite}>Enregistrer</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.buttonLong}
               activeOpacity={0.8}
               onPress={() => handleSubmit()}
             >
-              <Text style={styles.textButtonWhite}>Continue</Text>
+              <Text style={styles.textButtonWhite}>Continuer</Text>
+              <FontAwesome name='angle-right' size={30} color='white' />
             </TouchableOpacity>
           </View>
         </View>
@@ -333,7 +332,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: "5%",
-    // marginBottom: 40,
   },
   h2: {
     fontSize: 20,
@@ -409,6 +407,18 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "#8B9EAB",
+    borderRadius: 50,
+    marginTop: "10%",
+    marginRight: 60,
+    flexDirection :'row',
+    justifyContent: 'space-around'
+  },
+  buttonSave: {
+    width: "40%",
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F94A56",
     borderRadius: 50,
     marginTop: "10%",
     marginRight: 60,

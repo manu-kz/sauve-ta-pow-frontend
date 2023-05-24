@@ -31,7 +31,7 @@ export default function NewsScreen() {
 
   // fetch des articles alpinismes
   useEffect(() => {
-    fetch('https://sauve-ta-pow-backend.vercel.app/articles/').then((response) => response.json()).then(data => {
+    fetch('http://10.0.1.87:3000/articles/').then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
       dispatch(importArticles(data.articles))
     })
@@ -60,7 +60,7 @@ export default function NewsScreen() {
 
   // handle la recherche d'articles
   const handleSearch = () => {
-    fetch(`https://sauve-ta-pow-backend.vercel.app/articles/${search}`).then((response) => response.json()).then(data => {
+    fetch(`http://10.0.1.87:3000/articles/${search}`).then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
       dispatch(importArticles(data.articles))
       setSearch('')
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
 
     // article container
     articlesContainer: {
-      height: '75%'
+      height: '72%'
     },
    });
 
