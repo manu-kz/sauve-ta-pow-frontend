@@ -3,29 +3,15 @@ import {
   Text,
   View,
   SafeAreaView,
-  TextInput,
-  KeyboardAvoidingView,
-  TouchableWithoutFeedback,
-  Keyboard,
-  TouchableOpacity,
-  Image,
   ScrollView,
   ImageBackground,
   Platform,
   StatusBar,
 } from 'react-native';
-import { useState } from 'react';
 import BraSection from '../components/meteo/BraSection';
-//import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
+import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
 
 export default function MeteoScreen() {
-  const [height, setHeight] = useState(0);
-
-  // définition de la hauteur de ImageBackground pour placer l'input
-  const onLayout = (event) => {
-    const { height } = event.nativeEvent.layout;
-    setHeight(height);
-  };
 
   return (
     <>
@@ -34,16 +20,15 @@ export default function MeteoScreen() {
           source={require('../assets/mountain-background.jpeg')}
           style={styles.imgBackground}
           resizeMode="cover"
-          onLayout={onLayout}
         >
           <SafeAreaView style={styles.container}>
           <Text style={styles.h1}>Météo</Text>
           <View style={styles.contentContainer}>
-            {/* <CurrentMeteoSection /> */}
+            <CurrentMeteoSection />
           </View>
           </SafeAreaView>
         </ImageBackground>
-        <BraSection height = {height*0.97} />
+        <BraSection />
       </ScrollView>
       <View style={styles.whiteRectangle}>
       </View>
