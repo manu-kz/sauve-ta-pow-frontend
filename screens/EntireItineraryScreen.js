@@ -11,7 +11,6 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
 import CallModal from "../components/CallModal";
 import { showCallModal } from "../reducers/modals";

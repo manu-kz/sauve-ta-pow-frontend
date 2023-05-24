@@ -123,7 +123,7 @@ export default function braSection(props) {
 
   return (
     <>
-      <View style={{ ...styles.inputView, top: props.height }}>
+      <View style={ styles.inputView }>
         <TextInput
           style={styles.input}
           placeholder="Rechercher un massif"
@@ -204,7 +204,7 @@ const styles = StyleSheet.create({
   },
   inputView: {
     zIndex: 1,
-    position: 'absolute',
+    top:-20,
     left: 0,
     right: 0,
     justifyContent: 'center',
