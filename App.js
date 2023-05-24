@@ -202,7 +202,7 @@ let imgUrl = require('./assets/picto_randonneur.png')
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
       {/*<Tab.Screen name="Phone" component={EntireItineraryScreen} />*/}
-      <Tab.Screen name="itineraryList" component={ItineraryListScreen} />
+      {/*<Tab.Screen name="itineraryList" component={ItineraryListScreen} />*/}
       {/* <Tab.Screen name="UiKit" component={UiKitScreen} /> */}
     </Tab.Navigator>
   );
