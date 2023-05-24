@@ -13,41 +13,28 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 
 export default function ItineraryListScreen({ navigation }) {
-  const [emptyItinerary, setEmptyItinerary] = useState('Aucun intinéraire enregistré');
-  const [isEmpty, setisEmpty] = useState(true);
 
   const token = useSelector((state) => state.user.token)
 
   // handle get itineraries 
-
   const [ myItineraries, setMyItineraries ] = useState([])
 
   useEffect(() => {
     console.log('fetch ok !!')
     fetch(`http://10.0.1.87:3000/itineraries/${token}`).then((response) => response.json()).then(data => {
-      console.log('data fetch',data.itineraries) 
+      // ajoute mes itinéraires dans le state locale sous forme d'array d'objet
         setMyItineraries(data.itineraries)
-        // data.itineraries.map((data, i) => {
-        // console.log('data in map', data)
-        // setMyItineraries(data)
-        // })
     })
   }, []);
-
-  console.log('all iti after set', myItineraries)
 
   const allItineraries = myItineraries?.map((data, i) => {
     return <Recapitinerary key={i} {...data} style={styles.recapIti}/>
   })
 
-  if(!isEmpty){
-    setEmptyItinerary('')
-  }
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.containerMargin}>
         <Text style={styles.h1}>Mes itinéraires</Text>
-        <Text style={styles.p}>{emptyItinerary}</Text>
         <TouchableOpacity
           style={styles.buttonBigWhite}
           activeOpacity={0.8}
@@ -62,9 +49,8 @@ export default function ItineraryListScreen({ navigation }) {
           <Text style={styles.textButtonGrey}>Ajouter itinéraire</Text>
         </TouchableOpacity>
         <ScrollView style={styles.scrollView}>
-        {allItineraries} 
+        {myItineraries.length? allItineraries : <Text>Aucun intinéraire enregistré</Text>} 
         </ScrollView>
-        <View style={styles.whiteRectangle}></View>
       </View>
     </SafeAreaView>
   );
@@ -84,12 +70,6 @@ const styles = StyleSheet.create({
   h1: {
     fontSize: 32,
     fontWeight: "bold",
-  },
-  whiteRectangle: {
-    // backgroundColor: "pink",
-    // width: "100%",
-    // height: 5,
-    // zIndex: 0
   },
   buttonCircleGrey: {
     width: 50,

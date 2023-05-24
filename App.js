@@ -58,7 +58,7 @@ import launchItinerary from './reducers/launchItinerary';
 //IMPORT FOR PHONE CALL
 import { Linking } from 'react-native';
 import { useDispatch } from "react-redux";
-import showCallModal from './reducers/modals';
+import {showCallModal} from './reducers/modals';
 
 
 

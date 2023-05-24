@@ -28,6 +28,7 @@ export const modalsSlice = createSlice({
     },
     //SHOW CALL MODAL
     showCallModal: (state, action) => {
+      console.log('reducer modal call ==>',action.payload)
       state.callModal = action.payload;    },
   },
 });
