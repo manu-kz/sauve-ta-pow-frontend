@@ -36,7 +36,6 @@ export default function App() {
 
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
-          //console.log('LOCATION', location.coords);
           setCurrentPosition(location.coords);
         });
       }
@@ -58,8 +57,6 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        // console.log("Position:", position);
-        // console.log("Place:", placeId);
         setDeparture(position);
         setDepartureName(details.structured_formatting.main_text)
       }
@@ -81,7 +78,6 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        // console.log("Position:", position);
         setWayPoint([...wayPoint, position]);
         setWayPointName([
           ...wayPointName,
@@ -107,7 +103,6 @@ export default function App() {
           latitude: location.lat,
           longitude: location.lng,
         };
-        // console.log("Position:", position);
         setArrival(position);
         setArrivalName(details.structured_formatting.main_text)
       }
@@ -145,7 +140,6 @@ export default function App() {
       quality: 0.8,
     }).then(
       (uri) => {
-      console.log("Image saved to", uri)
       // envoie de l'image dans cloudinary pour ensuite récupérer le lien 
       // formData.append('photoFromFront', {
       //   uri: uri,

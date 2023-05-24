@@ -38,13 +38,11 @@ import {
         dispatch(removeBookmark(data.bookmark))
       })
     } else {
-      console.log('else')
       fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/newBookmark/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(props)
       }).then((response) => response.json()).then(data => {
-        console.log('data articles apres fetch ==> ', data.bookmark)
         dispatch(addBookmark(data.bookmark))
       })
     }

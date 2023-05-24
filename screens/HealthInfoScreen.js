@@ -44,7 +44,6 @@ import {
     useEffect(() => {
       fetch(`http://10.0.1.87:3000/users/${token}`).then((response) => response.json()).then(data => {
         // dispatch articles dans le store 
-        console.log(data)
         for(let infos of data.user) {
           // set toutes les infos nécésaires pour les placer sur la page 
           // mis en string pour être accepter dans l'input
