@@ -11,15 +11,19 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
-import { launchItinerary } from "../reducers/launchItinerary";
+
+import Recapitinerary from '../components/Recapitinerary';
+
 
 export default function ItineraryListScreen() {
+
 
 
   return (
    <SafeAreaView style={styles.container}>
     <View style={styles.containerMargin}>
     <Text style={styles.h1}>Mes itinéraires</Text>
+    <Text style={styles.p}>Aucun intinéraire enregistré</Text>
     <View style={styles.buttonBigWhite} activeOpacity={0.8}>
             <TouchableOpacity
               activeOpacity={0.8}
@@ -32,6 +36,7 @@ export default function ItineraryListScreen() {
             </TouchableOpacity>
             <Text style={styles.textButtonGrey}>Ajouter itinéraire</Text>
           </View>
+          <Recapitinerary/>
     <View style={styles.whiteRectangle}></View>
     </View>
    </SafeAreaView>
@@ -79,16 +84,17 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   buttonBigWhite: {
-    width: 280,
+    width: '80%',
     height: 68,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     backgroundColor: "#fff",
-    borderWidth: 1,
+    borderWidth: 2,
+    borderColor: '#8B9EAB',
     borderRadius: 100,
     paddingLeft: 5,
     paddingRight: 10,
-    margin: 5,
+    margin: '10%',
   },
 });
