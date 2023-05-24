@@ -52,6 +52,8 @@ import modals from './reducers/modals';
 import meteo from './reducers/meteo';
 import itineraries from './reducers/itineraries';
 import launchItinerary from './reducers/launchItinerary';
+import showCallModal from './reducers/modals';
+
 // import reducers
 
 //IMPORT FOR PHONE CALL
@@ -277,6 +279,7 @@ const TabNavigator = () => {
               if (token && !launchItinerary){
                 handleLaunchItinerary()
               } else if (token && launchItinerary){
+                dispatch(showCallModal(true))
                 phoneCall()
               }
           }
