@@ -428,7 +428,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    marginBottom: 10,
+    marginBottom: 10,    
   },
   inputSection: {
     flexDirection: "row",

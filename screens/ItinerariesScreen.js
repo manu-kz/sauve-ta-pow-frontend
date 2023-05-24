@@ -7,7 +7,6 @@ import Constants from "expo-constants";
 import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import SwipeUpDown from "react-native-swipe-up-down";
-import SwipeItemMini from "../components/SwipeItemMini";
 import SwipeItemFull from "../components/SwipeItemFull";
 
 import { addItineraryFirstPart } from "../reducers/itineraries";
@@ -29,13 +28,6 @@ export default function App() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const moveTo = async (position) => {
-    const camera = await mapRef.current?.getCamera();
-    if (camera) {
-      camera.center = position;
-      mapRef.current?.animateCamera(camera, { duration: 1000 });
-    }
-  };
 
   //Demande d'autorisation pour accéder à la localisation
   useEffect(() => {
@@ -125,22 +117,11 @@ export default function App() {
   };
 
   //  ref map pour traçage route et zoom sur map
-  const mapRef = useRef(null)
-
-  const edgePaddingValue = 70;
-
-  const edgePadding = {
-    top: edgePaddingValue,
-    right: edgePaddingValue,
-    bottom: edgePaddingValue,
-    left: edgePaddingValue,
-  };
 
   const itinerayLineOnReady = (args) => {
     if (args) {
       setDistance(args.distance);
       setDuration(args.duration);
-      mapRef.current?.fitToCoordinates([departure, arrival], { edgePadding });
     }
   };
 
@@ -165,6 +146,12 @@ export default function App() {
     }).then(
       (uri) => {
       console.log("Image saved to", uri)
+      // envoie de l'image dans cloudinary pour ensuite récupérer le lien 
+      // formData.append('photoFromFront', {
+      //   uri: uri,
+      //   name: 'photo.jpg',
+      //   type: 'image/jpeg',
+      //  });
       const itinerary = {
         departure: departure,
         departureName: departureName,
