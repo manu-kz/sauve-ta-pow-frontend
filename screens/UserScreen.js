@@ -13,7 +13,7 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import { keepUsername , keepToken } from '../reducers/user';
 
 export default function UserScreen({ navigation }) {
 
@@ -21,12 +21,13 @@ export default function UserScreen({ navigation }) {
   const [lastname, setLastname] = useState('Nom')
   const [username, setUsername] = useState('Username')
 
+  const token = useSelector((state) => state.user.token)
   // token du reducer 
-  const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+  // const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
 
   // fetch des infos du user en fonction du token 
   useEffect(() => {
-    fetch(`http://10.0.1.87:3000/users/${token}`).then((response) => response.json()).then(data => {
+    fetch(`https://sauve-ta-pow-backend.vercel.app/users/${token}`).then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
       console.log(data)
       for(let infos of data.user) {

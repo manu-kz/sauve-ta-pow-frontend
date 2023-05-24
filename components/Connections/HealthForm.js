@@ -8,17 +8,16 @@ import {
 } from "react-native";
 import { useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { keepUsername, keepToken } from "../../reducers/user";
 import { showHealthForm } from "../../reducers/modals";
-import { showLoginProcess } from "../../reducers/modals";
-import { RadioButton } from "react-native-paper";
+import { showLoginProcess } from "../../reducers/user";
 
 export default function HealthForm({ navigation }) {
   const dispatch = useDispatch();
+
   //TOKEN
   const token = useSelector((state) => state.user.token);
 
-  //STATE FORM
+  //USEREF HEALTH FORM
 
   const socialSecurityNumber = useRef(null);
   const weight = useRef(null);
@@ -30,19 +29,22 @@ export default function HealthForm({ navigation }) {
   const medicalHistory = useRef(null);
   const trustedPerson = useRef(null);
 
-  const [error, setError] = useState("");
-
-  //SMOKER STATE
+  // USE STATE : Smoker yes or not
   const [doSmoke, setDoSmoke] = useState(false);
 
-  //MEDICAL HISTORY STATE
+  // USE STATE : Medical History
   const [cardiacCase, setCardiacCase] = useState(false);
   const [pulmonaryCase, setpulmonaryCase] = useState(false);
   const [bloodHistory, setBloodHistory] = useState(false);
   const [neurologicalCase, setNeurologicalCase] = useState(false);
 
-  //ADVANCE DIRECTIVE STATE
+  // USE STATE : Advance Directives yes or no
   const [advanceDirectives, setAdvanceDirectives] = useState(false);
+
+  //ERROR MESSAGE 
+  const [error, setError] = useState("");
+
+
 
   const medicalHistoryInfo = () => {
     if (cardiacCase || pulmonaryCase || bloodHistory || neurologicalCase) {
@@ -57,7 +59,9 @@ export default function HealthForm({ navigation }) {
     }
   };
 
-  // SIGN UP FORM TO CREATE
+
+
+  // SIGN UP FUNCTION THAT SENDS INFO TO DB
 
   async function signup() {
     const fetchObj = {
@@ -85,13 +89,16 @@ export default function HealthForm({ navigation }) {
       },
     };
 
-
-    const rawRes = await fetch("https://sauve-ta-pow-backend.vercel.app/users/update", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(fetchObj),
-    });
+    const rawRes = await fetch(
+      "https://sauve-ta-pow-backend.vercel.app/users/update",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(fetchObj),
+      }
+    );
     const jsonRes = await rawRes.json();
+    console.log("Response Update DB ", jsonRes);
     const { result, message } = jsonRes;
     if (!result) {
       setError("Il'y a un problème, merci de réessayer");
@@ -99,11 +106,13 @@ export default function HealthForm({ navigation }) {
       //Message d'erreur
       setError("Informations Enregistrés");
       dispatch(showHealthForm(false));
-      dispatch(showLoginProcess(false))
+      dispatch(showLoginProcess(false));
     }
   }
 
-  // USER PERSONAL INFO
+
+
+  // USER HEALTH FORM
   return (
     <>
       <Text style={styles.h2}>Vos informations de santé</Text>
@@ -137,7 +146,7 @@ export default function HealthForm({ navigation }) {
         </View>
 
         <View style={styles.yesNoContainer}>
-        <Text style={styles.h4}>Fumeur</Text>
+          <Text style={styles.h4}>Fumeur</Text>
           <Pressable
             style={[
               styles.smokerButton,
@@ -224,7 +233,7 @@ export default function HealthForm({ navigation }) {
         {medicalHistoryInfo()}
 
         <View style={styles.yesNoContainer}>
-        <Text style={styles.h4}>Directives Avancées</Text>
+          <Text style={styles.h4}>Directives Avancées</Text>
           <Pressable
             style={[
               styles.smokerButton,
@@ -279,23 +288,20 @@ export default function HealthForm({ navigation }) {
 
 const styles = StyleSheet.create({
   h2: {
-    alignSelf:'flex-start',
+    alignSelf: "flex-start",
     fontSize: 20,
     fontWeight: "bold",
-    margin:10
+    margin: 10,
   },
   h4: {
-    
     fontSize: 14,
     fontWeight: "bold",
-
   },
   p: {
     color: "white",
     fontSize: 12,
   },
   input: {
-    
     backgroundColor: "#EDEDED",
     marginVertical: 5,
     paddingHorizontal: 10,
@@ -304,7 +310,7 @@ const styles = StyleSheet.create({
     height: 34,
   },
   champNumeric: {
-    flexDirection:"row",
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#EDEDED",
@@ -316,7 +322,7 @@ const styles = StyleSheet.create({
   },
   inputNumeric: {
     width: 200,
-   
+
     display: "flex",
     flexDirection: "row",
     backgroundColor: "#EDEDED",
@@ -347,9 +353,9 @@ const styles = StyleSheet.create({
   },
   yesNoContainer: {
     flexDirection: "row",
-    alignItems:"center",
-   justifyContent : "space-evenly",
-   marginVertical: 5 
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    marginVertical: 5,
   },
   smokerButton: {
     width: 50,

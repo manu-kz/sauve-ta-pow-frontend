@@ -9,7 +9,7 @@ const initialState = {
   time: null,
   itineraryImg: null,
   itineraryName: null,
-  memberNumber: null,
+  membersNumber: null,
   date: null,
   members: null,
   supervisor: null,
@@ -39,7 +39,7 @@ export const itinerariesSlice = createSlice({
       const initial = state.value
 
       initial.itineraryName = action.payload.itineraryName
-      initial.memberNumber = action.payload.memberNumber
+      initial.membersNumber = action.payload.membersNumber
       initial.date = action.payload.date
       initial.members = action.payload.members
       initial.supervisor = action.payload.supervisor
