@@ -1,4 +1,11 @@
-import { StyleSheet, Text, View, Image, ScrollView, TextInput } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Image,
+  ScrollView,
+  TextInput,
+} from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { keepFavoriteBra } from '../../reducers/user';
@@ -7,9 +14,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import selectBraIcon from './BraIcons';
 
 export default function braSection(props) {
-
   const [bra, setBra] = useState([]);
   const [error, setError] = useState('');
+  const [search, setSearch] = useState('');
+  console.log('search', search)
 
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -70,9 +78,14 @@ export default function braSection(props) {
     }
   };
 
+  const filteredBra = bra.filter(data => data.massif.toLowerCase().includes(search.toLowerCase()));
+
+
   // map sur le usestate pour afficher tous les BRA
-  const mountainBra = bra.map((data, i) => {
+  const mountainBra = filteredBra.map((data, i) => {
     const currentBraIcon = selectBraIcon(data.risk);
+
+
     return (
       <View key={i} style={styles.massifContainer}>
         <View style={styles.topContainer}>
@@ -107,10 +120,19 @@ export default function braSection(props) {
     );
   });
 
+
+
   return (
     <>
       <View style={{ ...styles.inputView, top: props.height }}>
-        <TextInput style={styles.input} placeholder="Rechercher un massif" />
+        <TextInput
+          style={styles.input}
+          placeholder="Rechercher un massif"
+          inputMode="search"
+          onChangeText={(value) => setSearch(value)}
+          onClearText={() => setSearch('')}
+          value={search}
+        />
       </View>
       <ScrollView horizontal={true}>
         <View style={styles.riskContainer}>{mountainBra}</View>
@@ -182,7 +204,7 @@ const styles = StyleSheet.create({
     fontSize: 9,
   },
   inputView: {
-    zIndex:1,
+    zIndex: 1,
     position: 'absolute',
     left: 0,
     right: 0,
