@@ -198,7 +198,7 @@ export default function SwipeItemFull() {
   const handleSubmit = () => {
     if(isSave) {
       if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
-        fetch(`http://10.0.1.87:3000/itineraries/newItinerary/${token}`, {
+        fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/newItinerary/${token}`, {
           method: "POST",
           headers: {
             Accept: "application/json",

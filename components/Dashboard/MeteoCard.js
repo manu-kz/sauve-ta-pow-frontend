@@ -51,7 +51,7 @@ export default function MeteoCard() {
   //RÉCUPÉRATION CURRENT METEO
   async function getCurrentMeteo(locationID) {
     const rawResponse = await fetch(
-      `http://10.0.2.110:3000/meteo/current/${locationID}`
+      `https://sauve-ta-pow-backend.vercel.app/meteo/current/${locationID}`
     );
     const responseJSON = await rawResponse.json();
     responseJSON &&
