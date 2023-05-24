@@ -11,27 +11,40 @@ import {
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
+import CallModal from "../components/CallModal";
+import { showCallModal } from "../reducers/modals";
+
+
 import moment from "moment";
 
 export default function EntireItineraryScreen() {
 
   const dispatch = useDispatch();
+  const callModal = useSelector((state) => state.modals.callModal);
+
 
   const [islaunched, setIslaunched] = useState(false);
   const [btnContent, setBtnContent] = useState("Commencer");
   
   const handleLaunchItinerary = () => {
-    setIslaunched(true)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Quitter");
+    setIslaunched(!islaunched)
   };
-  const handleQuitItinerary = () => {
-    setIslaunched(false)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Commencer");
-  };
+
   
+  useEffect(() => {
+    if (islaunched) {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Quitter");
+    } else {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Commencer");
+    }
+  }, [islaunched]); 
+  
+
+
   let launchBtn = {
     backgroundColor: "#FFB703",
     padding: 20,
@@ -99,6 +112,7 @@ export default function EntireItineraryScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.containerMargin}>
+      <CallModal/>
         <View style={styles.header}>
           <View style={styles.discipline}>
             <Image
@@ -155,7 +169,8 @@ export default function EntireItineraryScreen() {
         </View>
         <TouchableOpacity
           style={launchBtn}
-          onPress={islaunched ? handleQuitItinerary : handleLaunchItinerary}
+          onPress={
+            handleLaunchItinerary}
         >
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>

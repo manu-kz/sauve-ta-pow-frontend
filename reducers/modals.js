@@ -5,6 +5,7 @@ const initialState = {
   loginModal: false,
   signUpModal: false,
   healthForm: false,
+  callModal: false,
 };
 export const modalsSlice = createSlice({
   name: "modals",
@@ -25,6 +26,9 @@ export const modalsSlice = createSlice({
       state.healthForm = action.payload;
       //console.log("showHealthForm", action.payload);
     },
+    //SHOW CALL MODAL
+    showCallModal: (state, action) => {
+      state.callModal = action.payload;    },
   },
 });
 
@@ -33,5 +37,6 @@ export const {
   setSignUpModal,
   showHealthForm,
   showLoginProcess,
+  showCallModal
 } = modalsSlice.actions;
 export default modalsSlice.reducer;

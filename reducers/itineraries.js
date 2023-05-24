@@ -68,8 +68,11 @@ export const itinerariesSlice = createSlice({
         discipline: null,
       }
     },
+    openItinerary: (state, action) => {
+      state.value.entireArticle = action.payload
+    },
   },
 });
 
-export const { addItineraryFirstPart, addItinerarySecondtPart,  removeItinerary } = itinerariesSlice.actions;
+export const { addItineraryFirstPart, addItinerarySecondtPart,  removeItinerary, openItinerary } = itinerariesSlice.actions;
 export default itinerariesSlice.reducer;

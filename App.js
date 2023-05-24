@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 
-import { StyleSheet, TouchableOpacity, View, Image } from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  View,
+  Image,
+  Pressable,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -25,12 +31,12 @@ import HelpInfoScreen from './screens/HelpInfoScreen';
 import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
 
 //ITINERARY SCREENS
-import EntireItineraryScreen from "./screens/EntireItineraryScreen";
-import ItineraryListScreen from "./screens/ItineraryListScreen";
-import SwipeItemFull from "./components/SwipeItemFull";
+import EntireItineraryScreen from './screens/EntireItineraryScreen';
+import ItineraryListScreen from './screens/ItineraryListScreen';
+import SwipeItemFull from './components/SwipeItemFull';
 
-import FontAwesome from "react-native-vector-icons/FontAwesome";
-import Feather from "react-native-vector-icons/Feather";
+import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import Feather from 'react-native-vector-icons/Feather';
 
 // persist store
 //AsyncStorage.clear()
@@ -47,6 +53,10 @@ import meteo from './reducers/meteo';
 import itineraries from './reducers/itineraries';
 import launchItinerary from './reducers/launchItinerary';
 // import reducers
+
+//IMPORT FOR PHONE CALL
+import { Linking } from 'react-native';
+
 
 const reducers = combineReducers({
   articles,
@@ -120,8 +130,8 @@ const ItineraryStack = () => {
 const TabNavigator = () => {
   const token = useSelector((state) => state.user.token);
   const showLoginProcess = useSelector((state) => state.user.loginProcess);
-  console.log("token in storage ==>", token)
-  console.log('Is login process activated in storage ==>', showLoginProcess);
+  //console.log("token in storage ==>", token)
+  //console.log('Is login process activated in storage ==>', showLoginProcess);
 
   //Fonctionnalité pour pouvoir appler dès l'appui sur le bouton phone
   const launchItinerary = useSelector((state) => state.launchItinerary.value);
@@ -132,18 +142,18 @@ const TabNavigator = () => {
   const handleLaunchItinerary = () => {
     setCall(true);
     setModalVisible(true);
-    console.log("OK");
+    console.log('OK');
   };
 
   let imageContainer = {
     height: 80,
     width: 80,
     borderRadius: 50,
-    borderColor: "#fff",
+    borderColor: '#fff',
     borderWidth: 10,
-    backgroundColor: "#FFB703",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: '#FFB703',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 50,
   };
 
@@ -155,15 +165,21 @@ const TabNavigator = () => {
       height: 80,
       width: 80,
       borderRadius: 50,
-      borderColor: "#fff",
+      borderColor: '#fff',
       borderWidth: 10,
-      backgroundColor: "#F94A56",
-      justifyContent: "center",
-      alignItems: "center",
+      backgroundColor: '#F94A56',
+      justifyContent: 'center',
+      alignItems: 'center',
       marginBottom: 50,
     };
   }
 
+  const phoneCall = () => {
+    const phoneNumber = '112'; 
+  
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -183,11 +199,6 @@ const TabNavigator = () => {
             return (
               <View
                 style={imageContainer}
-                onPress={
-                  token && !launchItinerary
-                    ? handleLaunchItinerary
-                    : console.log('error to call')
-                }
               >
                 <View style={styles.indicatorBefore} />
                 <Image
@@ -214,11 +225,6 @@ const TabNavigator = () => {
             return (
               <View
                 style={imageContainer}
-                onPress={
-                  token && !launchItinerary
-                    ? handleLaunchItinerary
-                    : console.log('error to call')
-                }
               >
                 <View style={styles.indicatorBefore} />
                 <Image
@@ -234,7 +240,7 @@ const TabNavigator = () => {
           }
         },
         tabBarStyle: {
-          backgroundColor: "#213A5C",
+          backgroundColor: '#213A5C',
           borderTopLeftRadius: 30,
           borderTopRightRadius: 30,
           paddingTop: 15,
@@ -249,9 +255,23 @@ const TabNavigator = () => {
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="News" component={NewsStack} />
       {!token || showLoginProcess ? (
-        <Tab.Screen name="Login" component={LoginScreen} />
+        <Tab.Screen
+          name="Login"
+          component={LoginScreen}
+          listeners={{
+            tabPress: (e) => {
+              handleLaunchItinerary();
+            },
+          }}
+        />
       ) : (
-        <Tab.Screen name="Hike" component={ItineraryStack} />
+        <Tab.Screen name="Hike" component={ItineraryStack} listeners={{
+          tabPress:(e) => {
+              if (token && !launchItinerary){
+                handleLaunchItinerary()
+              }
+          }
+        }} />
       )}
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
@@ -285,8 +305,8 @@ const styles = StyleSheet.create({
   indicatorBefore: {
     width: 22,
     height: 25,
-    backgroundColor: "#213A5C",
-    position: "absolute",
+    backgroundColor: '#213A5C',
+    position: 'absolute',
     left: -32,
     top: 22.5,
     borderTopRightRadius: 20,
@@ -294,15 +314,15 @@ const styles = StyleSheet.create({
       width: 2,
       height: -15,
     },
-    shadowColor: "#fff",
+    shadowColor: '#fff',
     shadowOpacity: 1,
     shadowRadius: 0,
   },
   indicatorAfter: {
     width: 22,
     height: 25,
-    backgroundColor: "#213A5C",
-    position: "absolute",
+    backgroundColor: '#213A5C',
+    position: 'absolute',
     left: 70,
     top: 22.5,
     borderTopLeftRadius: 20,
@@ -310,7 +330,7 @@ const styles = StyleSheet.create({
       width: -2,
       height: -15,
     },
-    shadowColor: "#fff",
+    shadowColor: '#fff',
     shadowOpacity: 1,
     shadowRadius: 0,
   },
