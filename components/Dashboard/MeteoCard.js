@@ -34,7 +34,7 @@ export default function MeteoCard() {
 
     // FETCH LOCATION KEY POUR METEO
     if (user.location) {
-      fetch(`http://10.0.2.110:3000/meteo/location/${user.location}`)
+      fetch(`https://sauve-ta-pow-backend.vercel.app/meteo/location/${user.location}`)
         .then((response) => response.json())
         .then((data) => {
           data &&

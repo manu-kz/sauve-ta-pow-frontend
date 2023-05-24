@@ -25,7 +25,7 @@ export default function braSection(props) {
   // ajout de tous les BRA
 
   useEffect(() => {
-    fetch(`http://10.0.2.110:3000/meteo/bra/`)
+    fetch(`https://sauve-ta-pow-backend.vercel.app/meteo/bra/`)
       .then((response) => response.json())
       .then((fetchdata) => {
         if (fetchdata) {
