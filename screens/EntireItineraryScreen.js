@@ -10,11 +10,14 @@ import {
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
 
 export default function EntireItineraryScreen() {
   const dispatch = useDispatch();
+
+  const myItinerary = useSelector((state) => state.itineraries.value)
+  console.log(myItinerary)
 
   const [islaunched, setIslaunched] = useState(false);
   const [btnContent, setBtnContent] = useState("Commencer");

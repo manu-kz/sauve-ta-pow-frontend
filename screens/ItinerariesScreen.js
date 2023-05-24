@@ -20,6 +20,8 @@ export default function App() {
 
   const [currentPosition, setCurrentPosition] = useState(null);
   const [departure, setDeparture] = useState(null);
+  const [ departureName, setDepartureName ] = useState('')
+  const [ arrivalName, setArrivalName ] = useState('')
   const [wayPoint, setWayPoint] = useState([]);
   const [wayPointName, setWayPointName] = useState([]);
   const [arrival, setArrival] = useState(null);
@@ -58,6 +60,7 @@ export default function App() {
         console.log("Position:", position);
         console.log("Place:", placeId);
         setDeparture(position);
+        setDepartureName(details.structured_formatting.main_text)
       }
     } catch (error) {
       console.error("Erreur lors de la récupération de la position:", error);
@@ -105,11 +108,13 @@ export default function App() {
         };
         console.log("Position:", position);
         setArrival(position);
+        setArrivalName(details.structured_formatting.main_text)
       }
     } catch (error) {
       console.error("Erreur lors de la récupération de la position:", error);
     }
   };
+  console.log('depart / arrive NAME ===> ', departureName, arrivalName)
 
   const itinerayLineOnReady = (args) => {
     if (args) {
@@ -134,9 +139,11 @@ export default function App() {
   const handleSaveitinerary = () => {
     const itinerary = {
       departure: departure,
+      departureName: departureName,
       waypoints: wayPoint,
       waypointsName: wayPointName,
       arrival: arrival,
+      arrivalName: arrivalName,
       time: duration,
     }
     
