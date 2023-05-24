@@ -52,6 +52,7 @@ import launchItinerary from './reducers/launchItinerary';
 import { Linking } from 'react-native';
 
 
+
 const reducers = combineReducers({
   articles,
   user,
@@ -168,12 +169,17 @@ const TabNavigator = () => {
     };
   }
 
+  //CALL 112
   const phoneCall = () => {
     const phoneNumber = '112'; 
   
     Linking.openURL(`tel:${phoneNumber}`);
   };
   
+  //MODAL ETAPES
+  const callModal = useSelector((state) => state.modals.callModal);
+
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -195,7 +201,7 @@ const TabNavigator = () => {
                 style={imageContainer}
                 onPress={
                   token && !launchItinerary
-                    ? handleLaunchItinerary
+                    ? handleLaunchItinerary // dispatch(setLoginModal(true))
                     : console.log('error to call')
                 }
               >
