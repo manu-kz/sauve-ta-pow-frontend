@@ -36,7 +36,6 @@ export default function App() {
 
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
-          //console.log('LOCATION', location.coords);
           setCurrentPosition(location.coords);
         });
       }
@@ -145,13 +144,6 @@ export default function App() {
       quality: 0.8,
     }).then(
       (uri) => {
-      console.log("Image saved to", uri)
-      // envoie de l'image dans cloudinary pour ensuite récupérer le lien 
-      // formData.append('photoFromFront', {
-      //   uri: uri,
-      //   name: 'photo.jpg',
-      //   type: 'image/jpeg',
-      //  });
       const itinerary = {
         departure: departure,
         departureName: departureName,
@@ -354,5 +346,3 @@ const styles = StyleSheet.create({
     height: 35,
   },
 });
-
-// TAKE SCREEN SHOT 

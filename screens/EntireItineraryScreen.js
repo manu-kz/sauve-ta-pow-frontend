@@ -13,9 +13,11 @@ import { Ionicons } from "@expo/vector-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
 import CallModal from '../components/CallModal';
+import { removeItinerary } from "../reducers/itineraries";
 
 
 import moment from "moment";
+import { useNavigation } from "@react-navigation/native";
 
 export default function EntireItineraryScreen() {
 
@@ -66,6 +68,7 @@ export default function EntireItineraryScreen() {
   
   // handle information from reducer
   const myItinerary = useSelector((state) => state.itineraries.value)
+  console.log(myItinerary)
   
   // faire map sur les noms de membre participants
   const members = myItinerary.members.map((data, i) => {
@@ -105,10 +108,17 @@ export default function EntireItineraryScreen() {
   })
 
   // remove les infos du reducer !!!!!!!!!!
+  const navigation = useNavigation()
+
+  const handleBackToAllItinary = () => {
+    dispatch(removeItinerary())
+    navigation.navigate('ItinerariesList')
+  }
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.containerMargin}>
+        <FontAwesome name='angle-left' size={40} color='#8B9EAB' style={{ marginBottom: 10 }} onPress={() => handleBackToAllItinary()}/>
         <View style={styles.header}>
           <View style={styles.discipline}>
             <Image
@@ -174,7 +184,7 @@ export default function EntireItineraryScreen() {
       <View style={styles.whiteRectangle}>
 
       </View>
-      <CallModal/>
+      {/* <CallModal/> */}
     </SafeAreaView>
   );
 }
@@ -279,9 +289,6 @@ const styles = StyleSheet.create({
     borderColor: "#8B9EAB",
     position: "absolute",
     width: "100%",
-    // height: "20%",
-    // top: "5%",
-    // bottom: '10%',
     left: "7%",
     zIndex: -1,
     marginTop: 18,

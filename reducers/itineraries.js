@@ -28,7 +28,6 @@ export const itinerariesSlice = createSlice({
     // infos recupré de la scren map
     addItineraryFirstPart: (state, action) => {
       const initial = state.value
-      console.log('action payload ===>',action.payload.itineraryImg)
       initial.departure = action.payload.departure
       initial.departureName = action.payload.departureName
       initial.waypoints = action.payload.waypoints
@@ -69,10 +68,7 @@ export const itinerariesSlice = createSlice({
       }
     },
     openItinerary: (state, action) => {
-      state.value.entireArticle = action.payload
-    },
-    openItinerary: (state, action) => {
-      state.value.entireArticle = action.payload
+      state.value = action.payload
     },
   },
 });
