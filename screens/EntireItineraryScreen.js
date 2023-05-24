@@ -29,16 +29,22 @@ export default function EntireItineraryScreen() {
   const [btnContent, setBtnContent] = useState("Commencer");
   
   const handleLaunchItinerary = () => {
-    setIslaunched(true)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Quitter")
+    setIslaunched(!islaunched)
   };
-  const handleQuitItinerary = () => {
-    setIslaunched(false)
-    dispatch(launchItinerary(islaunched))
-    setBtnContent("Commencer");
-  };
+
   
+  useEffect(() => {
+    if (islaunched) {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Quitter");
+    } else {
+      dispatch(launchItinerary(islaunched))
+      setBtnContent("Commencer");
+    }
+  }, [islaunched]); 
+  
+
+
   let launchBtn = {
     backgroundColor: "#FFB703",
     padding: 20,
@@ -161,7 +167,8 @@ export default function EntireItineraryScreen() {
         </View>
         <TouchableOpacity
           style={launchBtn}
-          onPress={islaunched ? handleQuitItinerary : handleLaunchItinerary}
+          onPress={
+            handleLaunchItinerary}
         >
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>
