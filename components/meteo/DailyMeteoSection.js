@@ -32,7 +32,7 @@ import {
               const dayOfWeek = new Date(data.Date)
                 .toLocaleString('fr-fr', { weekday: 'long' })
                 .slice(0, -21);
-  
+
               return {
                 WeatherIcon: data.Day.Icon,
                 weekDay: dayOfWeek,

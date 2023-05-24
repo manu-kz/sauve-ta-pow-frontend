@@ -10,12 +10,19 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
+import { openItinerary } from '../reducers/itineraries';
 
 
 export default function Recapitinerary(props) {
+  const dispatch = useDispatch();
 
- 
+  const navigation = useNavigation();
+
+  const handleEntireArticleNavigation = () => {
+    dispatch(openItinerary(props))
+    navigation.navigate('EntireItinerary')
+  }
 
   return (
     <View style={styles.container}>
@@ -27,10 +34,8 @@ export default function Recapitinerary(props) {
         <Text style={styles.h2}>{props.name}</Text>
         <Text style={styles.p}>Départ: {props.departure}</Text>
         <Text style={styles.p}>Arrivée: {props.arrival}</Text>
-        <TouchableOpacity
-          activeOpacity={0.8}
-        >
-          <Text style={styles.link}>En savoir plus</Text>
+        <TouchableOpacity activeOpacity={0.8}>
+          <Text style={styles.link} onPress={() => handleEntireArticleNavigation()}>En savoir plus</Text>
         </TouchableOpacity>
       </View>
     </View>
