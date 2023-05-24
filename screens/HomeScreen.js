@@ -66,7 +66,7 @@ export default function HomeScreen({ navigation }) {
 
   //MAPPING ON RESCUE BASICS TO CREATE CARDS
   const rescueArticles = articles.map((data, i) => {
-    return (
+     return (
       <RescueBasicCard
         key={i}
         bigTitle={data.bigTitle}
