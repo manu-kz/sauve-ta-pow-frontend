@@ -60,8 +60,6 @@ import showCallModal from './reducers/modals';
 import { Linking } from 'react-native';
 
 
-
-
 const reducers = combineReducers({
   articles,
   user,
