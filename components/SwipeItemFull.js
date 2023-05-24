@@ -198,9 +198,11 @@ export default function SwipeItemFull() {
     dispatch(addItinerarySecondtPart(itinerary))
   }
 
+  const token = useSelector((state) => state.user.token)
+
   const handleSubmit = () => {
     if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
-      fetch('http://10.0.1.87:3000/itineraries/newItinerary', {
+      fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/newItinerary/${token}`, {
         method: "POST",
         headers: {
           Accept: "application/json",
