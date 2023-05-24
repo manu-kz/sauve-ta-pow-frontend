@@ -246,17 +246,19 @@ export default function App() {
           {distance && duration ? (
             <View>
               <View style={styles.validationContainer}> 
-                <Text>Distance: {distance.toFixed(2)} km</Text>
-                <Text>
-                  Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
-                  {duration >= 60 && duration < 1440 && "h"}
-                  {duration < 60 && "min"}
-                </Text>
-                {/* <View > */}
+                <View  style={styles.distance}>
+                  <Text>Distance: {distance.toFixed(2)} km</Text>
+                </View>
+                <View  style={styles.time}>
+                  <Text>
+                    Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
+                    {duration >= 60 && duration < 1440 && "h"}
+                    {duration < 60 && "min"}
+                  </Text>
+                </View>
                   <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>
                     <Text style={styles.textOK}>OK</Text>
                   </TouchableOpacity>
-                {/* </View> */}
               </View>
             </View>
           ) : null}
@@ -311,6 +313,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  distance: {
+    backgroundColor: '#EDEDED',
+    width: '45%',
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+  },
+  time: {
+    backgroundColor: '#EDEDED',
+    width: '30%',
+    height: 30,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,   
   },
   textOK: {
     color: 'white'

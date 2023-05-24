@@ -37,7 +37,7 @@ export default function HomeScreen({ navigation }) {
     // declare the data fetching function
     const fetchNews = async () => {
       const rawRes = await fetch(
-        "https://sauve-ta-pow-backend.vercel.app/articles/"
+        "http://10.0.1.87:3000/articles/"
       );
       const jsonRes = await rawRes.json();
       setNews(jsonRes.articles.slice(0, 1));

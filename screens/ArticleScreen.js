@@ -30,7 +30,7 @@ import {
   const handleBookmark = (props) => {
     const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
     if(props.isBookmarked) {
-      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/deleteBookmark/${token}`, {
+      fetch(`http://10.0.87:3000/bookmarks/deleteBookmark/${token}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(props)

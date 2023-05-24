@@ -27,7 +27,7 @@ export default function UserScreen({ navigation }) {
 
   // fetch des infos du user en fonction du token 
   useEffect(() => {
-    fetch(`https://sauve-ta-pow-backend.vercel.app/users/${token}`).then((response) => response.json()).then(data => {
+    fetch(`http://10.0.87:3000/users/${token}`).then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
       console.log(data)
       for(let infos of data.user) {

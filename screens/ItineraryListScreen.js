@@ -24,7 +24,7 @@ export default function ItineraryListScreen({ navigation }) {
 
   useEffect(() => {
     console.log('fetch ok !!')
-    fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/${token}`).then((response) => response.json()).then(data => {
+    fetch(`http://10.0.1.87:3000/itineraries/${token}`).then((response) => response.json()).then(data => {
       console.log('data fetch',data.itineraries) 
         setMyItineraries(data.itineraries)
         // data.itineraries.map((data, i) => {

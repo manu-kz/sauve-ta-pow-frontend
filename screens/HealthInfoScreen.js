@@ -23,7 +23,7 @@ import {
         navigation.navigate('UserPage')
       }
 
-    const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+    const token = useSelector((state) => state.user.token)
 
     // fetch des infos du user en fonction du token 
     // set toutes les infos nécésaires pour els placer sur la page 
