@@ -28,7 +28,7 @@ export default function MeteoScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <>
       <ScrollView>
         <ImageBackground
           source={require('../assets/mountain-background.jpeg')}
@@ -36,23 +36,24 @@ export default function MeteoScreen() {
           resizeMode="cover"
           onLayout={onLayout}
         >
+          <SafeAreaView style={styles.container}>
           <Text style={styles.h1}>Météo</Text>
           <View style={styles.contentContainer}>
             <CurrentMeteoSection />
           </View>
+          </SafeAreaView>
         </ImageBackground>
         <BraSection height = {height*0.97} />
       </ScrollView>
       <View style={styles.whiteRectangle}>
       </View>
-    </SafeAreaView>
+      </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
   },
   imgBackground: {
     width: '100%',

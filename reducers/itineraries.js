@@ -3,9 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
  value: {
   departure: null, 
+  departureName: null,
   waypoints: null,
   waypointsName: null,
   arrival: null,
+  arrivalName: null,
   time: null,
   itineraryImg: null,
   itineraryName: null,
@@ -28,9 +30,11 @@ export const itinerariesSlice = createSlice({
       const initial = state.value
 
       initial.departure = action.payload.departure
+      initial.departureName = action.payload.departureName
       initial.waypoints = action.payload.waypoints
       initial.waypointsName = action.payload.waypointsName
       initial.arrival = action.payload.arrival
+      initial.arrivalName = action.payload.arrivalName
       initial.time = action.payload.time
     },
 
@@ -48,9 +52,11 @@ export const itinerariesSlice = createSlice({
     removeItinerary: (state, action) => {
       state.value = {
         departure: null, 
+        departureName: null,
         waypoints: null,
         waypointsName: null,
         arrival: null,
+        arrivalName: null,
         time: null,
         itineraryImg: null,
         itineraryName: null,

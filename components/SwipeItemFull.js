@@ -16,6 +16,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { useDispatch, useSelector } from "react-redux";
 import { addItinerarySecondtPart, removeItinerary } from "../reducers/itineraries";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SwipeItemFull() {
 
@@ -154,7 +155,6 @@ export default function SwipeItemFull() {
   const [members, setmembers] = useState('');
   const [ allMembers, setAllMembers ] = useState([])
 
-  console.log(members)
 
   const handleMembers = () => {
     // state contenant tous les membres
@@ -171,20 +171,10 @@ export default function SwipeItemFull() {
     )
   })
 
-  // save dans la db et set le reducer itinerary a une array vide après
-  // faire le fetch post en changeant les input de string a number car textInput n'accepte pas les number 
-  // fetch post de l'itinéraire après avoir useSelector les premières infos 
   // IF certaines infos pour le post de la db sont null PAS FETCH
-
   // useSelector dispatch itinéraire
   const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log('info from reducer ==>',myItinerary)
-  // {"arrival": {"latitude": 45.764043, "longitude": 4.835659}, "date": 2023-05-23T14:01:58.392Z, 
-  // "departure": {"latitude": 45.77722199999999, "longitude": 3.087025}, "discipline": "mountaineering", 
-  // "itineraryName": "test", "memberNumber": "5", "members": ["bjsjsf", "bfjzvd"], "supervisor": "rockf", 
-  // "time": 2418.4333333333334, "waypoints": [{"latitude": 45.439695, "longitude": 4.3871779}], "waypointsName": ["Saint-Étienne"]}    
 
-  // {"arrival": {"latitude": 45.764043, "longitude": 4.835659}, "date": 2023-05-23T15:49:49.970Z, "departure": {"latitude": 45.77722199999999, "longitude": 3.087025}, "discipline": "ski", "itineraryImg": null, "itineraryName": "vs vvs", "memberNumber": "5", "members": ["bdbd"], "supervisor": "encrnfjf", "time": 2023.65, "waypoints": [], "waypointsName": []}
   const itinerary = {
     itineraryName: itineraryName,
     membersNumber: numberParticipants,
@@ -194,12 +184,16 @@ export default function SwipeItemFull() {
     discipline: discipline,
   }
 
+  // quand appuie sur button save dispatch les info pour tous récup quand fetch
   const handleSave = () => {
     dispatch(addItinerarySecondtPart(itinerary))
   }
 
   const token = useSelector((state) => state.user.token)
 
+  const navigation = useNavigation()
+
+  // fetch des données de l'itinéraire et remove les infos du réducer
   const handleSubmit = () => {
     if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
       fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/newItinerary/${token}`, {
@@ -210,9 +204,11 @@ export default function SwipeItemFull() {
         },
         body: JSON.stringify(myItinerary)
       }).then(response => response.json()).then(data => {
-        console.log('data fetch ==>',data)
         // une fois post delete itineraire du reducer
-        dispatch(removeItinerary())
+        // dispatch(removeItinerary())
+
+        // navigue vers la page de résumé de l'itinéraire
+        navigation.navigate('EntireItinerary')
       })
     }
   };
