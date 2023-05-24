@@ -60,7 +60,7 @@ export default function EntireItineraryScreen() {
   // faire map sur les noms de membre participants
   const members = myItinerary.members.map((data, i) => {
     return (
-      <View style={styles.peopleCard}>
+      <View style={styles.peopleCard} key={i}>
         <Text style={styles.peopleCardContent} key={i}>
           {data} <FontAwesome name="close" size={12} color="#FFFFFF" />
         </Text>
@@ -93,6 +93,8 @@ export default function EntireItineraryScreen() {
       </View>
     )
   })
+
+  // remove les infos du reducer !!!!!!!!!!
 
   return (
     <SafeAreaView style={styles.container}>
