@@ -1,49 +1,39 @@
 import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-} from "react-native";
+import {ScrollView,StyleSheet,Text,View,TouchableOpacity,Image,SafeAreaView} from "react-native";
+import { useNavigation } from "@react-navigation/native";
+//ICON
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
+//REDUX && REDUCER
 import { useDispatch, useSelector } from "react-redux";
 import { launchItinerary } from "../reducers/launchItinerary";
-import CallModal from '../components/CallModal';
 import { removeItinerary } from "../reducers/itineraries";
-
-
+//COMPONENT
+import CallModal from "../components/CallModal";
+//MOMENT - DATE/TIME
 import moment from "moment";
-import { useNavigation } from "@react-navigation/native";
 
 export default function EntireItineraryScreen() {
-
   const dispatch = useDispatch();
 
+  const [islaunched, setIslaunched] = useState(false); //pour verifier l'état du bouton commencer/quitter itineraire
+  const [btnContent, setBtnContent] = useState("Commencer"); //conetnu du bouton
 
-  const [islaunched, setIslaunched] = useState(false);
-  const [btnContent, setBtnContent] = useState("Commencer");
-  
   const handleLaunchItinerary = () => {
-    setIslaunched(!islaunched)
+    setIslaunched(!islaunched);
   };
 
-  
   useEffect(() => {
     if (islaunched) {
-      dispatch(launchItinerary(islaunched))
+      dispatch(launchItinerary(islaunched));
       setBtnContent("Quitter");
     } else {
-      dispatch(launchItinerary(islaunched))
+      dispatch(launchItinerary(islaunched));
       setBtnContent("Commencer");
     }
-  }, [islaunched]); 
-  
+  }, [islaunched]);
 
-
+//Style de base du bouton commencer
   let launchBtn = {
     backgroundColor: "#FFB703",
     padding: 20,
@@ -53,7 +43,8 @@ export default function EntireItineraryScreen() {
     width: "50%",
     marginLeft: "25%",
   };
-  
+
+// Modification du style
   if (islaunched) {
     launchBtn = {
       backgroundColor: "#F94A56",
@@ -65,11 +56,11 @@ export default function EntireItineraryScreen() {
       marginLeft: "25%",
     };
   }
-  
+
   // handle information from reducer
-  const myItinerary = useSelector((state) => state.itineraries.value)
-  console.log(myItinerary)
-  
+  const myItinerary = useSelector((state) => state.itineraries.value);
+  console.log(myItinerary);
+
   // faire map sur les noms de membre participants
   const members = myItinerary.members.map((data, i) => {
     return (
@@ -78,17 +69,17 @@ export default function EntireItineraryScreen() {
           {data} <FontAwesome name="close" size={12} color="#FFFFFF" />
         </Text>
       </View>
-    )
-  })
+    );
+  });
 
-  // handle waypoints 
-  const [ isWaypoints, setIsWaypoints ] = useState(false)
-  const waypointsName = myItinerary.waypointsName
+  // handle waypoints
+  const [isWaypoints, setIsWaypoints] = useState(false);
+  const waypointsName = myItinerary.waypointsName;
 
   // check si il y a des waypoints
   useEffect(() => {
-    if(myItinerary.waypointsName.length) {
-      setIsWaypoints(true)
+    if (myItinerary.waypointsName.length) {
+      setIsWaypoints(true);
     }
   }, []);
 
@@ -104,48 +95,56 @@ export default function EntireItineraryScreen() {
           <Text style={styles.p}>{data}</Text>
         </View>
       </View>
-    )
-  })
+    );
+  });
 
   // remove les infos du reducer !!!!!!!!!!
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const handleBackToAllItinary = () => {
-    dispatch(removeItinerary())
-    navigation.navigate('ItinerariesList')
-  }
+    dispatch(removeItinerary());
+    navigation.navigate("ItinerariesList");
+  };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView style={styles.containerMargin}>
-        <FontAwesome name='angle-left' size={40} color='#8B9EAB' style={{ marginBottom: 10 }} onPress={() => handleBackToAllItinary()}/>
+        <FontAwesome
+          name="angle-left"
+          size={40}
+          color="#8B9EAB"
+          style={{ marginBottom: 10 }}
+          onPress={() => handleBackToAllItinary()}
+        />
         <View style={styles.header}>
           <View style={styles.discipline}>
             <Image
-              tintColor='white'
+              tintColor="white"
               style={styles.disciplineImg}
               source={require("../assets/diciplinesIcons/snowshoe.png")}
             />
           </View>
           <View>
             <Text style={styles.h1}>{myItinerary.itineraryName}</Text>
-            <Text style={styles.p}>{moment(myItinerary.date).format('DD/MM/YYYY')} • temps estimé : {myItinerary.time}</Text>
+            <Text style={styles.p}>
+              {moment(myItinerary.date).format("DD/MM/YYYY")} • temps estimé :{" "}
+              {myItinerary.time}
+            </Text>
           </View>
         </View>
         <Image
           style={styles.itineraryImg}
-          source={{uri: myItinerary.itineraryImg}}
+          source={{ uri: myItinerary.itineraryImg }}
         />
         <Text style={styles.h2}>Informations</Text>
         <Text style={styles.p}>{myItinerary.membersNumber} membre(s)</Text>
-        <View style={styles.peopleCardSection}>
-            {members}
-        </View>
+        <View style={styles.peopleCardSection}>{members}</View>
         <Text style={styles.p}>1 encadrant</Text>
         <View style={styles.peopleCardSection}>
           <View style={styles.peopleCard}>
             <Text style={styles.peopleCardContent}>
-              {myItinerary.supervisor} <FontAwesome name="close" size={12} color="#FFFFFF" />
+              {myItinerary.supervisor}{" "}
+              <FontAwesome name="close" size={12} color="#FFFFFF" />
             </Text>
           </View>
         </View>
@@ -173,18 +172,12 @@ export default function EntireItineraryScreen() {
           </View>
           <View style={styles.boderDecoration}></View>
         </View>
-        <TouchableOpacity
-          style={launchBtn}
-          onPress={
-            handleLaunchItinerary}
-        >
+        <TouchableOpacity style={launchBtn} onPress={handleLaunchItinerary}>
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>
       </ScrollView>
-      <View style={styles.whiteRectangle}>
-
-      </View>
-      <CallModal/>
+      <View style={styles.whiteRectangle}></View>
+      <CallModal />
     </SafeAreaView>
   );
 }
@@ -248,23 +241,19 @@ const styles = StyleSheet.create({
     backgroundColor: "#8B9EAB",
     padding: 15,
     borderRadius: 50,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginRight: 10,
     height: 50,
-    width: '30%',
-    justifyContent: 'center',
-    alignItems: 'center'
+    width: "30%",
+    justifyContent: "center",
+    alignItems: "center",
   },
   peopleCardContent: {
     color: "#FFFFFF",
   },
   trajetContainer: {
     marginTop: 10,
-
   },
-
-
-
   iconSection: {
     flexDirection: "row",
     marginTop: "5%",
@@ -292,11 +281,11 @@ const styles = StyleSheet.create({
     left: "7%",
     zIndex: -1,
     marginTop: 18,
-    height: '80%',
+    height: "80%",
   },
   whiteRectangle: {
-    backgroundColor: '#FFFFFF',
-    width: '100%',
+    backgroundColor: "#FFFFFF",
+    width: "100%",
     height: 15,
-  }
+  },
 });
