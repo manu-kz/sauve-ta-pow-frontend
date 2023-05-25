@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   h1: {
-    fontSize: 32,
+    fontSize: 25,
     fontWeight: "bold",
     marginBottom: 30,
-    marginTop: 30
+    marginTop: 30,
+    marginLeft: 20
   },
   buttonCircleGrey: {
     width: 50,

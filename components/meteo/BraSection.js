@@ -209,8 +209,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   input: {
-    width: 273,
-    height: 34,
+    width: '80%',
+    height: 40,
     backgroundColor: '#fff',
     borderRadius: 100,
     borderWidth: 1,

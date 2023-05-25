@@ -278,9 +278,9 @@ const styles = StyleSheet.create({
     borderColor: "#8B9EAB",
     position: "absolute",
     width: "100%",
-    left: "7%",
+    left: "6%",
     zIndex: -1,
-    marginTop: 18,
+    marginTop: 19,
     height: "80%",
   },
   whiteRectangle: {
