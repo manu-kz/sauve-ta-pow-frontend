@@ -12,11 +12,11 @@ import { useState, useEffect } from "react";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
-import RescueBasicCard from "../components/Dashboard/RescueBasicCard";
-import ArticleDashboard from "../components/Dashboard/ArticleDashboard";
+import RescueBasicCard from "../../components/Dashboard/RescueBasicCard";
+import ArticleDashboard from "../../components/Dashboard/ArticleDashboard";
 import { articles } from "../../assets/rescueBasics";
-import MeteoCard from "../components/Dashboard/MeteoCard";
-import BraCard from "../components/Dashboard/BraCard";
+import MeteoCard from "../../components/Dashboard/MeteoCard";
+import BraCard from "../../components/Dashboard/BraCard";
 export default function HomeScreen({ navigation }) {
   const username = useSelector((state) => state.user.username);
   const [news, setNews] = useState(null);
