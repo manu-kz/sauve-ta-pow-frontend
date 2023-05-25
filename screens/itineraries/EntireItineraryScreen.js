@@ -134,7 +134,7 @@ export default function EntireItineraryScreen() {
         </View>
         <Image
           style={styles.itineraryImg}
-          source={{ uri: myItinerary.itineraryImg }}
+          source={require('../../assets/map.jpg')}
         />
         <Text style={styles.h2}>Informations</Text>
         <Text style={styles.p}>{myItinerary.membersNumber} membre(s)</Text>

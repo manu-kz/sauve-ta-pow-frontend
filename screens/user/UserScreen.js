@@ -23,9 +23,11 @@ export default function UserScreen({ navigation }) {
 
   // token du reducer 
   const token = useSelector((state) => state.user.token)
+  console.log(token)
 
   // fetch des infos du user en fonction du token 
   useEffect(() => {
+    console.log('fetch user')
     fetch(`https://sauve-ta-pow-backend.vercel.app/users/${token}`).then((response) => response.json()).then(data => {
       // dispatch articles dans le store 
       for(let infos of data.user) {
@@ -35,7 +37,7 @@ export default function UserScreen({ navigation }) {
         setUsername(infos.username? infos.username : 'Username')
       }
     })
-  }, []);
+  }, [token]);
 
   const [image, setImage] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
@@ -119,15 +121,57 @@ export default function UserScreen({ navigation }) {
 
   // handle Logout 
   const handleLogout = () => {
-    console.log(('click logout ok ! '))
     // clear le store
     AsyncStorage.clear()
     alert('Reload ton appliation pour te déconnecter !')
     navigation.navigate('Home')
   }
-  const user = useSelector((state) => state.user)
-  console.log('user infos ===>', user)
 
+  const logoutButton = (
+    <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
+      <Text style={styles.logoutText}>Se déconnecter</Text>
+    </TouchableOpacity>
+  )
+
+  // handle login
+  const handleLogin = () => {
+    navigation.navigate('Login')
+  }
+  const loginButton = (
+    <TouchableOpacity style={styles.login} onPress={() => handleLogin()}>
+      <Text style={styles.logoutText}>Se Connecter</Text>
+    </TouchableOpacity>
+  )
+
+  const infoUser = (
+    <View>
+      <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToPersonnal()}>
+        <View style={styles.buttons}>
+          <Text>Informations personnelles</Text>
+          <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToHealth()}>
+        <View style={styles.buttons}>
+          <Text>Fiche santé</Text>
+          <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToItineraries()}>
+        <View style={styles.buttons}>
+          <Text>Tous mes itinéraires</Text>
+          <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
+        </View>
+      </TouchableOpacity>
+    </View>
+  )
+
+  const noLogin = (
+    <View style={styles.noLogin}>
+      <Text style={styles.connectionText}>Connectez-vous</Text>
+      {loginButton}
+    </View>
+  )
  return (
   <SafeAreaView style={styles.container}>
    <View style={styles.container}>
@@ -143,24 +187,7 @@ export default function UserScreen({ navigation }) {
       <Text style={styles.username}>{username}</Text>
     </View>
     {modal}
-    <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToPersonnal()}>
-      <View style={styles.buttons}>
-        <Text>Informations personnelles</Text>
-        <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToHealth()}>
-      <View style={styles.buttons}>
-        <Text>Fiche santé</Text>
-        <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
-      </View>
-    </TouchableOpacity>
-    <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToItineraries()}>
-      <View style={styles.buttons}>
-        <Text>Tous mes itinéraires</Text>
-        <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
-      </View>
-    </TouchableOpacity>
+    {token ? infoUser : noLogin}
     <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToConfidential()}>
       <View style={styles.buttons}>
         <Text>Politique de confidentialité</Text>
@@ -168,9 +195,7 @@ export default function UserScreen({ navigation }) {
       </View>
     </TouchableOpacity>
     <View style={styles.logoutContainer}>
-      <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
-        <Text style={styles.logoutText}>Se déconnecter</Text>
-      </TouchableOpacity>
+      {token ? logoutButton : <Text></Text>}
     </View>
     </View>
   </SafeAreaView>
@@ -302,6 +327,15 @@ const styles = StyleSheet.create({
       marginTop: "10%",
       marginRight: 60,
       },
+      login: {
+        width: "40%",
+        height: 40,
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "#213A5C",
+        borderRadius: 50,
+        marginTop: "10%",
+      },
       logoutContainer: {
         width: '100%',
         justifyContent: 'center',
@@ -312,5 +346,16 @@ const styles = StyleSheet.create({
       logoutText: {
         color: 'white',
         fontWeight: '800'
+      },
+      noLogin: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 200,
+        width: '100%',
+      },
+      connectionText: {
+        fontSize: 25,
+        fontWeight: '800',
+        color: '#213A5C'
       },
    });

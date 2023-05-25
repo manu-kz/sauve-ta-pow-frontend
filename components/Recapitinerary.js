@@ -21,11 +21,13 @@ export default function Recapitinerary(props) {
     navigation.navigate('EntireItinerary')
   }
 
+  console.log(props.itineraryImg)
   return (
     <TouchableOpacity style={styles.container} onPress={() => handleEntireItineraryNavigation()}>
       <Image
         style={styles.itineraryImg}
-        source={{uri: props.itineraryImg }}
+        // source={{uri: props.itineraryImg }}
+        source={require('../assets/map.jpg')}
       />
       <View style={styles.textContainer}>
         <Text style={styles.h2}>{props.itineraryName}</Text>

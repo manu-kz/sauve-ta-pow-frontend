@@ -116,6 +116,7 @@ export default function ItinerariesScreen() {
 //Ligne de l'itinéraire
   const itinerayLineOnReady = (args) => {
     if (args) {
+      console.log(args.duration)
       setDistance(args.distance);
       setDuration(args.duration);
     }
@@ -162,6 +163,19 @@ export default function ItinerariesScreen() {
     );
     swipeUpDownRef.current.showFull();
   }
+
+  // handle duration
+  const minToHour = (minutes) => {
+    const time = Math.ceil(minutes)
+    var nbHour = parseInt(time / 60);
+    var nbminuteRestante = (time % 60);
+
+    if(nbminuteRestante == 0) {
+      return nbHour + 'h'
+    } else { 
+      return nbHour + 'h' + nbminuteRestante
+    }
+	}
 
   return (
     <View style={styles.container}>
@@ -238,9 +252,7 @@ export default function ItinerariesScreen() {
                 </View>
                 <View  style={styles.time}>
                   <Text>
-                    Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
-                    {duration >= 60 && duration < 1440 && "h"}
-                    {duration < 60 && "min"}
+                    Temps: {minToHour(duration)}
                   </Text>
                 </View>
                   <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>

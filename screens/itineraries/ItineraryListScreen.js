@@ -20,7 +20,7 @@ export default function ItineraryListScreen({ navigation }) {
       // ajoute mes itinéraires dans le state locale sous forme d'array d'objet
         setMyItineraries(data.itineraries)
     })
-  }, [itiReducer])
+  }, [itiReducer, token])
 
   let today = new Date()
 
