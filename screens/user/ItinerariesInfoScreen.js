@@ -43,7 +43,7 @@ export default function ItineraryListScreen({ navigation }) {
       <FontAwesome name='angle-left' size={40} color='#D5D8DC' style={styles.backIcon} onPress={() => handleGoBack()}/>
         <Text style={styles.h1}>Tous mes itinéraires</Text>
         <ScrollView style={styles.scrollView}>
-        {myItineraries.length? allItineraries : <Text>Aucun intinéraire enregistré</Text>} 
+        {myItineraries?.length ? allItineraries : <Text>Aucun intinéraire enregistré</Text>} 
         </ScrollView>
       </View>
     </SafeAreaView>
