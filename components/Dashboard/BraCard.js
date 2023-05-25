@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: 800,
     fontSize: 12,
+    padding: 10
   },
   majBra: {
     color: "#fff",

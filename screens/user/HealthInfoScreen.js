@@ -177,6 +177,7 @@ import {
           fontSize: 25,
           fontWeight: 'bold',
           marginBottom: 20,
+          marginLeft: 20
         },
         personnalInfoContainer: {
           padding: 5,

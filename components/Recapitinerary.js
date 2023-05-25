@@ -33,9 +33,7 @@ export default function Recapitinerary(props) {
         <Text style={styles.h2}>{props.itineraryName}</Text>
         <Text style={styles.p}>Départ: {props.departureName}</Text>
         <Text style={styles.p}>Arrivée: {props.arrivalName}</Text>
-        <TouchableOpacity activeOpacity={0.8}>
           <Text style={styles.link}>En savoir plus</Text>
-        </TouchableOpacity>
       </View>
     </TouchableOpacity>
   );
@@ -44,17 +42,20 @@ export default function Recapitinerary(props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: '#EAECEE',
+    backgroundColor: '#FFFFFF',
     borderRadius: 20,
     marginBottom: 10,
     shadowColor: 'black',
-    shadowOpacity: 0.30,
+    shadowOpacity: 0.1,
     shadowOffset: { width: 1, height: 2},
-    shadowRadius: 5,
-    elevation: 3,
+    shadowRadius: 3,
+    elevation: 2,
     backgroundColor: '#FFFFFF',
-    margin: 4,
-    padding: 10,
+    margin: 5,
+    padding: 15,
+    alignItems: 'center',
+    justifyContent: 'space-between',
+
   },
   link: {
     color: "#8B9EAB",
@@ -71,10 +72,8 @@ const styles = StyleSheet.create({
   },
   itineraryImg: {
     borderRadius: 10,
-    marginTop: "5%",
     width: 150,
     height: 150,
-    marginBottom: "5%",
   },
   textContainer: {
     padding: 20,

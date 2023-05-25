@@ -248,7 +248,7 @@ export default function ItinerariesScreen() {
             <View>
               <View style={styles.validationContainer}> 
                 <View  style={styles.distance}>
-                  <Text>Distance: {distance.toFixed(2)} km</Text>
+                  <Text style={styles.distanceText}>Distance: {distance.toFixed(2)} km</Text>
                 </View>
                 <View  style={styles.time}>
                   <Text>
@@ -309,7 +309,7 @@ const styles = StyleSheet.create({
   },
   validationContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   distance: {
@@ -318,7 +318,11 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+  },
+  distanceText:{
+    color:'#A8A4A4',
+    fontSize: 14
   },
   time: {
     backgroundColor: '#EDEDED',
@@ -326,18 +330,23 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,   
+    borderRadius: 20,   
+  },
+  timeText:{
+    color:'#A8A4A4',
+    fontSize: 14
   },
   textOK: {
-    color: 'white'
+    color: '#FFFFFF',
+    fontWeight: 'bold'
   },
   validationButton: {
-    backgroundColor: '#213A5C',
+    backgroundColor: '#8B9EAB',
     width: 50,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
   },
   swipeUpToContinue: {
     fontSize: 18,

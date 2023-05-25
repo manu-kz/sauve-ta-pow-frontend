@@ -324,8 +324,7 @@ const styles = StyleSheet.create({
       alignItems: "center",
       backgroundColor: "#F94A56",
       borderRadius: 50,
-      marginTop: "10%",
-      marginRight: 60,
+      marginTop: "20%",
       },
       login: {
         width: "40%",
@@ -341,11 +340,10 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         height: 50,
-        marginLeft: 25,
       },
       logoutText: {
-        color: 'white',
-        fontWeight: '800'
+        color: '#FFFFFF',
+        fontWeight: 'bold'
       },
       noLogin: {
         justifyContent: 'center',

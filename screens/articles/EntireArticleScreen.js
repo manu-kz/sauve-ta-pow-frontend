@@ -79,6 +79,7 @@ import {
                 <Text style={styles.date}>Auteur.ice : {article.author} </Text>
             </View>
         </ScrollView>
+        <View style={styles.whiteRectangle}></View>
       </View>
    );
   }
@@ -86,10 +87,11 @@ import {
   const styles = StyleSheet.create({
     entireArticle: {
       flex: 1,
+      backgroundColor: '#FFFFFF',
     },
     imageContainer: {
       shadowColor: 'black',
-      shadowOpacity: 0.25,
+      shadowOpacity: 0.2,
       shadowOffset: { width: 1, height: 2},
       shadowRadius: 5,
       elevation: 3,
@@ -102,8 +104,8 @@ import {
       justifyContent: 'center',
       alignItems: 'center',
       backgroundColor: 'white',
-      height: 30,
-      width: 30,
+      height: 40,
+      width: 40,
       borderRadius: 30,
     },
     iconsArticle: {
@@ -125,15 +127,16 @@ import {
     },
     date: {
         fontStyle: 'italic',
-        color: '#D5D8DC',
+        color: '#A8A4A4',
         fontSize: 12,
+        fontWeight: 500,
     },
     infoContainer: {
       padding: 13,
       shadowColor: 'black',
-      shadowOpacity: 0.10,
+      shadowOpacity: 0.1,
       shadowOffset: { width: 1, height: 1},
-      shadowRadius: 5,
+      shadowRadius: 3,
       elevation: 2,
       backgroundColor: 'white',
       borderRadius: 15,
@@ -150,4 +153,9 @@ import {
         marginTop: 18,
         marginBottom: 10
     },
+    whiteRectangle: {
+      backgroundColor: '#FFFFFF',
+      width: '100%',
+      height: 15,
+    }
   })

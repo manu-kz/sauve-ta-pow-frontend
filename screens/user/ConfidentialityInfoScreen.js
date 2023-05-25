@@ -199,7 +199,7 @@ By email: em_bntd3112@yahoo.com</Text>
     },
     pageContainer: {
       flex: 1,
-      padding: 15,
+      padding: 20,
     },
     backIcon: {
       margin: 10
