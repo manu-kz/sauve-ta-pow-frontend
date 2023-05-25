@@ -34,7 +34,7 @@ import {
     article.isBookmarked = !article.isBookmarked
     const isBookmarked = bookmarks?.some(bookmark => bookmark.title === article.title);
     if(isBookmarked) {
-      fetch(`http://10.0.87:3000/bookmarks/deleteBookmark/${token}`, {
+      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/deleteBookmark/${token}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(article)
@@ -42,7 +42,7 @@ import {
         dispatch(removeBookmark(data.bookmark))
       })
     } else {
-      fetch(`http://10.0.87:3000/bookmarks/newBookmark/${token}`, {
+      fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/newBookmark/${token}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(article)

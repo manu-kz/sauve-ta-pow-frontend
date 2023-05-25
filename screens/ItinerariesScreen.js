@@ -28,6 +28,8 @@ export default function App() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
 
+  const API_KEY = 'AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII'
+
 
   //Demande d'autorisation pour accéder à la localisation
   useEffect(() => {
@@ -47,7 +49,7 @@ export default function App() {
     try {
       const placeId = details.place_id;
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII`
+        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
       );
       const data = await response.json();
 
@@ -68,7 +70,7 @@ export default function App() {
     try {
       const placeId = details.place_id;
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII`
+        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
       );
       const data = await response.json();
 
@@ -93,7 +95,7 @@ export default function App() {
     try {
       const placeId = details.place_id;
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII`
+        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
       );
       const data = await response.json();
 
@@ -197,7 +199,7 @@ export default function App() {
             style={styles.itineraryLine}
             origin={departure}
             destination={arrival}
-            apikey="AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII"
+            apikey={API_KEY}
             strokeColor="#F94A56"
             strokeWidth={5}
             onReady={itinerayLineOnReady}
@@ -216,7 +218,7 @@ export default function App() {
             placeholder="Départ"
             onPress={addDeparture}
             query={{
-              key: "AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII",
+              key: {API_KEY},
               language: "fr",
             }}
           />
@@ -225,7 +227,7 @@ export default function App() {
             placeholder="Point de passage"
             onPress={addWayPoint}
             query={{
-              key: "AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII",
+              key: {API_KEY},
               language: "fr",
             }}
           />
@@ -234,7 +236,7 @@ export default function App() {
             placeholder="Arrivée"
             onPress={addArrival}
             query={{
-              key: "AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII",
+              key: {API_KEY},
               language: "fr",
             }}
           />

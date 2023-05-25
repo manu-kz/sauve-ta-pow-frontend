@@ -33,7 +33,7 @@ export default function MeteoCard() {
     })();
     // FETCH LOCATION KEY POUR METEO
     if (user.location) {
-      fetch(`http://10.0.2.110:3000/meteo/location/${user.location}`)
+      fetch(`https://sauve-ta-pow-backend.vercel.app/meteo/location/${user.location}`)
         .then((response) => response.json())
         .then((data) => {
           data &&
@@ -51,7 +51,7 @@ export default function MeteoCard() {
   //RÉCUPÉRATION CURRENT METEO
   async function getCurrentMeteo(locationID) {
     const rawResponse = await fetch(
-      `http://10.0.2.110:3000/meteo/current/${locationID}`
+      `https://sauve-ta-pow-backend.vercel.app/meteo/current/${locationID}`
     );
     const responseJSON = await rawResponse.json();
     responseJSON &&
