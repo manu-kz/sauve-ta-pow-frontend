@@ -31,7 +31,7 @@ export default function MeteoCard() {
         });
       }
     })();
-console.log('user.location', user.location)
+    console.log("user.location", user.location);
     // FETCH LOCATION KEY POUR METEO
     if (user.location) {
       fetch(`http://10.0.2.110:3000/meteo/location/${user.location}`)
@@ -45,7 +45,7 @@ console.log('user.location', user.location)
               })
             );
           getCurrentMeteo(data.location.Key);
-          console.log('first', data.location.Key)
+          console.log("first", data.location.Key);
         });
     }
   }, [user.location]);
@@ -71,15 +71,13 @@ console.log('user.location', user.location)
   //RÉCUPÉRER LE BON ICON METEO
   const currentWeatherIcon = selectWeatherIcon(meteo.weatherIcon);
 
-
-   //NAVIGATION TO METEO
-   const handleMeteoNavigation = () => {
+  //NAVIGATION TO METEO
+  const handleMeteoNavigation = () => {
     navigation.navigate("Meteo");
   };
 
   return (
-    
-    <BlurView intensity={30} style={styles.weatherBlur} >
+    <BlurView intensity={30} style={styles.weatherBlur}>
       <LinearGradient
         colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.2)"]}
         start={{ x: 0, y: 1 }}
@@ -87,25 +85,25 @@ console.log('user.location', user.location)
         useAngle
         angle={110}
         style={styles.card}
-        
       >
-        <Pressable  onPress={() => handleMeteoNavigation()}>
-        <Image style={styles.meteoIcon} source={currentWeatherIcon}/>
+        <Pressable onPress={() => handleMeteoNavigation()}>
+          <Image style={styles.meteoIcon} source={currentWeatherIcon} />
 
-        {!user.locationKey && (
-          <Text style={styles.weatherError}>Pas de connexion</Text>
-        )}
-        {user.locationKey && (
-          <View style={styles.weather} >
-            <View >
-              <Text style={styles.cityInfo }>{user.locationName}</Text>
-              <Text style={styles.weatherInfo}>{meteo.weatherText}</Text>
+          {!user.locationKey && (
+            <Text style={styles.weatherError}>Pas de connexion</Text>
+          )}
+          {user.locationKey && (
+            <View style={styles.weather}>
+              <View style={styles.infoContainer}>
+                <Text style={styles.cityInfo}>{user.locationName}</Text>
+
+                <Text style={styles.weatherInfo}>{meteo.weatherText}</Text>
+              </View>
+              <View style={styles.temperatureContainer}>
+                <Text style={styles.temperature}>{meteo.temperature}°C</Text>
+              </View>
             </View>
-            <View style={styles.temperatureContainer}>
-              <Text style={styles.temperature}>{meteo.temperature}°C</Text>
-            </View>
-          </View>
-        )}
+          )}
         </Pressable>
       </LinearGradient>
     </BlurView>
@@ -114,17 +112,17 @@ console.log('user.location', user.location)
 
 const styles = StyleSheet.create({
   //CARD BLUR
+  weatherBlur: {
+    width: "45%",
+    height: 160,
+    marginBottom: 45 ,
+  },
 
   card: {
     borderRadius: 30,
     height: "100%",
     width: "100%",
     justifyContent: "space-evenly",
-  },
-  weatherBlur: {
-    width: "45%",
-    height: 150,
-    marginBottom: 50,
   },
 
   //WEATHER DATA
@@ -141,6 +139,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
     paddingBottom: 10,
   },
+  infoContainer: {
+    maxWidth: "90%",
+  },
   cityInfo: {
     fontSize: 25,
     fontWeight: 700,
@@ -150,8 +151,8 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#fff",
   },
-  weatherError:{
-    textAlign:'center',
+  weatherError: {
+    textAlign: "center",
     fontSize: 15,
     color: "#fff",
   },

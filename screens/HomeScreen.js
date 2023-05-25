@@ -125,28 +125,10 @@ const styles = StyleSheet.create({
   p: {
     fontSize: 13,
   },
-  knowMore: {
-    color: "#8B9EAB",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
+ 
   cardsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
-  },
-
-  containerContentPreview: {
-    position: "absolute",
-    justifyContent: "space-between",
-    alignItems: "center",
-    flexDirection: "row",
-    padding: "5%",
-    width: "80%",
-  },
-  containertextContentPreview: {
-    marginLeft: "5%",
-    width: "80%",
   },
   rescueBasic: {
     marginTop: 160,
