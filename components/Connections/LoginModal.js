@@ -2,13 +2,10 @@ import {
   StyleSheet,
   Text,
   View,
-  Image,
   TextInput,
-  Platform,
-  Alert,
+  TouchableWithoutFeedback, Keyboard ,
   Modal,
-  Pressable,
-  SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useState } from "react";
@@ -56,7 +53,8 @@ export default function LoginModal({ navigation }) {
 
   return (
     <Modal animationType="slide" transparent={true} visible={loginModal}>
-      <View style={styles.modalView}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.modalView}>
         <FontAwesome
           name="close"
           size={20}
@@ -65,6 +63,7 @@ export default function LoginModal({ navigation }) {
           onPress={() => dispatch(setLoginModal(false))}
         />
         <Text style={styles.h2}>Se connecter</Text>
+        
         <TextInput
           style={styles.input}
           autoCapitalize="none"
@@ -83,9 +82,9 @@ export default function LoginModal({ navigation }) {
           }}
           value={password}
         />
-        <Pressable style={styles.button} onPress={() => login()}>
+        <TouchableOpacity style={styles.button} onPress={() => login()}>
           <Text style={styles.textStyle}>Log In</Text>
-        </Pressable>
+        </TouchableOpacity>
         {error && <Text>Missing or wrong identification</Text>}
         <Text
           onPress={() => {
@@ -95,6 +94,7 @@ export default function LoginModal({ navigation }) {
           ou créer un compte
         </Text>
       </View>
+      </TouchableWithoutFeedback>  
     </Modal>
   );
 }

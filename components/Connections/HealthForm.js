@@ -2,7 +2,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  Pressable,
+  TouchableOpacity,
   View,
   ScrollView,
 } from "react-native";
@@ -146,7 +146,7 @@ export default function HealthForm({ navigation }) {
 
         <View style={styles.yesNoContainer}>
           <Text style={styles.h4}>Fumeur</Text>
-          <Pressable
+          <TouchableOpacity
             style={[
               styles.smokerButton,
               { backgroundColor: !doSmoke ? "#FFB703" : "#8B9EAB" },
@@ -154,8 +154,8 @@ export default function HealthForm({ navigation }) {
             onPress={() => setDoSmoke(!doSmoke)}
           >
             <Text style={styles.p}> Non</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
               styles.smokerButton,
               { backgroundColor: doSmoke ? "#FFB703" : "#8B9EAB" },
@@ -163,7 +163,7 @@ export default function HealthForm({ navigation }) {
             onPress={() => setDoSmoke(!doSmoke)}
           >
             <Text style={styles.p}> Oui</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <TextInput
@@ -192,7 +192,7 @@ export default function HealthForm({ navigation }) {
         />
         <Text style={styles.h4}>Historique Médicale</Text>
         <ScrollView horizontal={true} indicatorStyle={"white"}>
-          <Pressable
+          <TouchableOpacity
             style={[
               styles.medidcalHistoryButton,
               { backgroundColor: cardiacCase ? "#FFB703" : "#8B9EAB" },
@@ -200,8 +200,8 @@ export default function HealthForm({ navigation }) {
             onPress={() => setCardiacCase(!cardiacCase)}
           >
             <Text style={styles.p}> Cardiaque</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
               styles.medidcalHistoryButton,
               { backgroundColor: pulmonaryCase ? "#FFB703" : "#8B9EAB" },
@@ -209,8 +209,8 @@ export default function HealthForm({ navigation }) {
             onPress={() => setpulmonaryCase(!pulmonaryCase)}
           >
             <Text style={styles.p}> Pulmonaire</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
               styles.medidcalHistoryButton,
               { backgroundColor: bloodHistory ? "#FFB703" : "#8B9EAB" },
@@ -218,8 +218,8 @@ export default function HealthForm({ navigation }) {
             onPress={() => setBloodHistory(!bloodHistory)}
           >
             <Text style={styles.p}> Sanguin</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
               styles.medidcalHistoryButton,
               { backgroundColor: neurologicalCase ? "#FFB703" : "#8B9EAB" },
@@ -227,13 +227,13 @@ export default function HealthForm({ navigation }) {
             onPress={() => setNeurologicalCase(!neurologicalCase)}
           >
             <Text style={styles.p}> Neurologique</Text>
-          </Pressable>
+          </TouchableOpacity>
         </ScrollView>
         {medicalHistoryInfo()}
 
         <View style={styles.yesNoContainer}>
           <Text style={styles.h4}>Directives Avancées</Text>
-          <Pressable
+          <TouchableOpacity
             style={[
               styles.smokerButton,
               { backgroundColor: !advanceDirectives ? "#FFB703" : "#8B9EAB" },
@@ -241,8 +241,8 @@ export default function HealthForm({ navigation }) {
             onPress={() => setAdvanceDirectives(!advanceDirectives)}
           >
             <Text style={styles.p}> Non</Text>
-          </Pressable>
-          <Pressable
+          </TouchableOpacity>
+          <TouchableOpacity
             style={[
               styles.smokerButton,
               { backgroundColor: advanceDirectives ? "#FFB703" : "#8B9EAB" },
@@ -250,7 +250,7 @@ export default function HealthForm({ navigation }) {
             onPress={() => setAdvanceDirectives(!advanceDirectives)}
           >
             <Text style={styles.p}> Oui</Text>
-          </Pressable>
+          </TouchableOpacity>
         </View>
 
         <Text style={styles.h4}> Personne de Confiance </Text>
@@ -277,10 +277,10 @@ export default function HealthForm({ navigation }) {
         />
       </ScrollView>
 
-      <Pressable style={styles.button} onPress={() => signup()}>
+      <TouchableOpacity style={styles.button} onPress={() => signup()}>
         <Text style={styles.textStyle}> Suivant</Text>
-      </Pressable>
-      <Text>{error}</Text>
+      </TouchableOpacity>
+      <Text style={styles.error}>{error}</Text>
     </>
   );
 }
@@ -376,5 +376,9 @@ const styles = StyleSheet.create({
   },
   scrollView: {
     width: "100%",
+  },
+  error: {
+    // alignSelf:"center",
+    // textAlign:"center"
   },
 });

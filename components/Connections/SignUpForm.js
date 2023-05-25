@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
@@ -75,6 +75,8 @@ export default function SignUpForm({ navigation }) {
 
 // USER SIGN UP FORM
   return (
+    
+          
     <View>
       <Text style={styles.h2}>S'inscrire</Text>
       <TextInput
@@ -143,11 +145,12 @@ export default function SignUpForm({ navigation }) {
         />
       </View>
 
-      <Pressable style={styles.button} onPress={() => signup()}>
+      <TouchableOpacity style={styles.button} onPress={() => signup()}>
         <Text style={styles.textStyle}> Suivant</Text>
-      </Pressable>
+      </TouchableOpacity>
       <Text>{error}</Text>
     </View>
+  
   );
 }
 

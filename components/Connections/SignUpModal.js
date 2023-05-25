@@ -1,4 +1,4 @@
-import { StyleSheet, View, Modal } from "react-native";
+import { StyleSheet, View, Modal,TouchableWithoutFeedback,Keyboard } from "react-native";
 import SignUpForm from "./SignUpForm";
 import HealthForm from "./HealthForm";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
@@ -14,6 +14,7 @@ export default function SignUpModal({ navigation }) {
   //SIGN UP MODAL
   return (
     <Modal animationType="slide" transparent={true} visible={signUpModal}>
+       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={styles.modalView}>
         {!showHealthForm && (
           <FontAwesome
@@ -27,6 +28,7 @@ export default function SignUpModal({ navigation }) {
 
         {!showHealthForm ? <SignUpForm /> : <HealthForm />}
       </View>
+      </TouchableWithoutFeedback>
     </Modal>
   );
 }

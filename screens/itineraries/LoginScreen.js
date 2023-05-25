@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Pressable,
   ImageBackground,
+  TouchableOpacity,
 } from "react-native";
 import LoginModal from "../../components/Connections/LoginModal";
 import SignUpModal from "../../components/Connections/SignUpModal";
@@ -19,7 +20,6 @@ export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
   const loginModal = useSelector((state) => state.modals.loginModal);
   const signUpModal = useSelector((state) => state.modals.signUpModal);
-
 
   return (
     <ImageBackground
@@ -32,27 +32,26 @@ export default function LoginScreen({ navigation }) {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.container}
         >
-            
-          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <>
-              <Text style={styles.h1}>Créer un itinéraire</Text>
-
-              {!loginModal && !signUpModal && (
-                <Pressable
-                  style={styles.buttonShortWhite}
-                  activeOpacity={0.8}
-                  onPress={() => dispatch(setLoginModal(true))}
-                >
-                  <Text style={styles.textButtonGrey}>Log In</Text>
-                </Pressable>
-              )}
-              {loginModal && <LoginModal style={styles.modal} />}
-              {signUpModal && <SignUpModal />}
-
-              </>
-          </TouchableWithoutFeedback>
-          <View style={styles.whiteRectangle}></View>
+          <View>
+            <Text style={styles.h1}>Créer un itinéraire</Text>
+            <Text style={styles.h5}>
+              Connectez-vous pour avoir accès à toutes les fonctinnalités de
+              Sauve Ta Pow !
+            </Text>
+          </View>
+          {!loginModal && !signUpModal && (
+            <TouchableOpacity
+              style={styles.buttonShortWhite}
+              activeOpacity={0.8}
+              onPress={() => dispatch(setLoginModal(true))}
+            >
+              <Text style={styles.textButtonGrey}>Log In</Text>
+            </TouchableOpacity>
+          )}
+          {loginModal && <LoginModal style={styles.modal} />}
+          {signUpModal && <SignUpModal />}
         </KeyboardAvoidingView>
+        <View style={styles.whiteRectangle}></View>
       </SafeAreaView>
     </ImageBackground>
   );
@@ -68,7 +67,7 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     alignItems: "center",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   h1: {
     fontSize: 32,
@@ -77,6 +76,13 @@ const styles = StyleSheet.create({
     alignSelf: "flex-start",
     marginTop: "10%",
     marginLeft: "5%",
+  },
+  h5: {
+    fontSize: 18,
+    fontWeight: 500,
+    color: "white",
+    alignSelf: "flex-start",
+    marginHorizontal: "5%",
   },
 
   buttonShortWhite: {
@@ -87,9 +93,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
 
     borderRadius: 100,
-    marginBottom: "10%",
-    marginTop: '120%'
-
+     marginBottom: "20%",
+    
   },
   textButtonGrey: {
     color: "#8B9EAB",
@@ -102,9 +107,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 22,
   },
-   whiteRectangle: {
-    backgroundColor: '#FFFFFF',
-    width: '100%',
+  whiteRectangle: {
+    backgroundColor: "#FFFFFF",
+    width: "100%",
     height: 15,
-  }
+  },
 });
