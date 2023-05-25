@@ -184,7 +184,7 @@ export default function EntireItineraryScreen() {
       <View style={styles.whiteRectangle}>
 
       </View>
-      {/* <CallModal/> */}
+      <CallModal/>
     </SafeAreaView>
   );
 }

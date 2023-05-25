@@ -11,20 +11,26 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { useDispatch, useSelector } from "react-redux";
 import { showCallModal } from "../reducers/modals";
 import { useEffect, useState } from 'react';
+import { Linking } from 'react-native';
 
 
 export default function CallModal() {
   const dispatch = useDispatch();
   const callModal = useSelector((state) => state.modals.callModal);
-  const localisation = useSelector((state) => state.user);
-  console.log(localisation)
-  const [threeWord, setThreeWords] = useState('');
+  const localisation = useSelector((state) => state.user.location)
+  const localisationArr = localisation.split(',')
+  const [wordOne, setwordOne] = useState('');
+  const [wordTwo, setwordTwo] = useState('');
+  const [wordThree, setwordThree] = useState('');
 
   useEffect(() => {
-    fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/what3words/${longitude}/${latitude}`)
+    fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/what3words/${localisationArr[1]}/${localisationArr[0]}`)
       .then(response => response.json())
       .then(data => {
-        setThreeWords(data.words);
+        const wordsData = data.what3words.words.split('.')
+        setwordOne(wordsData[0])
+        setwordTwo(wordsData[1])
+        setwordThree(wordsData[2])
       });
   }, []);
 
@@ -34,7 +40,7 @@ export default function CallModal() {
     { number: 3, description: "Précisez le nombre et l’état apparent des victimes." },
     { number: 4, description: "Décrivez la situation." },
     { number: 5, description: "Précisez s’il y a des risques persistants." },
-    { number: 6, description: `Indiquez votre localisation grâce à ces trois mots :${threeWord}` },
+    { number: 6, description: `Indiquez votre localisation grâce à ces trois mots: ${wordOne}, ${wordTwo}, ${wordThree}` },
   ];
 
   const stepList = step.map((data, i) => (
@@ -46,12 +52,17 @@ export default function CallModal() {
     </View>
   ));
 
-
+ //CALL 112
+  const phoneCall = () => {
+    const phoneNumber = '+33698836092'; 
+  
+    Linking.openURL(`tel:${phoneNumber}`);
+  };
   
   return (
     <Modal animationType="slide" transparent={true} visible={callModal}>
       <View style={styles.modalView}>
-        <TouchableOpacity activeOpacity={0.8}>  
+        <TouchableOpacity activeOpacity={1}>  
         <FontAwesome
           name="close"
           size={20}
@@ -66,18 +77,9 @@ export default function CallModal() {
         </View>
         {stepList}
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.loudspeakerBtn}>
-            <Image
-              source={require("../assets/loudspeaker.png")}
-              style={styles.loudspeakerImg}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.hanguprBtn}>
-            <Image
-              source={require("../assets/hangup.png")}
-              style={styles.loudspeakerImg}
-            />
-          </TouchableOpacity>
+        <TouchableOpacity activeOpacity={1} style={styles.phoneCallBtn} onPress={() => phoneCall()}> 
+        <Image source={require('../assets/picto_phone.png')} style={styles.phoneCall}/>
+        </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -131,27 +133,21 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: "10%",
   },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: "10%",
-  },
-  loudspeakerBtn: {
-    backgroundColor: "#52BD8F",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+  phoneCallBtn: {
     borderRadius: 50,
-  },
-  loudspeakerImg: {
-    width: 40,
-    height: 40,
-  },
-  hanguprBtn: {
-    backgroundColor: "#F94A56",
+    backgroundColor: '#52BD8F',
+    height: 80,
+    width: 80,
     justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
-    borderRadius: 50,
+    alignItems: 'center'
+
   },
+  phoneCall: {
+    height: 50,
+    width: 50,
+    },
+    btnContainer: {
+      alignItems: 'center',
+      marginTop: '10%'
+    }
 });
