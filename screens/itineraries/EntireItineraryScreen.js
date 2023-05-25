@@ -10,6 +10,8 @@ import { launchItinerary } from "../../reducers/launchItinerary";
 import { removeItinerary } from "../../reducers/itineraries";
 //COMPONENT
 import CallModal from "../../components/CallModal";
+import {showCallModal} from '../../reducers/modals';
+
 //MOMENT - DATE/TIME
 import moment from "moment";
 
@@ -172,9 +174,33 @@ export default function EntireItineraryScreen() {
           </View>
           <View style={styles.boderDecoration}></View>
         </View>
-        <TouchableOpacity style={launchBtn} onPress={handleLaunchItinerary}>
+        { !islaunched ? (
+          <TouchableOpacity
+          style={launchBtn}
+          onPress={
+            handleLaunchItinerary}
+        >
           <Text style={styles.btnContent}>{btnContent}</Text>
         </TouchableOpacity>
+        ) : (<View style={styles.viewQuitCall}>
+          <TouchableOpacity
+          style={styles.quitCallBtn}
+          onPress={() =>
+            handleLaunchItinerary()}
+        >
+          <Text style={styles.btnContent}>{btnContent}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+        style={styles.quitCallBtn}
+        onPress={ () =>
+          dispatch(showCallModal(true))
+        }
+      >
+        <Text style={styles.btnContent}>Appel d'urgence</Text>
+      </TouchableOpacity>
+      </View>
+        )
+        }
       </ScrollView>
       <View style={styles.whiteRectangle}></View>
       <CallModal />
@@ -288,4 +314,19 @@ const styles = StyleSheet.create({
     width: "100%",
     height: 15,
   },
+  viewQuitCall: {  
+    flexDirection:'row',  
+    justifyContent:'space-around'
+  },
+  quitCallBtn:{
+justifyContent:'center',
+width:'45%',
+height:60,
+backgroundColor:'#F94A56',
+padding: 20,
+marginVertical:40,
+marginTop: "10%",
+marginBottom: "20%",
+borderRadius: 50,
+  }
 });
