@@ -12,27 +12,26 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
-import HomeScreen from './screens/HomeScreen';
-import MeteoScreen from './screens/MeteoScreen';
-import ItinerariesScreen from './screens/ItinerariesScreen';
+import HomeScreen from './screens/home/HomeScreen';
+import MeteoScreen from './screens/meteo/MeteoScreen';
+import ItinerariesScreen from './screens/itineraries/ItinerariesScreen';
 import UiKitScreen from './screens/UiKitScreen';
-import LoginScreen from './screens/LoginScreen';
 // NEWS SCREEN
-import NewsScreen from './screens/NewsScreen';
-import FavorisScreen from './screens/FavorisScreen';
-import EntireArticleScreen from './screens/EntireArticleScreen';
-import ArticlesScreen from './screens/ArticleScreen';
+import NewsScreen from './screens/articles/NewsScreen';
+import FavorisScreen from './screens/articles/FavorisScreen';
+import EntireArticleScreen from './screens/articles/EntireArticleScreen';
+import ArticlesScreen from './screens/articles/ArticleScreen';
 // USER SCREENS
-import UserScreen from './screens/UserScreen';
-import PersonalInfosScreen from './screens/PersonalInfoScreen';
-import HealthInfoScreen from './screens/HealthInfoScreen';
-import ItinerariesInfoScreen from './screens/ItinerariesInfoScreen';
-import HelpInfoScreen from './screens/HelpInfoScreen';
-import ConfidentialityInfoScreen from './screens/ConfidentialityInfoScreen';
+import UserScreen from './screens/user/UserScreen';
+import PersonalInfosScreen from './screens/user/PersonalInfoScreen';
+import HealthInfoScreen from './screens/user/HealthInfoScreen';
+import ItinerariesInfoScreen from './screens/user/ItinerariesInfoScreen';
+import ConfidentialityInfoScreen from './screens/user/ConfidentialityInfoScreen';
 
 //ITINERARY SCREENS
-import EntireItineraryScreen from './screens/EntireItineraryScreen';
-import ItineraryListScreen from './screens/ItineraryListScreen';
+import LoginScreen from './screens/itineraries/LoginScreen';
+import EntireItineraryScreen from './screens/itineraries/EntireItineraryScreen';
+import ItineraryListScreen from './screens/itineraries/ItineraryListScreen';
 import SwipeItemFull from './components/SwipeItemFull';
 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -111,11 +110,7 @@ const UserStack = () => {
       <Stack.Screen name="PersonnalInfo" component={PersonalInfosScreen} />
       <Stack.Screen name="HealthInfo" component={HealthInfoScreen} />
       <Stack.Screen name="ItinerariesInfo" component={ItinerariesInfoScreen} />
-      <Stack.Screen name="HelpInfo" component={HelpInfoScreen} />
-      <Stack.Screen
-        name="ConfidentialityInfo"
-        component={ConfidentialityInfoScreen}
-      />
+      <Stack.Screen name="ConfidentialityInfo"component={ConfidentialityInfoScreen}/>
     </Stack.Navigator>
   );
 };
