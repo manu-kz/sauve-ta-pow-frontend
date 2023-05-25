@@ -278,13 +278,11 @@ const TabNavigator = () => {
           tabPress:(e) => {
               if (token && !launchItinerary){
                 handleLaunchItinerary()
-              } else if (token && launchItinerary){
-                dispatch(showCallModal(true))
-                //phoneCall()
               }
           }
         }} />
-      )}
+      ) 
+      }
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
       {/* <Tab.Screen name="Phone" component={EntireItineraryScreen} /> */}
