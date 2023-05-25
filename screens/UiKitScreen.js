@@ -142,12 +142,7 @@ export default function UiKitScreen() {
             />
           </TouchableOpacity>
 
-          <TouchableOpacity activeOpacity={0.8} style={styles.buttonCircleRed}>
-            <Image
-              source={require("../assets/fin-dappel.png")}
-              style={styles.icon}
-            />
-          </TouchableOpacity>
+          
 
           <Text style={styles.title}>FORM</Text>
 
