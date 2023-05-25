@@ -54,6 +54,7 @@ export default function LoginScreen({ navigation }) {
           <View style={styles.whiteRectangle}></View>
         </KeyboardAvoidingView>
       </SafeAreaView>
+      <View style={styles.whiteRectangle}></View>
     </ImageBackground>
   );
 }
@@ -106,5 +107,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: '100%',
     height: 15,
+  },
+  whiteRectangle: {
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    height: 15,
+    position: 'absolute',
+    top: '98.2%'
   }
 });
