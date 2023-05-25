@@ -12,28 +12,24 @@ import { useState, useEffect } from "react";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
-import RescueBasicCard from "../../components/Dashboard/RescueBasicCard";
-import ArticleDashboard from "../../components/Dashboard/ArticleDashboard";
-import { articles } from "../../assets/rescueBasics";
-import MeteoCard from "../../components/Dashboard/MeteoCard";
-import BraCard from "../../components/Dashboard/BraCard";
+import RescueBasicCard from "../components/Dashboard/RescueBasicCard";
+import ArticleDashboard from "../components/Dashboard/ArticleDashboard";
+import { articles } from "../assets/rescueBasics";
+import MeteoCard from "../components/Dashboard/MeteoCard";
+import BraCard from "../components/Dashboard/BraCard";
 export default function HomeScreen({ navigation }) {
-
-
   const username = useSelector((state) => state.user.username);
   const [news, setNews] = useState(null);
-
-  const user = useSelector((state) => state.user)
-  console.log(user)
 
   // IMG BACKGROUND STATE
   const [heightImg, setHeightImg] = useState(0);
 
-  //LAYOUT FUNCTION POUR IMAGE EN  BACKGROUND
+  // LAYOUT FUNCTION POUR IMAGE EN  BACKGROUND
   const onLayout = (event) => {
     const { height } = event.nativeEvent.layout;
     setHeightImg(height);
   };
+
   //FETCH LE PREMIER ARTICLE
 
   useEffect(() => {
@@ -68,7 +64,7 @@ export default function HomeScreen({ navigation }) {
 
   //MAPPING ON RESCUE BASICS TO CREATE CARDS
   const rescueArticles = articles.map((data, i) => {
-     return (
+    return (
       <RescueBasicCard
         key={i}
         bigTitle={data.bigTitle}
@@ -81,58 +77,71 @@ export default function HomeScreen({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
+    <>
       <ImageBackground
-        source={require("../../assets/Dashboard.jpg")}
-        style={styles.imgBackground}
-        resizeMode="cover"
-        onLayout={onLayout}
+        source={require("../assets/Dashboard.jpg")}
+        style={{backgroundColor: "white"}}
+        imageStyle={{
+          resizeMode: "cover",
+          height: "47%",
+          bottom: undefined,
+        }}
       >
         <SafeAreaView />
-        <Text style={styles.h1}>Welcome {username ? username : ""} </Text>
-        <View style={styles.cardsContainer}>
-          <MeteoCard/>
-          <BraCard/>
-        </View>
+        <ScrollView>
+          <Text style={styles.h1}>Bienvenue {username ? username : ""} </Text>
+          <View style={styles.cardsContainer}>
+            <MeteoCard />
+            <BraCard />
+          </View>
+          {newsArticle}
+          <View style={styles.rescueTextContainer}>
+            <Text style={styles.h3}>Rescue Basics</Text>
+            
+          </View>
+          <ScrollView horizontal={true} >
+            {rescueArticles}
+          </ScrollView>
+        </ScrollView>
+      <View style={styles.whiteRectangle}></View>
       </ImageBackground>
-      {newsArticle}
-
-      <ScrollView horizontal={true} style={styles.rescueBasic}>
-        {rescueArticles}
-      </ScrollView>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    
   },
-  imgBackground: {},
+ 
   h1: {
     margin: 20,
     color: "white",
     fontSize: 32,
     fontWeight: "bold",
   },
-  h2: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
+ 
   h3: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-  },
-  p: {
-    fontSize: 13,
   },
  
   cardsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
-  rescueBasic: {
-    marginTop: 160,
+  rescueTextContainer: {
+    marginLeft: 20,
+    paddingBottom :10
   },
+  whiteRectangle: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: 15,
+    position:"absolute",
+    top:'92.4%'
+  },
+  
+
 });
