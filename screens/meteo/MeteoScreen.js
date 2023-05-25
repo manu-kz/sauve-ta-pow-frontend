@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Platform,
   StatusBar,
+  KeyboardAvoidingView,
 } from 'react-native';
 import BraSection from '../../components/meteo/BraSection';
 import CurrentMeteoSection from '../../components/meteo/CurrentMeteoSection';
@@ -15,7 +16,8 @@ export default function MeteoScreen() {
 
   return (
     <>
-      <ScrollView>
+      <KeyboardAvoidingView>
+      <ScrollView style={{backgroundColor:'#fff'}}>
         <ImageBackground
           source={require('../../assets/mountain-background.jpeg')}
           style={styles.imgBackground}
@@ -30,6 +32,7 @@ export default function MeteoScreen() {
         </ImageBackground>
         <BraSection />
       </ScrollView>
+        </KeyboardAvoidingView>
       <View style={styles.whiteRectangle}>
       </View>
       </>
@@ -60,5 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: '100%',
     height: 15,
+    position: 'absolute',
+    top: '98.2%'
   }
 });

@@ -374,7 +374,7 @@ const styles = StyleSheet.create({
     marginRight: 10
   },
   datePicker: {
-    color: '#EDEDED'
+    color: '#FFFFFF'
   },
   disciplinesContainer: {
     flexDirection: "row",
@@ -409,7 +409,7 @@ const styles = StyleSheet.create({
     marginTop: "10%",
     marginRight: 60,
     flexDirection :'row',
-    justifyContent: 'space-around'
+    justifyContent: 'space-evenly'
   },
   buttonSave: {
     width: "40%",

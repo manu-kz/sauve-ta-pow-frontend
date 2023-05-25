@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
       padding: 5,
     },
     title: {
-      fontSize: 35,
+      fontSize: 32,
       fontWeight: 'bold',
       marginBottom: 20,
     },

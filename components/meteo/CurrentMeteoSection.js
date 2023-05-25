@@ -60,6 +60,7 @@ export default function MeteoScreen() {
     const hours = data.DateTime.slice(11, 13);
 
     return (
+
       <View key={i} style={styles.hourlyContainer}>
         <Image style={styles.hourlyIcon} source={hourlyweatherIcon} />
         <View>
@@ -167,6 +168,7 @@ export default function MeteoScreen() {
 
   return (
     <>
+          <View style = {styles.viewCornerMain}>
       <BlurView intensity={30} style={styles.mainCardContainer}>
         <LinearGradient
           colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
@@ -195,6 +197,8 @@ export default function MeteoScreen() {
           )}
         </LinearGradient>
       </BlurView>
+      </View>
+      <View style = {styles.viewCornerHour}>
       <BlurView intensity={30} style={styles.hourlyCardContainer}>
         <LinearGradient
           colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
@@ -214,6 +218,8 @@ export default function MeteoScreen() {
           </ScrollView>
         </LinearGradient>
       </BlurView>
+      </View>
+        <View style = {styles.viewCornerDay}>
       <BlurView intensity={30} style={styles.dailyCardContainer}>
         <LinearGradient
           colors={['rgba(0,0,0,0.1)', 'rgba(0,0,0,0.2)']}
@@ -238,11 +244,19 @@ export default function MeteoScreen() {
           </View>
         </LinearGradient>
       </BlurView>
+      </View>
     </>
   );
 }
 
 const styles = StyleSheet.create({
+  viewCornerMain:{
+    width: 182,
+    height: 156,
+    marginBottom: 20,
+    overflow:"hidden",
+    borderRadius: 20,
+  },
   mainCardContainer: {
     width: 182,
     height: 156,
@@ -303,6 +317,13 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 20,
   },
+  viewCornerHour:{
+    width: 328,
+    height: 106,
+    marginBottom: 20,
+    overflow:"hidden",
+    borderRadius: 20,
+  },
   hourlyCardContainer: {
     width: 328,
     height: 106,
@@ -329,6 +350,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  viewHourlyContainer:{
+    width: "35%",
+    height: 160,
+    marginBottom: 20,
+    overflow:"hidden",
+    borderRadius: 30,
+  },
   hourlyContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -346,6 +374,13 @@ const styles = StyleSheet.create({
   },
   hourlyTextTemperature: {
     color: '#fff',
+  },
+  viewCornerDay:{
+    width: 328,
+    height: 280,
+    marginBottom: 20,
+    overflow:"hidden",
+    borderRadius: 20,
   },
   dailyCardContainer: {
     width: 328,

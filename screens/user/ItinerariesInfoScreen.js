@@ -43,7 +43,7 @@ export default function ItineraryListScreen({ navigation }) {
       <FontAwesome name='angle-left' size={40} color='#D5D8DC' style={styles.backIcon} onPress={() => handleGoBack()}/>
         <Text style={styles.h1}>Tous mes itinéraires</Text>
         <ScrollView style={styles.scrollView}>
-        {myItineraries.length? allItineraries : <Text>Aucun intinéraire enregistré</Text>} 
+        {myItineraries?.length ? allItineraries : <Text>Aucun intinéraire enregistré</Text>} 
         </ScrollView>
       </View>
     </SafeAreaView>
@@ -61,10 +61,11 @@ const styles = StyleSheet.create({
     margin: 20,
   },
   h1: {
-    fontSize: 32,
+    fontSize: 25,
     fontWeight: "bold",
     marginBottom: 30,
-    marginTop: 30
+    marginTop: 30,
+    marginLeft: 20
   },
   buttonCircleGrey: {
     width: 50,

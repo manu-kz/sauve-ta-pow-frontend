@@ -116,6 +116,7 @@ export default function ItinerariesScreen() {
 //Ligne de l'itinéraire
   const itinerayLineOnReady = (args) => {
     if (args) {
+      console.log(args.duration)
       setDistance(args.distance);
       setDuration(args.duration);
     }
@@ -162,6 +163,19 @@ export default function ItinerariesScreen() {
     );
     swipeUpDownRef.current.showFull();
   }
+
+  // handle duration
+  const minToHour = (minutes) => {
+    const time = Math.ceil(minutes)
+    var nbHour = parseInt(time / 60);
+    var nbminuteRestante = (time % 60);
+
+    if(nbminuteRestante == 0) {
+      return nbHour + 'h'
+    } else { 
+      return nbHour + 'h' + nbminuteRestante
+    }
+	}
 
   return (
     <View style={styles.container}>
@@ -234,13 +248,11 @@ export default function ItinerariesScreen() {
             <View>
               <View style={styles.validationContainer}> 
                 <View  style={styles.distance}>
-                  <Text>Distance: {distance.toFixed(2)} km</Text>
+                  <Text style={styles.distanceText}>Distance: {distance.toFixed(2)} km</Text>
                 </View>
                 <View  style={styles.time}>
                   <Text>
-                    Temps: {Math.ceil(duration)} {duration > 1440 && "j"}
-                    {duration >= 60 && duration < 1440 && "h"}
-                    {duration < 60 && "min"}
+                    Temps: {minToHour(duration)}
                   </Text>
                 </View>
                   <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>
@@ -297,7 +309,7 @@ const styles = StyleSheet.create({
   },
   validationContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   distance: {
@@ -306,7 +318,11 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+  },
+  distanceText:{
+    color:'#A8A4A4',
+    fontSize: 14
   },
   time: {
     backgroundColor: '#EDEDED',
@@ -314,18 +330,23 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,   
+    borderRadius: 20,   
+  },
+  timeText:{
+    color:'#A8A4A4',
+    fontSize: 14
   },
   textOK: {
-    color: 'white'
+    color: '#FFFFFF',
+    fontWeight: 'bold'
   },
   validationButton: {
-    backgroundColor: '#213A5C',
+    backgroundColor: '#8B9EAB',
     width: 50,
     height: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
   },
   swipeUpToContinue: {
     fontSize: 18,
