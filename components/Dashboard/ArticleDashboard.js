@@ -19,10 +19,11 @@ export default function ArticleDashboard(props) {
     <View
       style={{
         ...styles.containerContentPreview,
-        top: props.top - props.top * 0.1,
+        // top: props.top - props.top * 0.1,
       }}
     >
       <Image source={{ uri: props.urlToImage }} style={styles.articleImage} />
+
       <View style={styles.containertextContentPreview}>
         <Text style={styles.h4}>
           {props.title.length > 40
@@ -75,7 +76,6 @@ const styles = StyleSheet.create({
   },
 
   containerContentPreview: {
-    position: "absolute",
     justifyContent: "space-between",
     alignItems: "center",
     flexDirection: "row",
@@ -85,6 +85,7 @@ const styles = StyleSheet.create({
   containertextContentPreview: {
     marginLeft: "5%",
     width: "80%",
+    // backgroundColor:
   },
   articleImage: {
     width: 130,

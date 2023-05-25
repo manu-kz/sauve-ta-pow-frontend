@@ -24,13 +24,11 @@ export default function HomeScreen({ navigation }) {
   // IMG BACKGROUND STATE
   const [heightImg, setHeightImg] = useState(0);
 
-  //LAYOUT FUNCTION POUR IMAGE EN  BACKGROUND
+  // LAYOUT FUNCTION POUR IMAGE EN  BACKGROUND
   const onLayout = (event) => {
     const { height } = event.nativeEvent.layout;
     setHeightImg(height);
   };
-
-
 
   //FETCH LE PREMIER ARTICLE
 
@@ -66,7 +64,7 @@ export default function HomeScreen({ navigation }) {
 
   //MAPPING ON RESCUE BASICS TO CREATE CARDS
   const rescueArticles = articles.map((data, i) => {
-     return (
+    return (
       <RescueBasicCard
         key={i}
         bigTitle={data.bigTitle}
@@ -79,58 +77,64 @@ export default function HomeScreen({ navigation }) {
   });
 
   return (
-    <View style={styles.container}>
+    <>
       <ImageBackground
         source={require("../assets/Dashboard.jpg")}
         style={styles.imgBackground}
-        resizeMode="cover"
-        onLayout={onLayout}
+        imageStyle={{
+          resizeMode: "cover",
+          height: "44%",
+          bottom: undefined,
+        }}
       >
         <SafeAreaView />
-        <Text style={styles.h1}>Welcome {username ? username : ""} </Text>
-        <View style={styles.cardsContainer}>
-          <MeteoCard/>
-          <BraCard/>
-        </View>
+        <ScrollView>
+          <Text style={styles.h1}>Welcome {username ? username : ""} </Text>
+          <View style={styles.cardsContainer}>
+            <MeteoCard />
+            <BraCard />
+          </View>
+          {newsArticle}
+          <View style={styles.rescueTextConatiner}>
+            <Text style={styles.h3}>Rescue Basics</Text>
+            
+          </View>
+          <ScrollView horizontal={true} style={styles.rescueBasic}>
+            {rescueArticles}
+          </ScrollView>
+        </ScrollView>
       </ImageBackground>
-      {newsArticle}
-
-      <ScrollView horizontal={true} style={styles.rescueBasic}>
-        {rescueArticles}
-      </ScrollView>
-    </View>
+    </>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
+    
   },
-  imgBackground: {},
+  imgBackground: {
+    flex: 1,
+    
+  },
   h1: {
     margin: 20,
     color: "white",
     fontSize: 32,
     fontWeight: "bold",
   },
-  h2: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
+ 
   h3: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "bold",
-  },
-  p: {
-    fontSize: 13,
   },
  
   cardsContainer: {
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
-  rescueBasic: {
-    marginTop: 160,
+  rescueTextConatiner: {
+    marginLeft: 20,
+    paddingBottom :10
   },
 });
