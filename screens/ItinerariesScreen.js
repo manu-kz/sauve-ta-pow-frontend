@@ -1,20 +1,23 @@
 import React, { useEffect, useRef, useState } from "react";
-import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+// Dimention pour que le text se place correctement dans la window. Pour qu'il ne soit pas coupé
 import { Dimensions } from "react-native";
+// MAP
+import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import * as Location from "expo-location";
 import Constants from "expo-constants";
 import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
+//SWIPE
 import SwipeUpDown from "react-native-swipe-up-down";
 import SwipeItemFull from "../components/SwipeItemFull";
-
+// REDUX & REDUCER
+import { useDispatch } from "react-redux";
 import { addItineraryFirstPart } from "../reducers/itineraries";
-import { useDispatch, useSelector } from "react-redux";
-
+//CAPTURE D'ECRAN
 import { captureRef } from "react-native-view-shot";
 
-export default function App() {
+export default function ItinerariesScreen() {
 
   const dispatch = useDispatch()
 
@@ -32,7 +35,6 @@ export default function App() {
   useEffect(() => {
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
-
       if (status === "granted") {
         Location.watchPositionAsync({ distanceInterval: 10 }, (location) => {
           setCurrentPosition(location.coords);
@@ -42,6 +44,7 @@ export default function App() {
   }, []);
 
   //Utilisation de geocode pour convertir la valeur de l'input en coordonnées lat et lng
+  // DEPART
   const addDeparture = async (data, details) => {
     try {
       const placeId = details.place_id;
@@ -63,6 +66,7 @@ export default function App() {
       console.error("Erreur lors de la récupération de la position:", error);
     }
   };
+    // POINTS DE PASSAGE
   const addWayPoint = async (data, details) => {
     try {
       const placeId = details.place_id;
@@ -87,7 +91,7 @@ export default function App() {
       console.error("Erreur lors de la récupération de la position:", error);
     }
   };
-
+  // ARRIVAL
   const addArrival = async (data, details) => {
     try {
       const placeId = details.place_id;
@@ -109,7 +113,7 @@ export default function App() {
       console.error("Erreur lors de la récupération de la position:", error);
     }
   };
-
+//Ligne de l'itinéraire
   const itinerayLineOnReady = (args) => {
     if (args) {
       setDistance(args.distance);
@@ -117,6 +121,7 @@ export default function App() {
     }
   };
 
+  // marker points de passage
   const wayPoints = wayPoint.map((waypoint, index) => (
     <Marker
       key={index}
