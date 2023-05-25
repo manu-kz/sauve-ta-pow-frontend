@@ -19,6 +19,7 @@ export default function MeteoCard() {
 
   // LOCALISATION PERMISSION
   useEffect(() => {
+
     (async () => {
       const { status } = await Location.requestForegroundPermissionsAsync();
       if (status === "granted") {
@@ -47,7 +48,7 @@ export default function MeteoCard() {
           getCurrentMeteo(data.location.Key);
         });
     }
-  }, [user.location]);
+  }, [user.location, user.token]);
 
   //RÉCUPÉRATION CURRENT METEO
   async function getCurrentMeteo(locationID) {
@@ -76,6 +77,7 @@ export default function MeteoCard() {
   };
 
   return (
+    <View style={styles.view}>
     <BlurView intensity={30} style={styles.weatherBlur}>
       <LinearGradient
         colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.2)"]}
@@ -106,19 +108,27 @@ export default function MeteoCard() {
         </Pressable>
       </LinearGradient>
     </BlurView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   //CARD BLUR
-  weatherBlur: {
+
+  view:{
     width: "45%",
     height: 160,
-    marginBottom: 45 ,
+    marginBottom: 20,
+    overflow:"hidden",
+    borderRadius: 30,
+  },
+  weatherBlur: {
+    width: "100%",
+    height: 160,
+    marginBottom: 20 ,
   },
 
   card: {
-    borderRadius: 30,
     height: "100%",
     width: "100%",
     justifyContent: "space-evenly",
