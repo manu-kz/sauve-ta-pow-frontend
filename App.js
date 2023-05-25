@@ -45,6 +45,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { persistStore, persistReducer } from 'redux-persist';
 import { PersistGate } from 'redux-persist/integration/react';
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+
+// reducers
 import articles from './reducers/articles';
 import user from './reducers/user';
 import bookmarks from './reducers/bookmarks';
@@ -53,14 +55,10 @@ import meteo from './reducers/meteo';
 import itineraries from './reducers/itineraries';
 import launchItinerary from './reducers/launchItinerary';
 
-// import reducers
-
 //IMPORT FOR PHONE CALL
 import { Linking } from 'react-native';
 import { useDispatch } from "react-redux";
 import {showCallModal} from './reducers/modals';
-
-
 
 
 const reducers = combineReducers({

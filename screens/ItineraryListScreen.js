@@ -23,16 +23,22 @@ export default function ItineraryListScreen({ navigation }) {
   const itiReducer = useSelector((state) => state.itineraries.value)
 
   useEffect(() => {
-    console.log('fetch itineraires ok !!')
     fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/${token}`).then((response) => response.json()).then(data => {
       // ajoute mes itinéraires dans le state locale sous forme d'array d'objet
         setMyItineraries(data.itineraries)
     })
   }, [itiReducer])
 
+  let today = new Date()
+
   const allItineraries = myItineraries?.map((data, i) => {
-    return <Recapitinerary key={i} {...data} style={styles.recapIti}/>
-  })
+    console.log(today)
+    // trie des dates futures
+    let date = new Date(data.date)
+    if(today < date) {
+      return <Recapitinerary key={i} {...data} style={styles.recapIti}/>
+    }
+  }).reverse()
 
   return (
     <SafeAreaView style={styles.container}>

@@ -36,16 +36,8 @@ export const userSlice = createSlice({
     keepFavoriteBra: (state, action) => {
       state.favoriteBra = action.payload;
     },
-    logout: (state) => {
-      state = {
-        username: null,
-        token: null,
-        loginProcess:true,
-        location: null,
-        locationKey: null,
-        locationName: null,
-        favoriteBra: null,
-      }
+    logout: (state, action) => {
+      state = action.payload
     }
   },
 });

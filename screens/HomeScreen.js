@@ -18,8 +18,13 @@ import { articles } from "../assets/rescueBasics";
 import MeteoCard from "../components/Dashboard/MeteoCard";
 import BraCard from "../components/Dashboard/BraCard";
 export default function HomeScreen({ navigation }) {
+
+
   const username = useSelector((state) => state.user.username);
   const [news, setNews] = useState(null);
+
+  const user = useSelector((state) => state.user)
+  console.log(user)
 
   // IMG BACKGROUND STATE
   const [heightImg, setHeightImg] = useState(0);
@@ -29,9 +34,6 @@ export default function HomeScreen({ navigation }) {
     const { height } = event.nativeEvent.layout;
     setHeightImg(height);
   };
-
-
-
   //FETCH LE PREMIER ARTICLE
 
   useEffect(() => {

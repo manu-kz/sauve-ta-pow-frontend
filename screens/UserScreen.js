@@ -1,4 +1,3 @@
-
 import { 
   StyleSheet, 
   Text, 
@@ -12,11 +11,10 @@ import {
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import user, { keepUsername , keepToken, logout } from '../reducers/user';
+import { useSelector } from 'react-redux';
+
+// handle logout
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { removeAllBookmarks } from '../reducers/bookmarks'
-import { removeLocalWeather } from '../reducers/meteo';
 
 export default function UserScreen({ navigation }) {
 
@@ -26,7 +24,6 @@ export default function UserScreen({ navigation }) {
 
   // token du reducer 
   const token = useSelector((state) => state.user.token)
-  console.log('token', token)
 
   // fetch des infos du user en fonction du token 
   useEffect(() => {
@@ -68,7 +65,6 @@ export default function UserScreen({ navigation }) {
     if (!result.canceled) {
       setImage(result.assets[0].uri);
     }
-    // !!!!! image à en envoyer en db 
   }
   
   // fonction qui gère la modal et choix photo de profil 
@@ -124,11 +120,14 @@ export default function UserScreen({ navigation }) {
 
   // handle Logout 
   const handleLogout = () => {
+    console.log(('click logout ok ! '))
+    // clear le store
     AsyncStorage.clear()
-
+    alert('Reload ton appliation pour te déconnecter !')
     navigation.navigate('Home')
   }
-  // logout removeAllBookmarks removeLocalWeather
+  const user = useSelector((state) => state.user)
+  console.log('user infos ===>', user)
 
  return (
   <SafeAreaView style={styles.container}>
@@ -137,7 +136,6 @@ export default function UserScreen({ navigation }) {
       <TouchableOpacity
         style={styles.avatar}
         onPress={() => handleModalImage()}
-        // onPress={this._avatarClicked}
         >
         <Image style={styles.profileImage} source={uri} />
          <FontAwesome name='plus-circle' size={20} color='#D5D8DC' style={styles.plus}/>
@@ -160,7 +158,7 @@ export default function UserScreen({ navigation }) {
     </TouchableOpacity>
     <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToItineraries()}>
       <View style={styles.buttons}>
-        <Text>Mes itinéraires</Text>
+        <Text>Tous mes itinéraires</Text>
         <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
       </View>
     </TouchableOpacity>
