@@ -58,8 +58,6 @@ import launchItinerary from './reducers/launchItinerary';
 //IMPORT FOR PHONE CALL
 //import { Linking } from 'react-native';
 import { useDispatch } from "react-redux";
-import {showCallModal} from './reducers/modals';
-
 
 
 
@@ -162,20 +160,20 @@ const TabNavigator = () => {
 
   let imgUrl = require('./assets/picto_randonneur.png');
   //Changement de style pour le bouton randonneur -> phone
-  if (launchItinerary) {
-    imgUrl = require('./assets/picto_phone.png');
-    imageContainer = {
-      height: 80,
-      width: 80,
-      borderRadius: 50,
-      borderColor: '#fff',
-      borderWidth: 10,
-      backgroundColor: '#52BD8F',
-      justifyContent: 'center',
-      alignItems: 'center',
-      marginBottom: 50,
-    };
-  }
+  // if (launchItinerary) {
+  //   imgUrl = require('./assets/picto_phone.png');
+  //   imageContainer = {
+  //     height: 80,
+  //     width: 80,
+  //     borderRadius: 50,
+  //     borderColor: '#fff',
+  //     borderWidth: 10,
+  //     backgroundColor: '#52BD8F',
+  //     justifyContent: 'center',
+  //     alignItems: 'center',
+  //     marginBottom: 50,
+  //   };
+  // }
 
   //CALL 112
   /*const phoneCall = () => {
@@ -275,9 +273,7 @@ const TabNavigator = () => {
       ) : (
         <Tab.Screen name="Hike" component={ItineraryStack} listeners={{
           tabPress:(e) => {
-              if (token && !launchItinerary){
                 handleLaunchItinerary()
-              }
           }
         }} />
       ) 
