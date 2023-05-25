@@ -28,9 +28,6 @@ export default function App() {
   const [distance, setDistance] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  const API_KEY = 'AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII'
-
-
   //Demande d'autorisation pour accéder à la localisation
   useEffect(() => {
     (async () => {
@@ -49,7 +46,7 @@ export default function App() {
     try {
       const placeId = details.place_id;
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
+        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII`
       );
       const data = await response.json();
 
@@ -70,7 +67,7 @@ export default function App() {
     try {
       const placeId = details.place_id;
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
+        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII`
       );
       const data = await response.json();
 
@@ -95,7 +92,7 @@ export default function App() {
     try {
       const placeId = details.place_id;
       const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=${API_KEY}`
+        `https://maps.googleapis.com/maps/api/geocode/json?place_id=${placeId}&key=AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII`
       );
       const data = await response.json();
 
@@ -113,8 +110,6 @@ export default function App() {
     }
   };
 
-  //  ref map pour traçage route et zoom sur map
-
   const itinerayLineOnReady = (args) => {
     if (args) {
       setDistance(args.distance);
@@ -131,9 +126,11 @@ export default function App() {
     />
   ));
 
-  // save les infos itinéraires dans le reducer
   // handle capture d'écran
   const ref = useRef()
+
+  // swipe up when click ok to continue 
+  const swipeUpDownRef = useRef();
 
   const handleSaveitinerary = () => {
     // Capture d'écran
@@ -142,13 +139,7 @@ export default function App() {
       quality: 0.8,
     }).then(
       (uri) => {
-      console.log("Image saved to", uri)
-      // envoie de l'image dans cloudinary pour ensuite récupérer le lien 
-      // formData.append('photoFromFront', {
-      //   uri: uri,
-      //   name: 'photo.jpg',
-      //   type: 'image/jpeg',
-      //  });
+        // création d'un objet qui va être dispatch dans le store puis dans la db
       const itinerary = {
         departure: departure,
         departureName: departureName,
@@ -165,13 +156,7 @@ export default function App() {
       (error) => console.error("Oops, snapshot failed", error)
     );
     swipeUpDownRef.current.showFull();
-
   }
-  const itineraries = useSelector((state) => state.itineraries.value)
-
-  // swipe up when click ok to continue 
-  const swipeUpDownRef = useRef();
-
 
   return (
     <View style={styles.container}>
@@ -199,7 +184,7 @@ export default function App() {
             style={styles.itineraryLine}
             origin={departure}
             destination={arrival}
-            apikey={API_KEY}
+            apikey='AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII'
             strokeColor="#F94A56"
             strokeWidth={5}
             onReady={itinerayLineOnReady}
@@ -218,7 +203,7 @@ export default function App() {
             placeholder="Départ"
             onPress={addDeparture}
             query={{
-              key: {API_KEY},
+              key: 'AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII',
               language: "fr",
             }}
           />
@@ -227,7 +212,7 @@ export default function App() {
             placeholder="Point de passage"
             onPress={addWayPoint}
             query={{
-              key: {API_KEY},
+              key: 'AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII',
               language: "fr",
             }}
           />
@@ -236,7 +221,7 @@ export default function App() {
             placeholder="Arrivée"
             onPress={addArrival}
             query={{
-              key: {API_KEY},
+              key: 'AIzaSyAYavTHYiwXdCbZQCvC5hIJ8_sE-T5ETII',
               language: "fr",
             }}
           />
@@ -263,7 +248,6 @@ export default function App() {
       </View>
 
       <SwipeUpDown
-        // itemMini={() => <SwipeItemMini />}
         itemFull={() => <SwipeItemFull />}
         ref={swipeUpDownRef}
         animation="spring"

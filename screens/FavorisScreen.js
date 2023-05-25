@@ -24,8 +24,7 @@ export default function FavorisScreen({ navigation }) {
 
 const dispatch = useDispatch()
 
-// exemple token de user emi pour save favoris dans un doc d'un user dans la db
-const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
+const token = useSelector((state) => state.user.token)
 
 //  useEffect fetch get les favoris d'un user
 useEffect(() => {
@@ -136,7 +135,7 @@ const styles = StyleSheet.create({
 
         // article container
         articlesContainer: {
-            height: 510
+            height: '83%'
           },
           article: {
             marginBottom: 20

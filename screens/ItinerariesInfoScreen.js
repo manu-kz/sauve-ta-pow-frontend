@@ -2,11 +2,7 @@ import {
     StyleSheet, 
     Text, 
     View,
-    TouchableOpacity,
-    Image, 
     SafeAreaView,
-    Pressable,
-    Modal,
   } from 'react-native';
 
   export default function ItinerariesInfoScreen({navigation}) {

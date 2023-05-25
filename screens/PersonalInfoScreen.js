@@ -3,10 +3,7 @@ import {
     Text, 
     View,
     TouchableOpacity,
-    Image, 
     SafeAreaView,
-    Pressable,
-    Modal,
     TextInput,
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
@@ -14,6 +11,7 @@ import {
   } from 'react-native';
   import { useEffect, useState } from 'react';
   import FontAwesome from 'react-native-vector-icons/FontAwesome';
+  import { useSelector } from 'react-redux';
 
   export default function PersonalInfoScreen({navigation}) {
 
@@ -63,39 +61,32 @@ import {
                 <View style={styles.personnalInfoContainer}>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setFirstname}
                     value={firstname}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setLastname}
                     value={lastname}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setUsername}
                     value={username}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setEmail}
                     value={email}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setPhoneNumber}
                     keyboardType='numeric'
                     maxLength={10}
                     value={phoneNumber}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setDateOfBirth}
                     value={dateOfBirth}/>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.infos}>
                     <TextInput         
-                    // onChangeText={setAdresse}
                     value={adresse}/>
                   </TouchableOpacity>
                 </View>

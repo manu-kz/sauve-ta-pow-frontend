@@ -19,16 +19,15 @@ import {
   import { importArticles, addBookmark, removeBookmark } from '../reducers/bookmarks';
   import { openArticle } from '../reducers/articles';
 
-  // { navigation, ...props }
   export default function ArticlesScreen(props) {
   
   const dispatch = useDispatch()
 
   const navigation = useNavigation()
+  const token = useSelector((state) => state.user.token)
   
   // mettre article en bookmark avec gestion de la couleur de l'icon
   const handleBookmark = (props) => {
-    const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
     if(props.isBookmarked) {
       fetch(`https://sauve-ta-pow-backend.vercel.app/bookmarks/deleteBookmark/${token}`, {
         method: 'DELETE',
