@@ -57,6 +57,7 @@ export default function BraCard() {
   };
   
   return (
+    <View style = {styles.view}>
     <BlurView intensity={30} style={styles.braCard}>
       <LinearGradient
         colors={["rgba(0,0,0,0.1)", "rgba(0,0,0,0.2)"]}
@@ -90,18 +91,25 @@ export default function BraCard() {
         </Pressable>
       </LinearGradient>
     </BlurView>
+    </View>
+   
   );
 }
 
 const styles = StyleSheet.create({
-  braCard: {
+  view:{
     width: "35%",
     height: 160,
-    marginBottom: 5,
-  },
-
-  card: {
+    marginBottom: 20,
+    overflow:"hidden",
     borderRadius: 30,
+  },
+  braCard: {
+    width: "100%",
+    height: 160,
+    marginBottom: 20,
+  },
+  card: {
     height: "100%",
     width: "100%",
     alignItems: "center",

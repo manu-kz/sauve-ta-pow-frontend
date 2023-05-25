@@ -87,10 +87,7 @@ export default function RescueBasicCard(props) {
           onPress={() => setModalVisible(!modalVisible)}
           activeOpacity={1}
         >
-          <Image
-            source={props.img}
-            style={styles.cardImageRescueBasics}
-          />
+          <Image source={props.img} style={styles.cardImageRescueBasics} />
           <View style={styles.rescueBasicsCardHeader}>
             <View style={styles.cardHeaderRescueBasics}>
               <View style={styles.cardArc}>
@@ -128,11 +125,13 @@ const styles = StyleSheet.create({
   // CARDS RESCUE
   cardsContainerRescueBasics: {
     flexDirection: "row",
-    shadowColor: 'black',
-      shadowOpacity: 0.30,
-      shadowOffset: { width: 1, height: 2},
-      shadowRadius: 5,
-      elevation: 3,
+    marginTop: 10,
+    shadowColor: "black",
+    shadowOpacity: 0.1,
+    shadowOffset: { width: 1, height: 2 },
+    shadowRadius: 5,
+    elevation: 3,
+    marginBottom: 80,
   },
   cardSectionRescueBasics: {
     width: 190,

@@ -80,12 +80,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     padding: "5%",
-    width: "80%",
+    width: "100%",
+    backgroundColor:"white",
+    padding:15,
+    borderRadius:30,
+
   },
   containertextContentPreview: {
-    marginLeft: "5%",
-    width: "80%",
-    // backgroundColor:
+    margin: "5%",
+    maxWidth: "60%",
+  
   },
   articleImage: {
     width: 130,

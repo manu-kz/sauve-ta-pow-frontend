@@ -80,29 +80,30 @@ export default function HomeScreen({ navigation }) {
     <>
       <ImageBackground
         source={require("../assets/Dashboard.jpg")}
-        style={styles.imgBackground}
+        style={{backgroundColor: "white"}}
         imageStyle={{
           resizeMode: "cover",
-          height: "44%",
+          height: "47%",
           bottom: undefined,
         }}
       >
         <SafeAreaView />
         <ScrollView>
-          <Text style={styles.h1}>Welcome {username ? username : ""} </Text>
+          <Text style={styles.h1}>Bienvenue {username ? username : ""} </Text>
           <View style={styles.cardsContainer}>
             <MeteoCard />
             <BraCard />
           </View>
           {newsArticle}
-          <View style={styles.rescueTextConatiner}>
+          <View style={styles.rescueTextContainer}>
             <Text style={styles.h3}>Rescue Basics</Text>
             
           </View>
-          <ScrollView horizontal={true} style={styles.rescueBasic}>
+          <ScrollView horizontal={true} >
             {rescueArticles}
           </ScrollView>
         </ScrollView>
+      <View style={styles.whiteRectangle}></View>
       </ImageBackground>
     </>
   );
@@ -113,10 +114,7 @@ const styles = StyleSheet.create({
     flex: 1,
     
   },
-  imgBackground: {
-    flex: 1,
-    
-  },
+ 
   h1: {
     margin: 20,
     color: "white",
@@ -133,8 +131,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
-  rescueTextConatiner: {
+  rescueTextContainer: {
     marginLeft: 20,
     paddingBottom :10
   },
+  whiteRectangle: {
+    backgroundColor: 'white',
+    width: '100%',
+    height: 15,
+    position:"absolute",
+    top:'92.4%'
+  },
+  
+
 });
