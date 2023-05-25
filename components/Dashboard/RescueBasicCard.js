@@ -78,7 +78,6 @@ export default function RescueBasicCard(props) {
       </View>
     </Modal>
   );
-  console.log('props.img', props.img)
   return (
     <>
       {modal}

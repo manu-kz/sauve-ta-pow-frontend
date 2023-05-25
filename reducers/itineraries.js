@@ -68,10 +68,7 @@ export const itinerariesSlice = createSlice({
       }
     },
     openItinerary: (state, action) => {
-      state.value.entireArticle = action.payload
-    },
-    openItinerary: (state, action) => {
-      state.value.entireArticle = action.payload
+      state.value = action.payload
     },
   },
 });

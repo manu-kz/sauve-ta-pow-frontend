@@ -19,13 +19,13 @@ export default function Recapitinerary(props) {
 
   const navigation = useNavigation();
 
-  const handleEntireArticleNavigation = () => {
+  const handleEntireItineraryNavigation = () => {
     dispatch(openItinerary(props))
     navigation.navigate('EntireItinerary')
   }
 
   return (
-    <TouchableOpacity style={styles.container} onPress={() => handleEntireArticleNavigation()}>
+    <TouchableOpacity style={styles.container} onPress={() => handleEntireItineraryNavigation()}>
       <Image
         style={styles.itineraryImg}
         source={{uri: props.itineraryImg }}
