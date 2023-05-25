@@ -63,5 +63,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     width: '100%',
     height: 15,
+    position: 'absolute',
+    top: '98.2%'
   }
 });
