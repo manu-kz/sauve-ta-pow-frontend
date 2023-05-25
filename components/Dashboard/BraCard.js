@@ -94,8 +94,8 @@ export default function BraCard() {
 const styles = StyleSheet.create({
   braCard: {
     width: "35%",
-    height: 150,
-    marginBottom: 50,
+    height: 160,
+    marginBottom: 45,
   },
 
   card: {
