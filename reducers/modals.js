@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  
   loginModal: false,
   signUpModal: false,
   healthForm: false,
@@ -23,10 +22,10 @@ export const modalsSlice = createSlice({
     showHealthForm: (state, action) => {
       state.healthForm = action.payload;
     },
-    //SHOW CALL MODAL
+    //SHOW CALL 112 MODAL
     showCallModal: (state, action) => {
-      console.log('reducer modal call ==>',action.payload)
-      state.callModal = action.payload;    },
+      state.callModal = action.payload;
+    },
   },
 });
 
@@ -35,6 +34,6 @@ export const {
   setSignUpModal,
   showHealthForm,
   showLoginProcess,
-  showCallModal
+  showCallModal,
 } = modalsSlice.actions;
 export default modalsSlice.reducer;

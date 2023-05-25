@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   username: null,
   token: null,
-  loginProcess:true,
+  loginProcess: true,
   location: null,
   locationKey: null,
   locationName: null,
@@ -14,8 +14,8 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     keepUsername: (state, action) => {
-        state.username = action.payload
-        },
+      state.username = action.payload;
+    },
     keepToken: (state, action) => {
       state.token = action.payload;
     },
@@ -25,28 +25,31 @@ export const userSlice = createSlice({
       state.loginProcess = action.payload;
     },
 
+    // CURRENT LOCALISATION
     keepLocation: (state, action) => {
       state.location = action.payload;
     },
+
     keepLocationInfo: (state, action) => {
       state.locationKey = action.payload.locationKey;
       state.locationName = action.payload.locationName;
-      
     },
+
     keepFavoriteBra: (state, action) => {
       state.favoriteBra = action.payload;
     },
+    
     logout: (state) => {
       state = {
         username: null,
         token: null,
-        loginProcess:true,
+        loginProcess: true,
         location: null,
         locationKey: null,
         locationName: null,
         favoriteBra: null,
-      }
-    }
+      };
+    },
   },
 });
 
