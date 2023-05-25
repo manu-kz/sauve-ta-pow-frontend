@@ -3,10 +3,7 @@ import {
     Text, 
     View,
     TouchableOpacity,
-    Image, 
     SafeAreaView,
-    Pressable,
-    Modal,
     TextInput,
     KeyboardAvoidingView,
     TouchableWithoutFeedback,
@@ -16,6 +13,7 @@ import {
   import FontAwesome from 'react-native-vector-icons/FontAwesome';
   import { useEffect, useState } from 'react';
   import { Menu, MenuItem, MenuDivider } from 'react-native-material-menu';
+  import { useSelector } from 'react-redux';
 
   export default function HealthInfoScreen({navigation}) {
 
@@ -25,9 +23,7 @@ import {
 
     const token = useSelector((state) => state.user.token)
 
-    // fetch des infos du user en fonction du token 
-    // set toutes les infos nécésaires pour els placer sur la page 
-    //  route pour pouvoir modifier directement dans la db les infos personnelles 
+    // set toutes les infos nécésaires pour les placer sur la page 
     const [socialSecurityNumber, setSocialSecurityNumber] = useState('Useless Text');
     const [weight, setWeight] = useState('Useless Text');
     const [height, setHeight] = useState('Useless Text');
@@ -46,7 +42,6 @@ import {
         // dispatch articles dans le store 
         for(let infos of data.user) {
           // set toutes les infos nécésaires pour les placer sur la page 
-          // mis en string pour être accepter dans l'input
           setSocialSecurityNumber(infos.socialSecurityNumber? infos.socialSecurityNumber.toString(): 'Numéro de sécurité social')
           setWeight(infos.weight? infos.weight.toString() : 'Poids')
           setHeight(infos.height? infos.height.toString() : 'Taille')

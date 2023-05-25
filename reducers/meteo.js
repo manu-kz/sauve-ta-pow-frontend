@@ -12,9 +12,12 @@ export const meteoSlice = createSlice({
         state.weatherText = action.payload.weatherText
         state.temperature = action.payload.temperature
         },
+    removeLocalWeather: (state) => {
+      state = { weatherIcon: null, weatherText: null, temperature: null  }
+    },
   },
 });
 
 
-export const {addLocalWeather} = meteoSlice.actions;
+export const {addLocalWeather, removeLocalWeather} = meteoSlice.actions;
 export default meteoSlice.reducer;

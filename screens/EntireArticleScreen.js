@@ -2,21 +2,12 @@ import {
     StyleSheet, 
     Text, 
     View,
-    SafeAreaView,
-    TextInput,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
-    TouchableOpacity,
     Image,
     ScrollView,
   } from 'react-native';
-  import { useEffect, useState } from 'react';
-  import { SearchBar } from 'react-native-elements';
   import { useDispatch, useSelector } from 'react-redux';
   import FontAwesome from 'react-native-vector-icons/FontAwesome';
-  import { useNavigation } from '@react-navigation/native';
-  import { importArticles, addBookmark, removeBookmark } from '../reducers/bookmarks';
+  import { addBookmark, removeBookmark } from '../reducers/bookmarks';
   import moment from 'moment';
 
   
@@ -25,12 +16,11 @@ import {
   const dispatch = useDispatch()
 
   const article = useSelector((state) => state.articles.value.entireArticle)
-  
   const bookmarks = useSelector((state) => state.bookmarks.value)
+  const token = useSelector((state) => state.user.token)
   
   // ajoute ne favoris deuis l'article en entier
   const handleBookmark = (article) => {
-    const token = '76afn7z1YQxKnV_hZt_nWY4oaSlmi50n'
     article.isBookmarked = !article.isBookmarked
     const isBookmarked = bookmarks?.some(bookmark => bookmark.title === article.title);
     if(isBookmarked) {
@@ -127,7 +117,6 @@ import {
     },
     articleContainer: {
       padding: 20,
-      // backgroundColor: 'white',
     },
     title: {
         fontSize: 25,

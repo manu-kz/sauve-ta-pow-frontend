@@ -13,7 +13,10 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import * as ImagePicker from 'expo-image-picker';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { keepUsername , keepToken } from '../reducers/user';
+import user, { keepUsername , keepToken, logout } from '../reducers/user';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { removeAllBookmarks } from '../reducers/bookmarks'
+import { removeLocalWeather } from '../reducers/meteo';
 
 export default function UserScreen({ navigation }) {
 
@@ -21,9 +24,9 @@ export default function UserScreen({ navigation }) {
   const [lastname, setLastname] = useState('Nom')
   const [username, setUsername] = useState('Username')
 
-  const token = useSelector((state) => state.user.token)
   // token du reducer 
-  // const token = 'o8Z4q7zKRobH7VJ-AxxJsqxjtL5fqmAK'
+  const token = useSelector((state) => state.user.token)
+  console.log('token', token)
 
   // fetch des infos du user en fonction du token 
   useEffect(() => {
@@ -115,13 +118,17 @@ export default function UserScreen({ navigation }) {
   const handleGoToItineraries = () => {
     navigation.navigate('ItinerariesInfo')
   }
-  const handleGoToHelp = () => {
-    navigation.navigate('HelpInfo')
-  }
   const handleGoToConfidential = () => {
     navigation.navigate('ConfidentialityInfo')
   }
 
+  // handle Logout 
+  const handleLogout = () => {
+    AsyncStorage.clear()
+
+    navigation.navigate('Home')
+  }
+  // logout removeAllBookmarks removeLocalWeather
 
  return (
   <SafeAreaView style={styles.container}>
@@ -157,18 +164,17 @@ export default function UserScreen({ navigation }) {
         <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
       </View>
     </TouchableOpacity>
-    <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToHelp()}>
-      <View style={styles.buttons}>
-        <Text>Aide</Text>
-        <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
-      </View>
-    </TouchableOpacity>
     <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToConfidential()}>
       <View style={styles.buttons}>
         <Text>Politique de confidentialité</Text>
         <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
       </View>
     </TouchableOpacity>
+    <View style={styles.logoutContainer}>
+      <TouchableOpacity style={styles.logout} onPress={() => handleLogout()}>
+        <Text style={styles.logoutText}>Se déconnecter</Text>
+      </TouchableOpacity>
+    </View>
     </View>
   </SafeAreaView>
  );
@@ -178,8 +184,6 @@ const styles = StyleSheet.create({
     container: {
       flex: 1,
       backgroundColor: 'white',
-      // alignItems: 'center',
-      // justifyContent: 'center',
     },
     topContainer: {
       height: 350,
@@ -291,4 +295,25 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
     },
+    logout: {
+      width: "40%",
+      height: 40,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "#F94A56",
+      borderRadius: 50,
+      marginTop: "10%",
+      marginRight: 60,
+      },
+      logoutContainer: {
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: 50,
+        marginLeft: 25,
+      },
+      logoutText: {
+        color: 'white',
+        fontWeight: '800'
+      },
    });

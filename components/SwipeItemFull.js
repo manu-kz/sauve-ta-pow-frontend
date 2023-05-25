@@ -5,12 +5,9 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Button,
-  ScrollView,
 } from "react-native";
 import React, { useState } from "react";
 
-import moment from 'moment';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -169,7 +166,6 @@ export default function SwipeItemFull() {
     )
   })
 
-  // IF certaines infos pour le post de la db sont null PAS FETCH
   // useSelector dispatch itinéraire
   const myItinerary = useSelector((state) => state.itineraries.value)
 
@@ -188,6 +184,7 @@ export default function SwipeItemFull() {
     // check si les données sont bien save avant de continue
     setIsSave(true)
     dispatch(addItinerarySecondtPart(itinerary))
+    alert('Vos informations sont enregistrées vous pouvez continuer !')
   }
 
   const token = useSelector((state) => state.user.token)
@@ -198,7 +195,7 @@ export default function SwipeItemFull() {
   const handleSubmit = () => {
     if(isSave) {
       if(myItinerary.arrival !== null && myItinerary.departure  !== null && myItinerary.time !== null) {
-        fetch(`http://10.0.1.87:3000/itineraries/newItinerary/${token}`, {
+        fetch(`https://sauve-ta-pow-backend.vercel.app/itineraries/newItinerary/${token}`, {
           method: "POST",
           headers: {
             Accept: "application/json",
@@ -216,6 +213,7 @@ export default function SwipeItemFull() {
     }
   };
 
+  const image = useSelector((state) => state.itineraries.value.itineraryImg)
 
   return (
     <KeyboardAwareScrollView style={styles.container}>

@@ -23,7 +23,7 @@ export default function MeteoScreen() {
   // GET météo actuelle selon la location Key fournie par l'API. Fonction appelée dans le useEffect
   async function getCurrentMeteo(locationID) {
     const rawResponse = await fetch(
-      `http://10.0.2.110:3000/meteo/current/${locationID}`
+      `https://sauve-ta-pow-backend.vercel.app/meteo/current/${locationID}`
     );
     const responseJSON = await rawResponse.json();
     responseJSON &&
@@ -41,7 +41,7 @@ export default function MeteoScreen() {
   // GET météo 12 prochaines heures selon la location Key fournie par l'API. Fonction appelée dans le useEffect
   async function getHourlyMeteo(locationID) {
     const rawResponse = await fetch(
-      `http://10.0.2.110:3000/meteo/hourly/${locationID}`
+      `https://sauve-ta-pow-backend.vercel.app/meteo/hourly/${locationID}`
     );
     const responseJSON = await rawResponse.json();
     const newMeteoData = responseJSON.meteo.map((data) => {
@@ -75,7 +75,7 @@ export default function MeteoScreen() {
   // GET météo 5 prochains jours selon la location Key fournie par l'API. Fonction appelée dans le useEffect
   async function getDailyMeteo(locationID) {
     const rawResponse = await fetch(
-      `http://10.0.2.110:3000/meteo/daily/${locationID}`
+      `https://sauve-ta-pow-backend.vercel.app/meteo/daily/${locationID}`
     );
     const responseJSON = await rawResponse.json();
     const newMeteoData = responseJSON.meteo.map((data) => {
@@ -145,7 +145,7 @@ export default function MeteoScreen() {
     })();
     // si on a une location dans le store on fetch l'API pour récupérer la locationKey et le nom de la ville
     if (user.location) {
-      fetch(`http://10.0.2.110:3000/meteo/location/${user.location}`)
+      fetch(`https://sauve-ta-pow-backend.vercel.app/meteo/location/${user.location}`)
         .then((response) => response.json())
         .then((data) => {
           data &&
