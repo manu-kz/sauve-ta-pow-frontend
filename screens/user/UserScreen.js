@@ -5,7 +5,6 @@ import {
   TouchableOpacity,
   Image, 
   SafeAreaView,
-  Pressable,
   Modal,
 } from 'react-native';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
@@ -44,7 +43,7 @@ export default function UserScreen({ navigation }) {
 
   let uri 
   if(image === null) {
-    uri = require('../assets/profile.png')
+    uri = require('../../assets/profile.png')
   } else {
     uri = { uri: image }
   }

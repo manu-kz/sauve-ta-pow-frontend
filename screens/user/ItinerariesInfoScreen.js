@@ -3,12 +3,10 @@ import {
   StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  Image,
   SafeAreaView,
   ScrollView,
 } from "react-native";
-import Recapitinerary from "../components/Recapitinerary";
+import Recapitinerary from "../../components/Recapitinerary";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
