@@ -19,13 +19,15 @@ export default function ItineraryListScreen({ navigation }) {
   // handle get itineraries 
   const [ myItineraries, setMyItineraries ] = useState([])
 
+  // sert au useEffect de re render lors de l'ajout d'un itinéraire 
+  const itiReducer = useSelector((state) => state.itineraries.value)
+
   useEffect(() => {
-    console.log('fetch itineraires ok !!')
     fetch(`http://10.0.1.87:3000/itineraries/${token}`).then((response) => response.json()).then(data => {
       // ajoute mes itinéraires dans le state locale sous forme d'array d'objet
         setMyItineraries(data.itineraries)
     })
-  }, [])
+  }, [itiReducer])
 
   const allItineraries = myItineraries?.map((data, i) => {
     return <Recapitinerary key={i} {...data} style={styles.recapIti}/>

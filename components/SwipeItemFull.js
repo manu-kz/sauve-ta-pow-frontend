@@ -216,6 +216,7 @@ export default function SwipeItemFull() {
     }
   };
 
+  const image = useSelector((state) => state.itineraries.value.itineraryImg)
 
   return (
     <KeyboardAwareScrollView style={styles.container}>
