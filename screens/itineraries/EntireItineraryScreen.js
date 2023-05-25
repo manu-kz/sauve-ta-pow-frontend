@@ -6,10 +6,10 @@ import FontAwesome from "react-native-vector-icons/FontAwesome";
 import { Ionicons } from "@expo/vector-icons";
 //REDUX && REDUCER
 import { useDispatch, useSelector } from "react-redux";
-import { launchItinerary } from "../reducers/launchItinerary";
-import { removeItinerary } from "../reducers/itineraries";
+import { launchItinerary } from "../../reducers/launchItinerary";
+import { removeItinerary } from "../../reducers/itineraries";
 //COMPONENT
-import CallModal from "../components/CallModal";
+import CallModal from "../../components/CallModal";
 //MOMENT - DATE/TIME
 import moment from "moment";
 
@@ -121,7 +121,7 @@ export default function EntireItineraryScreen() {
             <Image
               tintColor="white"
               style={styles.disciplineImg}
-              source={require("../assets/diciplinesIcons/snowshoe.png")}
+              source={require("../../assets/diciplinesIcons/snowshoe.png")}
             />
           </View>
           <View>

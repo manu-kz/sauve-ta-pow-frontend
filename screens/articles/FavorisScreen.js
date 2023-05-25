@@ -3,21 +3,12 @@ import {
     Text, 
     View,
     SafeAreaView,
-    TextInput,
-    KeyboardAvoidingView,
-    TouchableWithoutFeedback,
-    Keyboard,
     TouchableOpacity,
-    Image,
     ScrollView,
   } from 'react-native';
-import { useEffect, useState } from 'react';
-import { SearchBar } from 'react-native-elements';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { importBookmarks } from '../reducers/bookmarks';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { useNavigation } from '@react-navigation/native';
-import { openArticle } from '../reducers/articles';
+import { importBookmarks } from '../../reducers/bookmarks';
 import ArticlesScreen from './ArticleScreen';
   
 export default function FavorisScreen({ navigation }) {

@@ -8,8 +8,8 @@ import {
   Platform,
   StatusBar,
 } from 'react-native';
-import BraSection from '../components/meteo/BraSection';
-import CurrentMeteoSection from '../components/meteo/CurrentMeteoSection';
+import BraSection from '../../components/meteo/BraSection';
+import CurrentMeteoSection from '../../components/meteo/CurrentMeteoSection';
 
 export default function MeteoScreen() {
 
@@ -17,7 +17,7 @@ export default function MeteoScreen() {
     <>
       <ScrollView>
         <ImageBackground
-          source={require('../assets/mountain-background.jpeg')}
+          source={require('../../assets/mountain-background.jpeg')}
           style={styles.imgBackground}
           resizeMode="cover"
         >

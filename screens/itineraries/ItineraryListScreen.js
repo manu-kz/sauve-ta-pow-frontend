@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import {StyleSheet,Text,View,TouchableOpacity,Image,SafeAreaView,ScrollView} from "react-native";
 //COMPOSENT
-import Recapitinerary from "../components/Recapitinerary";
+import Recapitinerary from "../../components/Recapitinerary";
 import { useSelector } from "react-redux";
 
 export default function ItineraryListScreen({ navigation }) {
@@ -44,7 +44,7 @@ export default function ItineraryListScreen({ navigation }) {
         >
           <View activeOpacity={0.8} style={styles.buttonCircleGrey}>
             <Image
-              source={require("../assets/Cross.png")}
+              source={require("../../assets/Cross.png")}
               style={styles.icon}
             />
           </View>

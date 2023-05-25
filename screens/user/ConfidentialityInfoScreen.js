@@ -2,11 +2,7 @@ import {
     StyleSheet, 
     Text, 
     View,
-    TouchableOpacity,
-    Image, 
     SafeAreaView,
-    Pressable,
-    Modal,
     ScrollView
   } from 'react-native';
   import FontAwesome from 'react-native-vector-icons/FontAwesome';

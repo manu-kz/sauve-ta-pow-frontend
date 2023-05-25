@@ -10,10 +10,10 @@ import MapViewDirections from "react-native-maps-directions";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 //SWIPE
 import SwipeUpDown from "react-native-swipe-up-down";
-import SwipeItemFull from "../components/SwipeItemFull";
+import SwipeItemFull from "../../components/SwipeItemFull";
 // REDUX & REDUCER
 import { useDispatch } from "react-redux";
-import { addItineraryFirstPart } from "../reducers/itineraries";
+import { addItineraryFirstPart } from "../../reducers/itineraries";
 //CAPTURE D'ECRAN
 import { captureRef } from "react-native-view-shot";
 

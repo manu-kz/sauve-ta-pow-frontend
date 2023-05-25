@@ -12,11 +12,11 @@ import { useState, useEffect } from "react";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useSelector } from "react-redux";
-import RescueBasicCard from "../components/Dashboard/RescueBasicCard";
-import ArticleDashboard from "../components/Dashboard/ArticleDashboard";
-import { articles } from "../assets/rescueBasics";
-import MeteoCard from "../components/Dashboard/MeteoCard";
-import BraCard from "../components/Dashboard/BraCard";
+import RescueBasicCard from "../../components/Dashboard/RescueBasicCard";
+import ArticleDashboard from "../../components/Dashboard/ArticleDashboard";
+import { articles } from "../../assets/rescueBasics";
+import MeteoCard from "../../components/Dashboard/MeteoCard";
+import BraCard from "../../components/Dashboard/BraCard";
 export default function HomeScreen({ navigation }) {
 
 
@@ -83,7 +83,7 @@ export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <ImageBackground
-        source={require("../assets/Dashboard.jpg")}
+        source={require("../../assets/Dashboard.jpg")}
         style={styles.imgBackground}
         resizeMode="cover"
         onLayout={onLayout}

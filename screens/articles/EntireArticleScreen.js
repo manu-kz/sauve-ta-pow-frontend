@@ -7,7 +7,7 @@ import {
   } from 'react-native';
   import { useDispatch, useSelector } from 'react-redux';
   import FontAwesome from 'react-native-vector-icons/FontAwesome';
-  import { addBookmark, removeBookmark } from '../reducers/bookmarks';
+  import { addBookmark, removeBookmark } from '../../reducers/bookmarks';
   import moment from 'moment';
 
   

@@ -12,9 +12,8 @@ import {
   ScrollView,
 } from 'react-native';
 import { useEffect, useState } from 'react';
-import { SearchBar } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
-import { importArticles, openArticle } from '../reducers/articles';
+import { importArticles, openArticle } from '../../reducers/articles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // pour naviguer soit vers un article soit vers nos favoris
 import { useNavigation } from '@react-navigation/native';
@@ -25,9 +24,6 @@ export default function NewsScreen() {
 
   const dispatch = useDispatch()
   const testBookmarks  = useSelector((state) => state.bookmarks.value)
-
-
-  //  ---------------------------------------- AFFICHAGE DE LA PAGE DES ARTICLES --------------------------------------------
 
   // fetch des articles alpinismes
   useEffect(() => {
@@ -40,10 +36,6 @@ export default function NewsScreen() {
   // récupération données articles du store 
   const articles = useSelector((state) => state.articles.value.articles)
 
-  // nombre d'articles du useSelector 
-  // const numberOfArticles = articles.length
-
-  // bookmarks store
   const bookmarks = useSelector((state) => state.bookmarks.value);  
 
   // map sur le fetch de get all articles alpinisme

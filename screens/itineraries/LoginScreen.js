@@ -1,11 +1,7 @@
 import {
-  Button,
   StyleSheet,
   Text,
   View,
-  Image,
-  TextInput,
-  TouchableOpacity,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
@@ -14,11 +10,10 @@ import {
   Pressable,
   ImageBackground,
 } from "react-native";
-import { useState } from "react";
-import LoginModal from "../components/Connections/LoginModal";
-import SignUpModal from "../components/Connections/SignUpModal";
+import LoginModal from "../../components/Connections/LoginModal";
+import SignUpModal from "../../components/Connections/SignUpModal";
 import { useDispatch, useSelector } from "react-redux";
-import { setLoginModal } from "../reducers/modals";
+import { setLoginModal } from "../../reducers/modals";
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -28,7 +23,7 @@ export default function LoginScreen({ navigation }) {
 
   return (
     <ImageBackground
-      source={require("../assets/background-login.jpg")}
+      source={require("../../assets/background-login.jpg")}
       resizeMode="cover"
       style={styles.background}
     >
