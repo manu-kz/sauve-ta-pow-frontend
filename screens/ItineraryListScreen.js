@@ -1,16 +1,9 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  SafeAreaView,
-  ScrollView,
-} from "react-native";
+import { useEffect } from "react";
+import {StyleSheet,Text,View,TouchableOpacity,Image,SafeAreaView,ScrollView} from "react-native";
+//COMPOSENT
 import Recapitinerary from "../components/Recapitinerary";
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
 
 export default function ItineraryListScreen({ navigation }) {
 

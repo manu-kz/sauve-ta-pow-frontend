@@ -56,9 +56,11 @@ import itineraries from './reducers/itineraries';
 import launchItinerary from './reducers/launchItinerary';
 
 //IMPORT FOR PHONE CALL
-import { Linking } from 'react-native';
+//import { Linking } from 'react-native';
 import { useDispatch } from "react-redux";
 import {showCallModal} from './reducers/modals';
+
+
 
 
 const reducers = combineReducers({
@@ -176,14 +178,15 @@ const TabNavigator = () => {
   }
 
   //CALL 112
-  const phoneCall = () => {
+  /*const phoneCall = () => {
     const phoneNumber = '+33698836092'; 
   
     Linking.openURL(`tel:${phoneNumber}`);
-  };
+  };*/
   
   //MODAL STEP
   const dispatch = useDispatch();
+
 
   return (
     <Tab.Navigator
@@ -274,13 +277,11 @@ const TabNavigator = () => {
           tabPress:(e) => {
               if (token && !launchItinerary){
                 handleLaunchItinerary()
-              } else if (token && launchItinerary){
-                dispatch(showCallModal(true))
-                phoneCall()
               }
           }
         }} />
-      )}
+      ) 
+      }
       <Tab.Screen name="Meteo" component={MeteoScreen} />
       <Tab.Screen name="User" component={UserStack} />
       {/* <Tab.Screen name="Phone" component={EntireItineraryScreen} /> */}
