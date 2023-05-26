@@ -43,7 +43,7 @@ export default function LoginScreen({ navigation }) {
                   activeOpacity={0.8}
                   onPress={() => dispatch(setLoginModal(true))}
                 >
-                  <Text style={styles.textButtonGrey}>Log In</Text>
+                  <Text style={styles.textButtonGrey}>Se connecter</Text>
                 </Pressable>
               )}
               {loginModal && <LoginModal style={styles.modal} />}
