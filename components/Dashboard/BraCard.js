@@ -48,7 +48,7 @@ export default function BraCard() {
 
       fetchData();
     }
-  }, [braName]);
+  }, [braName, token]);
 
   //NAVIGATION TO METEO
 
