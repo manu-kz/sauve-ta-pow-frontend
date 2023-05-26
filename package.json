@@ -27,6 +27,7 @@
     "expo-module-scripts": "^3.0.7",
     "expo-splash-screen": "~0.18.2",
     "expo-status-bar": "~1.4.4",
+    "expo-updates": "~0.16.4",
     "fiction-expo-restart": "^2.0.0",
     "install": "^0.13.0",
     "link": "^1.5.1",

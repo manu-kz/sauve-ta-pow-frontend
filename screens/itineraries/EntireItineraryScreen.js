@@ -296,7 +296,7 @@ const styles = StyleSheet.create({
   btnContent: {
     fontWeight: "bold",
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 14,
     textAlign: "center",
   },
   boderDecoration: {
