@@ -114,7 +114,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "space-evenly",
-    paddingHorizontal: "3"
+    paddingVertical: "3"
   },
 
   ///
