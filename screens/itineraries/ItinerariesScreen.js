@@ -118,7 +118,7 @@ export default function ItinerariesScreen() {
     if (args) {
       console.log(args.duration)
       setDistance(args.distance);
-      setDuration(args.duration);
+      setDuration(minToHour(args.duration));
     }
   };
 
@@ -252,7 +252,7 @@ export default function ItinerariesScreen() {
                 </View>
                 <View  style={styles.time}>
                   <Text>
-                    Temps: {minToHour(duration)}
+                    Temps: {duration}
                   </Text>
                 </View>
                   <TouchableOpacity activeOpacity={-1} style={styles.validationButton} onPress={() => handleSaveitinerary()}>
