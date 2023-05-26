@@ -51,7 +51,6 @@ export default function LoginScreen({ navigation }) {
           {loginModal && <LoginModal style={styles.modal} />}
           {signUpModal && <SignUpModal />}
         </KeyboardAvoidingView>
-        <View style={styles.whiteRectangle}></View>
       </SafeAreaView>
       <View style={styles.whiteRectangle}></View>
     </ImageBackground>
