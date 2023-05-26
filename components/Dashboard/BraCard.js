@@ -103,22 +103,26 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     overflow:"hidden",
     borderRadius: 30,
+    
   },
   braCard: {
     width: "100%",
     height: 160,
-    marginBottom: 20,
+    alignItems: "center",
+    justifyContent: "space-evenly",
+    
   },
   card: {
     height: "100%",
     width: "100%",
     alignItems: "center",
     justifyContent: "space-evenly",
-    paddingVertical: "3"
+    
   },
 
   ///
   riskIcon: {
+   
     height: 80,
     width: 80,
     alignSelf: "center",
@@ -127,12 +131,13 @@ const styles = StyleSheet.create({
   massifNameContainer: {
     width: "100%",
     alignItems: "center",
+    alignSelf: "center",
   },
   massifName: {
     color: "#fff",
     fontWeight: 800,
     fontSize: 12,
-    padding: 10
+    
   },
   majBra: {
     color: "#fff",
