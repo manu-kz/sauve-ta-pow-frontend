@@ -10,9 +10,9 @@ import {
 import Svg, { Path } from "react-native-svg";
 import { useState } from "react";
 import FontAwesome from "react-native-vector-icons/FontAwesome";
-import { useDispatch, useSelector } from "react-redux";
 
 export default function RescueBasicCard(props) {
+  //USE STATE TO SHOW MODAL
   const [modalVisible, setModalVisible] = useState(false);
 
   const paragraphes = props.paragraphes.map((data, i) => {
@@ -78,6 +78,7 @@ export default function RescueBasicCard(props) {
       </View>
     </Modal>
   );
+
   return (
     <>
       {modal}
@@ -89,7 +90,7 @@ export default function RescueBasicCard(props) {
         >
           <Image source={props.img} style={styles.cardImageRescueBasics} />
           <View style={styles.rescueBasicsCardHeader}>
-            <View style={styles.cardHeaderRescueBasics}>
+            <View >
               <View style={styles.cardArc}>
                 <Svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -122,6 +123,7 @@ export default function RescueBasicCard(props) {
 }
 
 const styles = StyleSheet.create({
+
   // CARDS RESCUE
   cardsContainerRescueBasics: {
     flexDirection: "row",
@@ -143,7 +145,6 @@ const styles = StyleSheet.create({
     height: 230,
     borderRadius: 20,
   },
-  cardHeaderRescueBasics: {},
   cardArc: {
     position: "absolute",
     bottom: "100%",
@@ -176,18 +177,8 @@ const styles = StyleSheet.create({
   },
 
   //TEXT
-  h1: {
-    margin: 20,
-    color: "white",
-    fontSize: 32,
-    fontWeight: "bold",
-  },
   h2: {
     fontSize: 26,
-    fontWeight: "bold",
-  },
-  h3: {
-    fontSize: 20,
     fontWeight: "bold",
   },
   h4: {

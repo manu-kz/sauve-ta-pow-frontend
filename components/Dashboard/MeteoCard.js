@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 //METEO IMPORT
 import * as Location from "expo-location";
 import { addLocalWeather } from "../../reducers/meteo";
@@ -32,7 +32,25 @@ export default function MeteoCard() {
         });
       }
     })();
-   
+    
+    //RÉCUPÉRATION CURRENT METEO
+    async function getCurrentMeteo(locationID) {
+      const rawResponse = await fetch(
+        `https://sauve-ta-pow-backend.vercel.app/meteo/current/${locationID}`
+      );
+      const responseJSON = await rawResponse.json();
+      responseJSON &&
+        dispatch(
+          addLocalWeather({
+            weatherIcon: responseJSON.meteo[0].WeatherIcon,
+            weatherText: responseJSON.meteo[0].WeatherText,
+            temperature: Math.round(
+              responseJSON.meteo[0].Temperature.Metric.Value
+            ),
+          })
+        );
+    }
+    
     // FETCH LOCATION KEY POUR METEO
     if (user.location) {
       fetch(`https://sauve-ta-pow-backend.vercel.app/meteo/location/${user.location}`)
@@ -50,23 +68,6 @@ export default function MeteoCard() {
     }
   }, [user.location, user.token]);
 
-  //RÉCUPÉRATION CURRENT METEO
-  async function getCurrentMeteo(locationID) {
-    const rawResponse = await fetch(
-      `https://sauve-ta-pow-backend.vercel.app/meteo/current/${locationID}`
-    );
-    const responseJSON = await rawResponse.json();
-    responseJSON &&
-      dispatch(
-        addLocalWeather({
-          weatherIcon: responseJSON.meteo[0].WeatherIcon,
-          weatherText: responseJSON.meteo[0].WeatherText,
-          temperature: Math.round(
-            responseJSON.meteo[0].Temperature.Metric.Value
-          ),
-        })
-      );
-  }
 
   //RÉCUPÉRER LE BON ICON METEO
   const currentWeatherIcon = selectWeatherIcon(meteo.weatherIcon);

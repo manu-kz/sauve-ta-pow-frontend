@@ -1,5 +1,5 @@
 import { StyleSheet, View, Text, Image, Pressable } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
@@ -7,12 +7,12 @@ import { useState, useEffect } from "react";
 import selectBraIcon from "../meteo/BraIcons";
 
 export default function BraCard() {
-  const dispatch = useDispatch();
+
   const navigation = useNavigation();
 
-  //BRA IN REDUCER : To Lower Case for the fetch
+  //FAVORITE BRA IN REDUCER
   const { favoriteBra, token } = useSelector((state) => state.user);
-  const braName = favoriteBra ? favoriteBra.toLowerCase() : favoriteBra;
+  const braName = favoriteBra ? favoriteBra.toLowerCase() : favoriteBra; // LowerCase BRA to be used in Backend 
 
   //USE STATE FOR SAVE BRA DATA
   const [braData, setBraData] = useState({});
@@ -51,7 +51,7 @@ export default function BraCard() {
   }, [braName, token]);
 
   //NAVIGATION TO METEO
-
+  
   const handleMeteoNavigation = () => {
     token ? navigation.navigate("Meteo") : navigation.navigate("Login");
   };
