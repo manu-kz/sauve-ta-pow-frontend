@@ -58,6 +58,7 @@ export default function SignUpForm({ navigation }) {
 
     const { token, result, error } = jsonRes;
 
+    //Message d'erreur
     if (!result && error === "Missing or empty fields") {
       setError("Informations obligatoires manquantes");
     } else if (!result && error === "Username already used") {
@@ -65,8 +66,7 @@ export default function SignUpForm({ navigation }) {
     } else if (!result && error === "Email already used") {
       setError("Email déjà utilisé");
     } else {
-      //Message d'erreur
-      dispatch(showHealthForm(true));
+      dispatch(showHealthForm(true)); // SHOW HEALTH FORM
       setError("");
       dispatch(keepUsername(username.inputValue));
       dispatch(keepToken(token));
@@ -180,9 +180,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#8B9EAB",
     borderRadius: 100,
     margin: 5,
-  },
-  cross: {
-    alignSelf: "flex-end",
   },
 
   textStyle: {
