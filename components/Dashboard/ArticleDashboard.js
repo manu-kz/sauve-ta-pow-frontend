@@ -9,17 +9,16 @@ export default function ArticleDashboard(props) {
   const navigation = useNavigation();
 
 
+  // ON PRESS SHOWS THE ENTIRE ARTICLE
   const handleEntireArticleNavigation = () => {
     dispatch(openArticle(props))
     navigation.navigate('News', { screen: 'EntireArticle' })
-
   }
 
   return (
     <View
       style={{
         ...styles.containerContentPreview,
-        // top: props.top - props.top * 0.1,
       }}
     >
       <Image source={{ uri: props.urlToImage }} style={styles.articleImage} />
@@ -47,20 +46,6 @@ export default function ArticleDashboard(props) {
 }
 
 const styles = StyleSheet.create({
-  h1: {
-    margin: 20,
-    color: "white",
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  h2: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-  h3: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
   h4: {
     fontSize: 16,
     fontWeight: "bold",
@@ -74,7 +59,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 10,
   },
-
   containerContentPreview: {
     justifyContent: "space-between",
     alignItems: "center",
@@ -84,12 +68,10 @@ const styles = StyleSheet.create({
     backgroundColor:"white",
     padding:15,
     borderRadius:30,
-
   },
   containertextContentPreview: {
     margin: "5%",
     maxWidth: "60%",
-  
   },
   articleImage: {
     width: 130,
