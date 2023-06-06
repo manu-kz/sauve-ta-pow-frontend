@@ -17,7 +17,6 @@ export default function LoginModal({ navigation }) {
   //MODALS
   const dispatch = useDispatch();
   const loginModal = useSelector((state) => state.modals.loginModal);
-  const healthForm = useSelector((state) => state.modals.healthForm);
 
   //STATE SIGN IN
   const [username, setUsername] = useState("");
@@ -36,15 +35,14 @@ export default function LoginModal({ navigation }) {
     );
     const jsonRes = await rawRes.json();
 
-
     const { token, result } = jsonRes;
 
     if (result) {
       setError(false);
       dispatch(keepUsername(username));
       dispatch(keepToken(token));
-      dispatch(setLoginModal(false));
-      dispatch(showLoginProcess(false));
+      dispatch(setLoginModal(false)); // HIDE LOGIN MODAL
+      dispatch(showLoginProcess(false));// HIDE LOGIN PROCESS
     } else {
       //Message d'erreur
       setError(true);
