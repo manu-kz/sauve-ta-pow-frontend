@@ -12,6 +12,8 @@ export default function SignUpModal({ navigation }) {
   const showHealthForm = useSelector((state) => state.modals.healthForm);
 
   //SIGN UP MODAL
+  // If showHealthForm is FALSE, we will see the signUpForm with a cross to close the modal.
+  // If showHealthForm is TRUE, we will see the healthForm with no cross.
   return (
     <Modal animationType="slide" transparent={true} visible={signUpModal}>
        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -24,7 +26,7 @@ export default function SignUpModal({ navigation }) {
             style={styles.cross}
             onPress={() => dispatch(setSignUpModal(false))}
           />
-        )}
+        )} 
 
         {!showHealthForm ? <SignUpForm /> : <HealthForm />}
       </View>
@@ -51,19 +53,8 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
   },
 
-  centeredVertical: {
-    flex: 1,
-    justifyContent: "center",
-  },
-
   //INSIDE MODAL
   cross: {
     alignSelf: "flex-end",
-  },
-
-  textStyle: {
-    color: "white",
-    fontWeight: "bold",
-    textAlign: "center",
   },
 });
