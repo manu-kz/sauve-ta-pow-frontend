@@ -44,8 +44,7 @@ export default function HealthForm({ navigation }) {
   //ERROR MESSAGE 
   const [error, setError] = useState("");
 
-
-
+  // IF  THERE IS ONE MEDICAL HISTORY, SHOW 'MORE INFO"
   const medicalHistoryInfo = () => {
     if (cardiacCase || pulmonaryCase || bloodHistory || neurologicalCase) {
       return (
@@ -364,9 +363,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderRadius: 100,
     margin: 5,
-  },
-  cross: {
-    alignSelf: "flex-end",
   },
 
   textStyle: {
