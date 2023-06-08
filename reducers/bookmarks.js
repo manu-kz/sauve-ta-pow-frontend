@@ -17,9 +17,6 @@ export const bookmarksSlice = createSlice({
 		importBookmarks: (state, action) => {
 			state.value = action.payload
 		},
-		removeAllBookmarks: (state) => {
-			state.value = []
-		}
 	},
 });
 

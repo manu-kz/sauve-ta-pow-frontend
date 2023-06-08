@@ -8,12 +8,11 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   TouchableOpacity,
-  Image,
   ScrollView,
 } from 'react-native';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { importArticles, openArticle } from '../../reducers/articles';
+import { importArticles } from '../../reducers/articles';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 // pour naviguer soit vers un article soit vers nos favoris
 import { useNavigation } from '@react-navigation/native';
@@ -23,7 +22,6 @@ import ArticlesScreen from './ArticleScreen';
 export default function NewsScreen() {
 
   const dispatch = useDispatch()
-  const testBookmarks  = useSelector((state) => state.bookmarks.value)
 
   // fetch des articles alpinismes
   useEffect(() => {

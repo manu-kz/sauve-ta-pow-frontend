@@ -19,7 +19,7 @@ import {
   const bookmarks = useSelector((state) => state.bookmarks.value)
   const token = useSelector((state) => state.user.token)
   
-  // ajoute ne favoris deuis l'article en entier
+  // ajoute un favoris depuis l'article en entier
   const handleBookmark = (article) => {
     article.isBookmarked = !article.isBookmarked
     const isBookmarked = bookmarks?.some(bookmark => bookmark.title === article.title);

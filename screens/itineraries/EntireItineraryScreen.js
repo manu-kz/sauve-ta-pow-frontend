@@ -61,7 +61,6 @@ export default function EntireItineraryScreen() {
 
   // handle information from reducer
   const myItinerary = useSelector((state) => state.itineraries.value);
-  console.log(myItinerary);
 
   // faire map sur les noms de membre participants
   const members = myItinerary.members.map((data, i) => {

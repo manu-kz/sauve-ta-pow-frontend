@@ -14,12 +14,8 @@ export const articlesSlice = createSlice({
     openArticle: (state, action) => {
       state.value.entireArticle = action.payload
     },
-    closeArticle: (state, action) => {
-      state.value.photos = state.value.photos.filter((data) => data !== action.payload);
-    },
-    
   },
 });
 
-export const { importArticles, openArticle, closeArticle } = articlesSlice.actions;
+export const { importArticles, openArticle } = articlesSlice.actions;
 export default articlesSlice.reducer;

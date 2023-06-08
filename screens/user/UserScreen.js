@@ -190,7 +190,7 @@ export default function UserScreen({ navigation }) {
     {token ? infoUser : noLogin}
     <TouchableOpacity activeOpacity={-1} onPress={() => handleGoToConfidential()}>
       <View style={styles.buttons}>
-        <Text>Politique de confidentialité</Text>
+        <Text>Politiques de confidentialités</Text>
         <FontAwesome name='angle-right' size={30} color='#D5D8DC'/>
       </View>
     </TouchableOpacity>
